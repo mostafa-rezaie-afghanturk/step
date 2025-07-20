@@ -105,7 +105,7 @@ export default function Authenticated({ header, children }) {
             .map(item => ({
                 id: item.id,
                 label: t(item.label),
-                href: `/admin/${item.label}`,
+                href: `/${item.label}`,
                 icon: item.icon,
                 children: item?.children
                     ? item.children.map(child => ({

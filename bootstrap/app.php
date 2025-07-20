@@ -1,8 +1,5 @@
 <?php
 
-use App\Http\Middleware\HasAdminPanelAccess;
-use App\Http\Middleware\HasPortalAcess;
-use App\Models\BorrowingRecord;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -20,7 +17,6 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'admin' => HasAdminPanelAccess::class,
             'force_password_change' => \App\Http\Middleware\ForcePasswordChange::class,
         ]);
     })

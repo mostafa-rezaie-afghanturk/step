@@ -41,12 +41,6 @@ class AuthenticatedSessionController extends Controller
             ->event('login')
             ->log('USER Login');
 
-        if (
-            $user->isPortalUser()
-        ) {
-            return redirect()->intended(route('portal', absolute: false));
-        }
-
         return redirect()->intended(route('dashboard', absolute: false));
     }
 

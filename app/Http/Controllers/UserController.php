@@ -12,13 +12,8 @@ use App\Models\Student;
 use App\Models\User;
 use App\Models\UserRestriction;
 use App\Repositories\ActivityLogRepository;
-use App\Repositories\CountryRepository;
 use App\Repositories\ExportService;
 use App\Repositories\FilterRepository;
-use App\Repositories\LibraryRepository;
-use App\Repositories\SchoolRepository;
-use App\Repositories\StudentRepository;
-use App\Repositories\UserRepository;
 use App\Traits\BulkDeleteTrait;
 use App\Traits\HasDependentDropdowns;
 use Exception;
@@ -45,8 +40,6 @@ class UserController extends Controller
 
     protected $exportService;
 
-    protected $userRepository;
-
     protected $schoolRepository;
 
     protected $libraryRepository;
@@ -61,22 +54,12 @@ class UserController extends Controller
 
     public function __construct(
         FilterRepository $filterRepository,
-        UserRepository $userRepository,
-        SchoolRepository $schoolRepository,
         ExportService $exportService,
-        LibraryRepository $libraryRepository,
-        CountryRepository $countryRepository,
-        StudentRepository $studentRepository,
         ActivityLogRepository $activityLogRepository,
     ) {
         $this->columns = $this->getColumns();
         $this->filterRepository = $filterRepository;
         $this->exportService = $exportService;
-        $this->userRepository = $userRepository;
-        $this->schoolRepository = $schoolRepository;
-        $this->libraryRepository = $libraryRepository;
-        $this->countryRepository = $countryRepository;
-        $this->studentRepository = $studentRepository;
         $this->activityLogRepository = $activityLogRepository;
     }
 
@@ -107,14 +90,6 @@ class UserController extends Controller
                 'validation' => 'required|string|max:255',
                 'context' => ['show', 'edit', 'create'], // Visible in all views
             ],
-            // [
-            //     'header' => 'Username',
-            //     'accessor' => 'username',
-            //     'visibility' => true,
-            //     'type' => 'string',
-            //     'validation' => 'required_without:email|string|max:255|unique:users,username',
-            //     'context' => ['show', 'create', 'edit'], // Visible in all views
-            // ],
             [
                 'header' => 'Email',
                 'accessor' => 'email',
@@ -169,45 +144,6 @@ class UserController extends Controller
             null,
             function ($query) {
                 return $this->countryRepository->applyCountryFilters($query);
-            }
-        );
-    }
-
-    public function school($search = null)
-    {
-        return $this->handleDependentSearch(
-            School::class,
-            $search,
-            request()->get('country_id'),
-            'countries.country_id',
-            'province.country',
-            'name',
-            'school_id',
-            function ($school) {
-                return $school->country->name . ' - ' . $school->school_code . ' - ' . $school->name;
-            },
-            function ($query) {
-                $query->where('active_status', 'Active');
-                return $this->schoolRepository->applySchoolFilters($query);
-            }
-        );
-    }
-
-    public function library($search = null)
-    {
-        return $this->handleDependentSearch(
-            Library::class,
-            $search,
-            request()->get('school_id'),
-            'schools.school_id',
-            'schools',
-            'library_name',
-            'library_id',
-            function ($library) {
-                return $library->library_code . ' - ' . $library->library_name;
-            },
-            function ($query) {
-                return $this->libraryRepository->applyLibraryFilters($query);
             }
         );
     }
@@ -435,7 +371,6 @@ class UserController extends Controller
         // Only list users without a userable
         $query->whereNull('userable_id');
 
-        $query = $this->userRepository->applyUserFilters($query);
         $data = $this->filterRepository->applyFilters($query, $request, $this->searchColumns);
 
         // Send the data and meta information

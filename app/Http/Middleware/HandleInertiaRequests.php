@@ -32,11 +32,7 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user() ? array_merge($request->user()->toArray(), [
-                    'country' => $request->user()->country,
-                    'school' => $request->user()->school,
-                    'library' => $request->user()->library,
-                ]) : null,
+                'user' => $request->user(),
                 'permissions' => fn() => $request->user() ? $request->user()->getPermissionsViaRoles()->pluck('name') : null,
                 'roles' => fn() => $request->user() ? $request->user()->roles->pluck('name') : null,
             ],
@@ -45,16 +41,6 @@ class HandleInertiaRequests extends Middleware
                 'success' => fn() => $request->session()->get('success'),
                 'error' => fn() => $request->session()->get('error'),
             ],
-            'totalBooksRead' => function () use ($request) {
-                $user = $request->user();
-                if ($user && $user->userable && $user->userable->borrower) {
-                    return $user->userable->borrower->totalBooksRead();
-                } elseif ($user && $user->userable) {
-                    return $user->userable->totalBooksRead();
-                }
-
-                return 0;
-            },
         ];
     }
 }
