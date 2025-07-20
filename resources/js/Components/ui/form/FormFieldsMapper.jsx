@@ -1,0 +1,346 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import Input from './Input';
+import Select from './Select';
+import Textarea from './Textarea';
+import LinkComboBoxSelect from './LinkComboBoxSelect';
+import PasswordInput from './PasswordInput';
+import TagInput from './TagInput';
+import Label from './Label';
+import Checkbox from './Checkbox';
+import { useTranslation } from 'react-i18next';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import TranslateLinkComboBoxSelect from './TranslateLinkComboBoxSelect';
+import DynamicCombobox from './DynamicCombobox ';
+import { calcLength } from 'framer-motion';
+
+const FormFieldsMapper = ({ fields, data, setData, errors, children }) => {
+    const { t } = useTranslation();
+
+    const renderErrorMessage = (error, fieldName) => {
+        if (error.includes('required')) {
+            return t('errors.required', { field: t(fieldName) });
+        }
+        if (error.includes('must not be greater than')) {
+            const maxMatch = error.match(/(\d+)/); // Extract the max value
+            const unit = error.includes('characters')
+                ? 'characters'
+                : 'kilobytes';
+            return t('errors.max', {
+                field: t(fieldName),
+                max: maxMatch ? maxMatch[0] : '',
+                unit: t(unit),
+            });
+        }
+        if (error.includes('must be at least')) {
+            const minMatch = error.match(/(\d+)/); // Extract the min value
+            return t('errors.min', {
+                field: t(fieldName),
+                min: minMatch ? minMatch[0] : '',
+            });
+        }
+        if (error.includes('must be unique')) {
+            return t('errors.unique', { field: t(fieldName) });
+        }
+        if (error.includes('must be a number')) {
+            return t('errors.numeric', { field: t(fieldName) });
+        }
+        if (error.includes('must be a valid email address')) {
+            return t('errors.email', { field: t(fieldName) });
+        }
+
+        return error;
+    };
+
+    const renderField = col => {
+        switch (col.type) {
+            case 'number':
+            case 'string':
+            case 'date':
+                return (
+                    <Input
+                        id={col.name}
+                        value={data[col.name]}
+                        placeholder={col.placeholder || ''}
+                        type={col.type === 'string' ? 'text' : col.type}
+                        onChange={e => setData(col.name, e.target.value)}
+                    />
+                );
+
+            case 'password':
+                return (
+                    <PasswordInput
+                        id={col.name}
+                        value={data[col.name]}
+                        onChange={e => setData(col.name, e.target.value)}
+                    />
+                );
+
+            case 'file':
+                return (
+                    <div className="flex gap-2">
+                        {data[col.name] &&
+                            typeof data[col.name] === 'string' &&
+                            // Check if it's an image (assuming the file extension is an image type like .jpg, .png, etc.)
+                            (data[col.name].match(/\.(jpeg|jpg|png|gif)$/i) ? (
+                                <a
+                                    href={'/storage/' + data[col.name]}
+                                    target="_blank"
+                                    title="View Image"
+                                >
+                                    <img
+                                        src={'/storage/' + data[col.name]}
+                                        onError={e => {
+                                            e.target.style.display = 'none'; // Hide image on error (if not found)
+                                        }}
+                                        alt="Image"
+                                        style={{
+                                            width: '40px',
+                                            height: '40px',
+                                        }}
+                                        className="rounded-sm"
+                                    />
+                                </a>
+                            ) : // Check if it's a video (assuming the file extension is a common video type like .mp4, .mov, etc.)
+                            data[col.name].match(/\.(mp4|mov|avi)$/i) ? (
+                                <a
+                                    href={'/storage/' + data[col.name]}
+                                    target="_blank"
+                                    title="View Video"
+                                >
+                                    <video
+                                        width="80"
+                                        onError={e => {
+                                            e.target.style.display = 'none';
+                                        }}
+                                    >
+                                        <source
+                                            src={'/storage/' + data[col.name]}
+                                            type="video/mp4"
+                                        />
+                                        Your browser does not support the video
+                                        tag.
+                                    </video>
+                                </a>
+                            ) : (
+                                // Otherwise, if it's a link to view the file
+                                <a
+                                    href={'/storage/' + data[col.name]}
+                                    target="_blank"
+                                    title="View File"
+                                >
+                                    View File
+                                </a>
+                            ))}
+                        <Input
+                            id={col.name}
+                            type="file"
+                            onChange={e => setData(col.name, e.target.files[0])}
+                            accept={col.accept || '*'}
+                        />
+                    </div>
+                );
+
+            case 'tag':
+                return (
+                    <TagInput
+                        id={col.name}
+                        defaultValue={col?.default}
+                        onChange={e => setData(col.name, e)}
+                    />
+                );
+
+            case 'select':
+                return (
+                    <Select
+                        name={col.name}
+                        id={col.name}
+                        onChange={e => setData(col.name, e.target.value)}
+                        value={data[col.name]}
+                    >
+                        {col?.option?.map((val, index) => (
+                            <option key={index} value={val}>
+                                {val}
+                            </option>
+                        ))}
+                    </Select>
+                );
+
+            case 'text':
+                return (
+                    <Textarea
+                        id={col.name}
+                        value={data[col.name]}
+                        onChange={e => setData(col.name, e.target.value)}
+                        rows={5}
+                    />
+                );
+
+            case 'link':
+                return (
+                    <LinkComboBoxSelect
+                        id={col.name}
+                        defaultValue={col.default}
+                        dependsOn={
+                            col?.depends_on
+                                ? {
+                                      [col.depends_on]: data[col.depends_on],
+                                  }
+                                : null
+                        }
+                        onChange={option => {
+                            setData(col.name, col.multiple ? option.map(opt => opt.value) : option?.value);
+                        }}
+                        onClear={() => {
+                            if (col.name === 'parent_id') {
+                                setData('category_id', null);
+                                setData('child_category_id', null);
+                            } else if (col.name === 'category_id') {
+                                setData('child_category_id', null);
+                            }
+                        }}
+                        url={col.search_url}
+                        multiple={col?.multiple || false}
+                        placeholder={col?.placeholder || ''}
+                    />
+                );
+
+            case 'linkTrans':
+                return (
+                    <TranslateLinkComboBoxSelect
+                        id={col.name}
+                        defaultValue={
+                            fields.find(a => a.name === col.name)?.default
+                        }
+                        dependsOn={
+                            col?.depends_on
+                                ? {
+                                      [col.depends_on]: data[col.depends_on],
+                                  }
+                                : null
+                        }
+                        onChange={option => setData(col.name, option?.value)}
+                        url={col.search_url}
+                        translate={col.translate}
+                    />
+                );
+
+            case 'dynamicLink':
+                return (
+                    <DynamicCombobox
+                        id={col.name}
+                        defaultValue={
+                            fields.find(a => a.name === col.name)?.default
+                        }
+                        dependsOn={
+                            col?.depends_on
+                                ? { [col.depends_on]: data[col.depends_on] }
+                                : null
+                        }
+                        onChange={option => setData(col.name, option?.id)}
+                        url={col.search_url}
+                        permissionModule={col?.permissionModule} // Pass the module name here
+                    />
+                );
+
+            case 'boolean':
+                return (
+                    <Checkbox
+                        id={col.name}
+                        checked={data[col.name]}
+                        onChange={e => setData(col.name, e.target.checked)}
+                    />
+                );
+
+            case 'richtext':
+                return (
+                    <ReactQuill
+                        id={col.name}
+                        theme="snow"
+                        value={data[col.name]}
+                        onChange={e => setData(col.name, e)}
+                    />
+                );
+
+            default:
+                return null;
+        }
+    };
+
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+            {fields.map((col, index) => {
+                if (col.required_if && !data[col.required_if]) {
+                    return null;
+                }
+                return (
+                    <div
+                        key={col.name || index}
+                        className={`mb-3 ${col?.width ? 'col-span-' + col?.width : ''}`}
+                    >
+                        <Label
+                            text={t(col.label)}
+                            htmlFor={col.name}
+                            required={col?.required}
+                        />
+
+                        {renderField(col)}
+
+                        {errors[col.name] && (
+                            <div className="text-red-500 text-sm px-1">
+                                {/* {errors[col.name]}
+                                {t('errorRequired', {
+                                    field_name: t(col.name),
+                                })} */}
+
+                                {renderErrorMessage(
+                                    errors[col.name],
+                                    col.label
+                                )}
+                            </div>
+                        )}
+                    </div>
+                );
+            })}
+            {children}
+        </div>
+    );
+};
+
+FormFieldsMapper.propTypes = {
+    fields: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            type: PropTypes.oneOf([
+                'number',
+                'string',
+                'date',
+                'select',
+                'text',
+                'richtext',
+                'link',
+                'password',
+                'file',
+                'tag',
+                'boolean',
+                'linkTrans',
+            ]).isRequired,
+            label: PropTypes.string.isRequired,
+            width: PropTypes.number,
+            required: PropTypes.bool,
+            placeholder: PropTypes.string,
+            option: PropTypes.array,
+            depends_on: PropTypes.string,
+            search_url: PropTypes.string,
+            default_label: PropTypes.string,
+            default: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+            required_if: PropTypes.string,
+        })
+    ).isRequired,
+    data: PropTypes.object.isRequired,
+    setData: PropTypes.func.isRequired,
+    errors: PropTypes.object,
+};
+
+export default FormFieldsMapper;

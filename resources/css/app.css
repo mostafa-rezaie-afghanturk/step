@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap');
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+
+@font-face {
+    font-family: 'IRANSans';
+    font-style: normal;
+    font-weight: 300;
+    src: url('../../public/assets/fonts/IRANSansWeb(FaNum).woff2');
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    margin-bottom: 0px !important ;
+}
+
+/* Swal2 customizations */
+div:where(.swal2-container) h2:where(.swal2-title) {
+    font-size: 1.25rem !important;
+}
+
+[dir='rtl'] select {
+    background-position: left 0.5rem center;
+    padding-left: 2.5rem;
+}
+
+:root {
+    --swiper-pagination-bottom: 0;
+    --swiper-navigation-sides-offset: 0;
+    --swiper-navigation-color: theme('colors.brand');
+    --swiper-pagination-color: theme('colors.brand');
+    --swiper-navigation-top-offset: 38%;
+    --swiper-navigation-size: 30px;
+}
+
+/* Add this CSS to your stylesheet */
+.scrollbar-hide {
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+}
+
+.ql-toolbar {
+    @apply bg-black/5;
+}

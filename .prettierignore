@@ -1,0 +1,12 @@
+node_modules
+public
+storage
+vendor
+.env
+.prettierrc
+.prettierignore
+composer.lock
+composer.json
+package.json
+package-lock.json
+README.md
