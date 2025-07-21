@@ -202,11 +202,6 @@ class CountryController extends Controller
             }
         }
 
-        // Add validation rule for provinces
-        $validationRules['provinces'] = 'required|array';
-        $validationRules['provinces.*.name'] = 'required|string|max:255';
-        $validationRules['provinces.*.province_code'] = 'required|string|max:255';
-
         $validatedData = $request->validate($validationRules);
         $country = Country::create([
             'name' => $validatedData['name'],
@@ -214,18 +209,6 @@ class CountryController extends Controller
             'name_tr' => $validatedData['name_tr'],
             'name_primary' => $validatedData['name_primary'],
         ]);
-
-        $provinces = $request->provinces;
-
-        if ($provinces) {
-            foreach ($provinces as $province) {
-                $country->provinces()->create([
-                    'name' => $province['name'],
-                    'province_code' => $province['province_code'],
-                    'country_id' => $country->country_id,
-                ]);
-            }
-        }
 
         return redirect()->route('countries.index')->with('success', 'Country created successfully.');
     }
@@ -236,7 +219,7 @@ class CountryController extends Controller
     public function show(string $id)
     {
         $query = Country::query();
-        $data = $query->where('country_id', $id)->with('provinces.schools.libraries')->get();
+        $data = $query->where('country_id', $id)->get();
 
         return response()->json([
             'records' => $data,
@@ -248,7 +231,7 @@ class CountryController extends Controller
      */
     public function edit($id)
     {
-        $country = Country::with('provinces')->findOrFail($id);
+        $country = Country::findOrFail($id);
 
         $fields = $this->getFields($country);
 
@@ -277,11 +260,6 @@ class CountryController extends Controller
             }
         }
 
-        // Add validation rule for provinces
-        $validationRules['provinces'] = 'required|array';
-        $validationRules['provinces.*.name'] = 'required|string|max:255';
-        $validationRules['provinces.*.province_code'] = 'required|string|max:255';
-        $validationRules['provinces.*.province_id'] = 'nullable|integer';
         $validatedData = $request->validate($validationRules);
 
         // Update the country's fields
@@ -291,61 +269,6 @@ class CountryController extends Controller
             'name_tr' => $validatedData['name_tr'],
             'name_primary' => $validatedData['name_primary'],
         ]);
-
-        // Handle provinces if provided in the request
-        if ($request->has('provinces')) {
-            $provincesData = $validatedData['provinces'];
-
-            // Get all existing province IDs for this country
-            $existingProvinceIds = $country->provinces()->pluck('province_id')->toArray();
-
-            // Get the province IDs from the request
-            $requestProvinceIds = collect($provincesData)
-                ->pluck('province_id')
-                ->filter()
-                ->toArray();
-
-            // Find provinces to delete (existing provinces not in request)
-            $provinceIdsToDelete = array_diff($existingProvinceIds, $requestProvinceIds);
-
-            // Check if any provinces to be deleted have schools
-            if (!empty($provinceIdsToDelete)) {
-                $provincesWithSchools = $country->provinces()
-                    ->whereIn('province_id', $provinceIdsToDelete)
-                    ->whereHas('schools')
-                    ->exists();
-
-                if ($provincesWithSchools) {
-                    return redirect()
-                        ->back()
-                        ->with('error', 'Cannot delete provinces that have associated schools.');
-                }
-
-                $country->provinces()->whereIn('province_id', $provinceIdsToDelete)->delete();
-            }
-
-            // Update or create provinces
-            foreach ($provincesData as $province) {
-                // Only process if we have the required data
-                if (! empty($province['name']) && ! empty($province['province_code'])) {
-                    $updateData = [
-                        'name' => $province['name'],
-                        'province_code' => $province['province_code'],
-                        'country_id' => $country->country_id,
-                    ];
-
-                    if (isset($province['province_id'])) {
-                        // Update existing province
-                        $country->provinces()
-                            ->where('province_id', $province['province_id'])
-                            ->update($updateData);
-                    } else {
-                        // Create new province
-                        $country->provinces()->create($updateData);
-                    }
-                }
-            }
-        }
 
         return to_route('countries.index');
     }
@@ -357,13 +280,6 @@ class CountryController extends Controller
     {
         try {
             $country = Country::where('country_id', $id)->firstOrFail();
-
-            // Check for related records before deletion
-            if ($country->provinces()->exists()) {
-                return redirect()
-                    ->route('countries.index')
-                    ->with('error', 'Cannot delete country because it has related campuses.');
-            }
 
             $country->delete();
 

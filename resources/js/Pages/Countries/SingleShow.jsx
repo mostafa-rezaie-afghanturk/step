@@ -19,17 +19,12 @@ const SingleShow = ({ open, setOpen, selectedId }) => {
             label: t('All'),
         },
         {
-            id: 'school',
-            label: t('SchoolsAndLibraries'),
-        },
-        {
             id: 'logs',
             label: t('ActivityLogs'),
         },
     ];
 
     useEffect(() => {
-        // setActiveTab('all');
         setSingleData([]);
         setIsLoading(true);
         if (open) {
@@ -106,126 +101,6 @@ const SingleShow = ({ open, setOpen, selectedId }) => {
                                         itemText={singleData?.name_primary}
                                     />
                                 </div>
-                            )}
-                            {activeTab == 'school' && (
-                                <>
-                                    {singleData?.provinces?.length > 0 ? (
-                                        singleData?.provinces?.map(
-                                            (province, index2) => (
-                                                <div
-                                                    key={
-                                                        province?.province_id +
-                                                        index2
-                                                    }
-                                                >
-                                                    <p className="text-xl font-bold">
-                                                        {t('campus')}:{' '}
-                                                        {province?.name}
-                                                    </p>
-                                                    {province?.schools?.length >
-                                                        0 &&
-                                                        province?.schools?.map(
-                                                            (school, index) => (
-                                                                <div
-                                                                    key={index}
-                                                                >
-                                                                    <SingleRow
-                                                                        itemName={t(
-                                                                            'Primary Name'
-                                                                        )}
-                                                                        itemText={
-                                                                            school?.name_primary
-                                                                        }
-                                                                        itemName2="School Name"
-                                                                        itemText2={
-                                                                            school?.name
-                                                                        }
-                                                                    />
-                                                                    <SingleRow
-                                                                        itemName="School Type"
-                                                                        itemText={
-                                                                            school?.school_type
-                                                                        }
-                                                                        itemName2="Turkish Name"
-                                                                        itemText2={
-                                                                            school?.name_tr
-                                                                        }
-                                                                        bgColor={
-                                                                            true
-                                                                        }
-                                                                    />
-                                                                    <SingleRow
-                                                                        itemName="Minimum Grade"
-                                                                        itemText={
-                                                                            school?.min_grade
-                                                                        }
-                                                                        itemName2="Maximum Grade"
-                                                                        itemText2={
-                                                                            school?.max_grade
-                                                                        }
-                                                                    />
-                                                                    <SingleRow
-                                                                        bgColor
-                                                                        itemName2={t(
-                                                                            'Number of Libraries'
-                                                                        )}
-                                                                        itemText2={
-                                                                            school
-                                                                                ?.libraries
-                                                                                ?.length
-                                                                        }
-                                                                        itemName="Description"
-                                                                        itemText={
-                                                                            school?.description
-                                                                        }
-                                                                    />
-
-                                                                    {school
-                                                                        ?.libraries
-                                                                        ?.length >
-                                                                        0 && (
-                                                                        <>
-                                                                            {school?.libraries?.map(
-                                                                                (
-                                                                                    lib,
-                                                                                    index2
-                                                                                ) => (
-                                                                                    <SingleRow
-                                                                                        key={
-                                                                                            index2
-                                                                                        }
-                                                                                        itemName={t(
-                                                                                            'Library ID'
-                                                                                        )}
-                                                                                        itemText={
-                                                                                            lib?.library_id
-                                                                                        }
-                                                                                        itemName2={t(
-                                                                                            'Library Name'
-                                                                                        )}
-                                                                                        itemText2={
-                                                                                            lib?.library_name
-                                                                                        }
-                                                                                        bgColor={
-                                                                                            index2 %
-                                                                                                2 !=
-                                                                                            0
-                                                                                        }
-                                                                                    />
-                                                                                )
-                                                                            )}
-                                                                        </>
-                                                                    )}
-                                                                </div>
-                                                            )
-                                                        )}
-                                                </div>
-                                            )
-                                        )
-                                    ) : (
-                                        <>There is no School Data</>
-                                    )}
-                                </>
                             )}
                             {activeTab == 'logs' && (
                                 <LogActivity
