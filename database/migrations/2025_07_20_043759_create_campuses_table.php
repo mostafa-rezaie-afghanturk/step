@@ -19,15 +19,12 @@ return new class extends Migration
             $table->string('name_tr');
             $table->string('name_local');
             $table->text('address');
-            $table->string('phone')->nullable();
-            $table->string('website')->nullable();
+            $table->string('phone');
+            $table->string('website');
 
-            // Explicit social media fields
-            $table->string('facebook_url')->nullable();
-            $table->string('twitter_url')->nullable();
-            $table->string('instagram_url')->nullable();
-            $table->string('youtube_url')->nullable();
-            $table->string('linkedin_url')->nullable();
+            $table->string('social_media_address_1');
+            $table->string('social_media_address_2');
+            $table->string('social_media_address_3');
 
             $table->timestamps();
         });
