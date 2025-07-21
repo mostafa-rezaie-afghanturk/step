@@ -124,7 +124,7 @@ export const Logo = () => {
                 animate={{ opacity: 1 }}
                 className="font-medium text-brand dark:text-white whitespace-pre"
             >
-                {t('e_libs')}
+                {t('mes')}
             </motion.span>
         </a>
     );

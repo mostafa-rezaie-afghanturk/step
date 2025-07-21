@@ -78,9 +78,11 @@ export default function Navbar() {
                     <PopoverButton className="flex items-center justify-start gap-2 group/sidebar">
                         <img
                             src={
-                                user?.profile_picture?.includes('assets')
-                                    ? `/${user.profile_picture}`
-                                    : `/storage/${user.profile_picture}`
+                                user?.profile_picture
+                                    ? user.profile_picture.includes('assets')
+                                        ? `/${user.profile_picture}`
+                                        : `/storage/${user.profile_picture}`
+                                    : '/assets/img/profile_user.jpg'
                             }
                             className="h-8 w-8 flex-shrink-0 rounded-full border border-gray-400"
                             width={50}
@@ -103,7 +105,7 @@ export default function Navbar() {
                     >
                         <div className="p-4">
                             <Link
-                                href="/admin/profile"
+                                href="/profile"
                                 className="block px-4 py-2 text-gray-800 hover:bg-gray-100 rounded"
                             >
                                 {t('profile')}

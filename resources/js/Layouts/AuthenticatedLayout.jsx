@@ -13,27 +13,22 @@ import { PiNotebookBold } from 'react-icons/pi';
 import { MdDashboard, MdOutlineTypeSpecimen } from 'react-icons/md';
 import { SiGoogleclassroom } from 'react-icons/si';
 import { FaRegFlag } from 'react-icons/fa';
-import { GrLanguage, GrUser } from 'react-icons/gr';
 import { IoLibraryOutline } from 'react-icons/io5';
 import { LuSchool, LuUsers } from 'react-icons/lu';
-import { PiStudentBold } from 'react-icons/pi';
-import { GrUserSettings } from 'react-icons/gr';
-import { RiParentFill, RiShieldKeyholeLine } from 'react-icons/ri'; // for permissions
-import { HiOutlineUserGroup } from 'react-icons/hi'; // for roles
+import { RiShieldKeyholeLine } from 'react-icons/ri';
+import { HiOutlineUserGroup } from 'react-icons/hi';
 import { useTranslation } from 'react-i18next';
 import { onError, onSuccess } from '@/lib/appAlert';
 import { TbReport } from 'react-icons/tb';
 import { usePermission } from '@/hooks/usePermission';
 import { FaBullhorn } from 'react-icons/fa6';
-import { TourProvider, useTour } from '@/context/TourProvider';
+import { useTour } from '@/context/TourProvider';
 import { Button } from '@headlessui/react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import { UsersIcon } from '@heroicons/react/20/solid';
 
 export default function Authenticated({ header, children }) {
     const { hasPermission } = usePermission();
     const { flash, auth } = usePage().props;
-    // useRealTimeNotifications();
 
     useEffect(() => {
         if (flash?.success || flash?.message || flash?.error) {
@@ -72,9 +67,49 @@ export default function Authenticated({ header, children }) {
             icon: <FaRegFlag className="  h-5 w-5 flex-shrink-0" />,
         },
         {
+            label: 'campuses',
+            id: 'campuses',
+            icon: <IoLibraryOutline className="  h-5 w-5 flex-shrink-0" />,
+        },
+        {
+            label: 'educational-institutions',
+            id: 'educational-institutions',
+            icon: <LuSchool className="  h-5 w-5 flex-shrink-0" />,
+        },
+        {
+            label: 'lands',
+            id: 'lands',
+            icon: <MdOutlineTypeSpecimen className="  h-5 w-5 flex-shrink-0" />,
+        },
+        {
+            label: 'buildings',
+            id: 'buildings',
+            icon: <MdOutlineTypeSpecimen className="  h-5 w-5 flex-shrink-0" />,
+        },
+        {
+            label: 'floors',
+            id: 'floors',
+            icon: <MdOutlineTypeSpecimen className="  h-5 w-5 flex-shrink-0" />,
+        },
+        {
+            label: 'rooms',
+            id: 'rooms',
+            icon: <SiGoogleclassroom className="  h-5 w-5 flex-shrink-0" />,
+        },
+        {
+            label: 'furnishings',
+            id: 'furnishings',
+            icon: <PiNotebookBold className="  h-5 w-5 flex-shrink-0" />,
+        },
+        {
+            label: 'educational-materials',
+            id: 'educational-materials',
+            icon: <PiNotebookBold className="  h-5 w-5 flex-shrink-0" />,
+        },
+        {
             label: 'users',
             id: 'users',
-            icon: <GrUserSettings className="  h-5 w-5 flex-shrink-0" />,
+            icon: <LuUsers className="  h-5 w-5 flex-shrink-0" />,
         },
         {
             label: 'roles',
@@ -94,14 +129,14 @@ export default function Authenticated({ header, children }) {
         },
         {
             label: 'activity-log',
-            id: 'activity_logs',
-            icon: <TbReport className="  h-5 w-5 flex-shrink-0" />,
+            id: 'activity-log',
+            icon: <FaBullhorn className="  h-5 w-5 flex-shrink-0" />,
         },
     ];
 
     const links = [
         ...items
-            .filter(item => hasPermission(`${item.label} read`))
+            .filter(item => hasPermission(`${item.id} read`))
             .map(item => ({
                 id: item.id,
                 label: t(item.label),
@@ -109,10 +144,10 @@ export default function Authenticated({ header, children }) {
                 icon: item.icon,
                 children: item?.children
                     ? item.children.map(child => ({
-                          label: t(child.label),
-                          href: `/admin/${item.label}/${child.label}`,
-                          icon: child.icon,
-                      }))
+                        label: t(child.label),
+                        href: `/admin/${item.label}/${child.label}`,
+                        icon: child.icon,
+                    }))
                     : null,
             })),
 
@@ -217,7 +252,7 @@ export const Logo = ({ hideLabel }) => {
                     animate={{ opacity: 1 }}
                     className="font-medium text-brand dark:text-white whitespace-pre"
                 >
-                    {t('e_libs')}
+                    {t('mes')}
                 </motion.span>
             )}
         </a>
