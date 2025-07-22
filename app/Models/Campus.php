@@ -21,4 +21,9 @@ class Campus extends Model
             ->logAll()
             ->useLogName('campuses');
     }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'country_id', 'country_id');
+    }
 }

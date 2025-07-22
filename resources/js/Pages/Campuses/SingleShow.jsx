@@ -52,7 +52,7 @@ const SingleShow = ({ open, setOpen, selectedId }) => {
             >
                 {!isLoading && (
                     <SingleViewHeader
-                        name={singleData?.name}
+                        name={singleData?.name_en}
                         createdAt={singleData?.created_at}
                         updatedAt={singleData?.updated_at}
                         setOpen={setOpen}

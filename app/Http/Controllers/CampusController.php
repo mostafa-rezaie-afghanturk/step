@@ -55,7 +55,7 @@ class CampusController extends Controller
                 'context' => ['show', 'edit', 'create'], // Only visible in the "show" view
             ],
             [
-                'header' => 'Name (English)',
+                'header' => 'Name',
                 'accessor' => 'name_en',
                 'visibility' => true,
                 'type' => 'string',
@@ -63,7 +63,7 @@ class CampusController extends Controller
                 'context' => ['show', 'edit', 'create'], // Only visible in the "show" view
             ],
             [
-                'header' => 'Name (Turkish)',
+                'header' => 'Turkish Name',
                 'accessor' => 'name_tr',
                 'visibility' => true,
                 'type' => 'string',
@@ -104,12 +104,21 @@ class CampusController extends Controller
             ],
             [
                 'header' => 'Country',
-                'accessor' => 'country_id',
+                'accessor' => 'country.name',
                 'visibility' => true,
                 'type' => 'link',
                 'validation' => 'required|integer|exists:countries,country_id',
                 'search_url' => route('countries.search'),
-                'context' => ['show', 'edit', 'create'],
+                'context' => ['show'],
+            ],
+            [
+                'header' => 'Country',
+                'accessor' => 'country_id',
+                'visibility' => false,
+                'type' => 'link',
+                'validation' => 'required|integer|exists:countries,country_id',
+                'search_url' => route('countries.search'),
+                'context' => ['edit', 'create'],
             ],
             [
                 'header' => 'Social Media Address 1',
@@ -247,7 +256,7 @@ class CampusController extends Controller
 
     public function datatable(Request $request)
     {
-        $query = Campus::query();
+        $query = Campus::with('country');
         $data = $this->filterRepository->applyFilters($query, $request, $this->searchColumns);
 
         return response()->json([

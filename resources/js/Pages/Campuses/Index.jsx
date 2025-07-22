@@ -5,11 +5,14 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { IoAddOutline } from 'react-icons/io5';
 import { useTranslation } from 'react-i18next';
 import { BUTTON_TYPES } from '@/Components/Constants/buttons';
-import { FaPencil } from 'react-icons/fa6';
+import { FaPencil, FaTrash } from 'react-icons/fa6';
 import RoundedButtonLink from '@/Components/ui/RoundedButtonLink';
 import ButtonLink from '@/Components/ui/form/ButtonLink';
 import SingleShow from './SingleShow';
 import { usePermission } from '@/hooks/usePermission';
+import RoundedButton from '@/Components/ui/RoundedButton';
+import { router } from '@inertiajs/react';
+import { onConfirm } from '@/lib/appAlert';
 
 const Index = ({ columns }) => {
     const { hasPermission } = usePermission();
@@ -23,6 +26,15 @@ const Index = ({ columns }) => {
         accessor: col.accessor,
         visible: col.visibility,
     }));
+
+    const destroy = id => {
+        onConfirm(t('confirm_delete_campus'))
+            .then(() => {
+                router.delete(route('campuses.destroy', id));
+                setRefreshDatatable(true);
+            })
+            .catch(e => {});
+    };
 
     tableColumns = [
         ...tableColumns,
@@ -40,6 +52,15 @@ const Index = ({ columns }) => {
                             )}
                             icon={<FaPencil />}
                             popoverText={t('Edit')}
+                            outline
+                        />
+                    )}
+                    {hasPermission('campuses delete') && (
+                        <RoundedButton
+                            icon={<FaTrash />}
+                            popoverText={t('delete')}
+                            buttonType="danger"
+                            onClick={() => destroy(row.original.campus_id)}
                             outline
                         />
                     )}
