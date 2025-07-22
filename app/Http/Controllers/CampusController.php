@@ -242,14 +242,16 @@ class CampusController extends Controller
     public function search($search = null)
     {
         return $this->handleDependentSearch(
-            Country::class,
+            Campus::class,
             $search,
             null,
             null,
             null,
             'name',
-            'country_id',
-            null,
+            'campus_id',
+            function ($campus) {
+                return $campus->campus_code . ' ' . $campus->name_en;
+            },
             null
         );
     }

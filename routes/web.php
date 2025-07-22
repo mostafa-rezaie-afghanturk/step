@@ -4,11 +4,13 @@ use App\Http\Controllers\ActivityLogsController;
 use App\Http\Controllers\CampusController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EducationalInstitutionController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UserController;
+use App\Models\EducationalInstitution;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -109,7 +111,7 @@ Route::middleware(['auth', 'force_password_change'])->group(function () {
         // Additional routes
         Route::get('/export', [CampusController::class, 'export'])->name('campuses.export')->middleware('can:campuses export');
         Route::get('/pdf', [CampusController::class, 'pdf'])->name('campuses.pdf')->middleware('can:campuses export');
-        // Route::get('/search/{search?}', [CampusController::class, 'search'])->name('campuses.search')->middleware('can:campuses read');
+        Route::get('/search/{search?}', [CampusController::class, 'search'])->name('campuses.search')->middleware('can:campuses read');
 
         Route::get('/datatable', [CampusController::class, 'datatable'])->name('campuses.datatable')->middleware('can:campuses read'); // Get schools in datatable format
         Route::group(['prefix' => 'bulk'], function () {
@@ -126,6 +128,29 @@ Route::middleware(['auth', 'force_password_change'])->group(function () {
         Route::post('/{id}/change-status', [CampusController::class, 'changeStatus'])->name('campuses.changeStatus')->middleware('can:campuses edit'); // Change status of a school
         Route::delete('/{id}', [CampusController::class, 'destroy'])->name('campuses.destroy')->middleware('can:campuses delete'); // Delete a school
         Route::get('/activity_log/{id}', [CampusController::class, 'logActivity'])->name('campuses.logActivity'); // Delete a school
+    });
+
+    Route::group(['prefix' => 'educational-institutions'], function () {
+        // Additional routes
+        Route::get('/export', [EducationalInstitutionController::class, 'export'])->name('educational-institutions.export')->middleware('can:educational-institutions export');
+        Route::get('/pdf', [EducationalInstitutionController::class, 'pdf'])->name('educational-institutions.pdf')->middleware('can:educational-institutions export');
+        // Route::get('/search/{search?}', [EducationalInstitutionController::class, 'search'])->name('educational-institutions.search')->middleware('can:educational-institutions read');
+
+        Route::get('/datatable', [EducationalInstitutionController::class, 'datatable'])->name('educational-institutions.datatable')->middleware('can:educational-institutions read'); // Get schools in datatable format
+        Route::group(['prefix' => 'bulk'], function () {
+            Route::put('/edit', [EducationalInstitutionController::class, 'bulkEdit'])->name('educational-institutions.bulkEdit')->middleware('can:educational-institutions edit'); // Bulk edit schools
+            Route::delete('/delete', [EducationalInstitutionController::class, 'bulkDelete'])->name('educational-institutions.bulkDelete')->middleware('can:educational-institutions delete'); // Bulk edit schools
+        });
+
+        Route::get('/{id}/edit', [EducationalInstitutionController::class, 'edit'])->name('educational-institutions.edit')->middleware('can:educational-institutions edit'); // Show form to edit a school
+        Route::get('/', [EducationalInstitutionController::class, 'index'])->name('educational-institutions.index')->middleware('can:educational-institutions read'); // List all schools
+        Route::post('/', [EducationalInstitutionController::class, 'store'])->name('educational-institutions.store')->middleware('can:educational-institutions create'); // Store new school
+        Route::get('/create/{id?}', [EducationalInstitutionController::class, 'create'])->name('educational-institutions.create')->middleware('can:educational-institutions create'); // Show form to create a new school
+        Route::get('/show/{id}', [EducationalInstitutionController::class, 'show'])->name('educational-institutions.show')->middleware('can:educational-institutions read'); // Show a single school
+        Route::put('/{id}', [EducationalInstitutionController::class, 'update'])->name('educational-institutions.update')->middleware('can:educational-institutions edit'); // Update a school
+        Route::post('/{id}/change-status', [EducationalInstitutionController::class, 'changeStatus'])->name('educational-institutions.changeStatus')->middleware('can:educational-institutions edit'); // Change status of a school
+        Route::delete('/{id}', [EducationalInstitutionController::class, 'destroy'])->name('educational-institutions.destroy')->middleware('can:educational-institutions delete'); // Delete a school
+        Route::get('/activity_log/{id}', [EducationalInstitutionController::class, 'logActivity'])->name('educational-institutions.logActivity'); // Delete a school
     });
 
     Route::group(['prefix' => 'activity-log'], function () {

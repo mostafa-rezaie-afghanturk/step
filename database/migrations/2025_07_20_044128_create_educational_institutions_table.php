@@ -24,12 +24,12 @@ return new class extends Migration
             $table->json('stage'); // ['Preschool', 'Elementary School', ...]
             $table->json('level'); // [0, 1, 2, ..., 13]
 
-            $table->date('start_date')->nullable();
+            $table->date('start_date');
 
             // ENUM for status
             $table->enum('status', ['TMV Installation', 'Transfer from FETO', 'Transfer from 2nd Party']);
 
-            $table->date('open_date')->nullable();
+            $table->date('open_date');
             $table->string('former_name')->nullable();
 
             $table->timestamps();
