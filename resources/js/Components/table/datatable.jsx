@@ -26,20 +26,19 @@ const DataTable = ({
     pdfUrl = '',
     duplicateUrl = '',
     refreshDatatable = false,
-    setRefreshDatatable = data => { },
+    setRefreshDatatable = data => {},
     hideActions = false,
     hideExport = false,
     h,
     placeholderLength = 14,
     tab = 'all',
     setOpenSingleModal = null,
-    setSelectedId = data => { },
+    setSelectedId = data => {},
     classTd = '',
     permissionModule = '',
     hideFilter = true,
     hideColumn = true,
     fakeId = null,
-
 }) => {
     const { hasPermission } = usePermission();
     const { t, i18n } = useTranslation();
@@ -57,11 +56,10 @@ const DataTable = ({
     const [isLoading, setIsLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(0);
 
-
     const [expandedRows, setExpandedRows] = useState({});
 
     // A function to toggle expanded state for a rowId
-    const toggleExpanded = (rowId) => {
+    const toggleExpanded = rowId => {
         setExpandedRows(prev => ({
             ...prev,
             [rowId]: !prev[rowId],
@@ -120,15 +118,14 @@ const DataTable = ({
         const updatedSelectedRows = allSelected
             ? {} // Deselect all rows
             : allRowIds.reduce((acc, rowId) => {
-                acc[rowId] = true;
-                return acc;
-            }, {});
+                  acc[rowId] = true;
+                  return acc;
+              }, {});
 
         setSelectedRows(updatedSelectedRows);
     };
 
     const Refresh = () => {
-
         // Fetch data from server only when pagination or sorting changes
         setIsLoading(true);
         const sortColumn = sortBy[0] ? sortBy[0].id : columns[0].accessor;
@@ -161,7 +158,9 @@ const DataTable = ({
                     setCurrentPage(0);
                 }
                 const expandedIds = getAllExpandedRowIds(data.records);
-                const expandedObj = Object.fromEntries(expandedIds.map(id => [id, true]));
+                const expandedObj = Object.fromEntries(
+                    expandedIds.map(id => [id, true])
+                );
                 setExpandedRows(expandedObj); // ✅ now this will include all nested rows
                 setExpandedRows(expandedObj);
             })
@@ -219,7 +218,6 @@ const DataTable = ({
             .reduce((o, key) => (o ? o[key] : undefined), obj);
     };
 
-
     function RenderNestedRows({
         rows,
         columns,
@@ -236,7 +234,9 @@ const DataTable = ({
             <table className="min-w-full border-collapse table-auto text-left border rounded">
                 <thead className=" invisible h-0 overflow-hidden">
                     <tr>
-                        {!hideActions && <th className="px-3 p-1 w-[2rem]"></th>}
+                        {!hideActions && (
+                            <th className="px-3 p-1 w-[2rem]"></th>
+                        )}
                         {columns.map((col, i) => (
                             <th
                                 key={i}
@@ -251,62 +251,77 @@ const DataTable = ({
                     {rows.map((row, index) => {
                         const rowId = row[primaryKey];
                         const isExpanded = expandedRows[rowId];
-                        const hasChildren = row.children && row.children.length > 0;
+                        const hasChildren =
+                            row.children && row.children.length > 0;
 
                         return (
                             <React.Fragment key={rowId}>
                                 <tr className="hover:bg-gray-100 cursor-pointer">
                                     {!hideActions && (
                                         <td className="px-3 p-1 text-gray-600 w-[2rem]">
-                                            <div className='h-4 w-4'>
-
-                                            </div>
+                                            <div className="h-4 w-4"></div>
                                         </td>
                                     )}
 
                                     {columns.map((col, colIndex) => {
-
-
-
-                                        return <td
-
-                                            key={colIndex}
-                                            style={{ width: col.width || 'auto' }}
-                                            className={`px-3 p-1 text-gray-600 whitespace-nowrap  ${classTd}`}
-                                            onClick={() =>
-                                                colIndex === 0 && openModal
-                                                    ? openModal(rowId)
-                                                    : undefined
-                                            }
-                                        >
-                                            <span className={`${colIndex === 0 ? `pl-${level * 6}` : ''}`}>
-                                                {col.Cell
-                                                    ? col.Cell({ row })
-                                                    : colIndex === 0 && fakeId
-                                                        ? `${index + 1}-${row[fakeId] ?? ''}`
-                                                        : row[col.accessor] ?? ''}
-                                            </span>
-
-                                            {colIndex === 0 && hasChildren && (
+                                        return (
+                                            <td
+                                                key={colIndex}
+                                                style={{
+                                                    width: col.width || 'auto',
+                                                }}
+                                                className={`px-3 p-1 text-gray-600 whitespace-nowrap  ${classTd}`}
+                                                onClick={() =>
+                                                    colIndex === 0 && openModal
+                                                        ? openModal(rowId)
+                                                        : undefined
+                                                }
+                                            >
                                                 <span
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        toggleExpanded(rowId);
-                                                    }}
-                                                    className="cursor-pointer text-lg mr-2 select-none float-start"
+                                                    className={`${colIndex === 0 ? `pl-${level * 6}` : ''}`}
                                                 >
-                                                    {isExpanded ? <MdExpandLess /> : <MdExpandMore />}
+                                                    {col.Cell
+                                                        ? col.Cell({ row })
+                                                        : colIndex === 0 &&
+                                                            fakeId
+                                                          ? `${index + 1}-${row[fakeId] ?? ''}`
+                                                          : (row[
+                                                                col.accessor
+                                                            ] ?? '')}
                                                 </span>
-                                            )}
 
-
-                                        </td>
+                                                {colIndex === 0 &&
+                                                    hasChildren && (
+                                                        <span
+                                                            onClick={e => {
+                                                                e.stopPropagation();
+                                                                toggleExpanded(
+                                                                    rowId
+                                                                );
+                                                            }}
+                                                            className="cursor-pointer text-lg mr-2 select-none float-start"
+                                                        >
+                                                            {isExpanded ? (
+                                                                <MdExpandLess />
+                                                            ) : (
+                                                                <MdExpandMore />
+                                                            )}
+                                                        </span>
+                                                    )}
+                                            </td>
+                                        );
                                     })}
                                 </tr>
 
                                 {hasChildren && isExpanded && (
                                     <tr>
-                                        <td colSpan={columns.length + (!hideActions ? 1 : 0)} className="bg-gray-50">
+                                        <td
+                                            colSpan={
+                                                columns.length +
+                                                (!hideActions ? 1 : 0)
+                                            }
+                                            className="bg-gray-50"
+                                        >
                                             {/* Recursive call for sub-children */}
                                             <RenderNestedRows
                                                 rows={row.children}
@@ -339,13 +354,14 @@ const DataTable = ({
             }
 
             if (Array.isArray(row.children) && row.children.length > 0) {
-                ids = ids.concat(getAllExpandedRowIds(row.children, primaryKey));
+                ids = ids.concat(
+                    getAllExpandedRowIds(row.children, primaryKey)
+                );
             }
         }
 
         return ids;
     }
-
 
     return (
         <>
@@ -387,7 +403,7 @@ const DataTable = ({
                                 setIsSearch(true);
                             }}
                             placeholder={t('search') + '...'}
-                            className=" border w-64 border-gray-200 rounded-lg py-1 focus:outline-none focus:ring-2 focus:ring-brand"
+                            className=" border w-64 border-gray-200 rounded py-1 focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand"
                         />
 
                         <Field className="flex items-center w-full ">
@@ -404,10 +420,8 @@ const DataTable = ({
                                 ) : (
                                     <span className="size-4 translate-x-[-24px] rounded-full bg-white transition group-data-[checked]:translate-x-[-4px]" />
                                 )}
-
                             </Switch>
                         </Field>
-
                     </div>
 
                     <div className="flex flex-wrap">
@@ -440,7 +454,6 @@ const DataTable = ({
                 <div
                     className={`border  pb-2 rounded-b-lg overflow-auto ${h ? h : ` md:h-[70dvh] sm:h-[50dvh]`}`}
                 >
-
                     <table
                         {...getTableProps()}
                         className="min-w-full border-collapse  table-auto text-left"
@@ -458,9 +471,9 @@ const DataTable = ({
                                                 checked={rows.every(
                                                     row =>
                                                         selectedRows[
-                                                        row.original[
-                                                        primaryKey
-                                                        ]
+                                                            row.original[
+                                                                primaryKey
+                                                            ]
                                                         ]
                                                 )}
                                             />
@@ -491,98 +504,166 @@ const DataTable = ({
                             ))}
                         </thead>
 
-                        <tbody {...getTableBodyProps()} className="divide-y divide-gray-100">
+                        <tbody
+                            {...getTableBodyProps()}
+                            className="divide-y divide-gray-100"
+                        >
                             {isLoading
-                                ? Array.from({ length: placeholderLength }).map((_, index) => (
-                                    <tr key={index} className="animate-pulse h-10">
-                                        <td className="px-3 p-1">
-                                            <div className="h-5 w-5 bg-gray-200 rounded"></div>
-                                        </td>
-                                        {columns.map((_, cellIndex) => (
-                                            <td key={cellIndex} className="px-3 p-1">
-                                                <div className="h-5 bg-gray-200 rounded"></div>
-                                            </td>
-                                        ))}
-                                    </tr>
-                                ))
+                                ? Array.from({ length: placeholderLength }).map(
+                                      (_, index) => (
+                                          <tr
+                                              key={index}
+                                              className="animate-pulse h-10"
+                                          >
+                                              <td className="px-3 p-1">
+                                                  <div className="h-5 w-5 bg-gray-200 rounded"></div>
+                                              </td>
+                                              {columns.map((_, cellIndex) => (
+                                                  <td
+                                                      key={cellIndex}
+                                                      className="px-3 p-1"
+                                                  >
+                                                      <div className="h-5 bg-gray-200 rounded"></div>
+                                                  </td>
+                                              ))}
+                                          </tr>
+                                      )
+                                  )
                                 : rows.map((row, index) => {
-                                    prepareRow(row);
-                                    const rowId = row.original[primaryKey];
-                                    const isSelected = !!selectedRows[rowId];
-                                    const isExpanded = expandedRows[rowId];
-                                    const hasChildren = row.original.children && row.original.children.length > 0;
+                                      prepareRow(row);
+                                      const rowId = row.original[primaryKey];
+                                      const isSelected = !!selectedRows[rowId];
+                                      const isExpanded = expandedRows[rowId];
+                                      const hasChildren =
+                                          row.original.children &&
+                                          row.original.children.length > 0;
 
-                                    return (
-                                        <React.Fragment key={rowId}>
-                                            <tr {...row.getRowProps()} className="hover:bg-gray-100">
-                                                {!hideActions && (
-                                                    <td className="px-3 p-1 text-gray-600 w-[2rem]">
-                                                        <Checkbox
-                                                            checked={isSelected}
-                                                            onChange={() => toggleRowSelected(rowId)}
-                                                        />
-                                                    </td>
-                                                )}
+                                      return (
+                                          <React.Fragment key={rowId}>
+                                              <tr
+                                                  {...row.getRowProps()}
+                                                  className="hover:bg-gray-100"
+                                              >
+                                                  {!hideActions && (
+                                                      <td className="px-3 p-1 text-gray-600 w-[2rem]">
+                                                          <Checkbox
+                                                              checked={
+                                                                  isSelected
+                                                              }
+                                                              onChange={() =>
+                                                                  toggleRowSelected(
+                                                                      rowId
+                                                                  )
+                                                              }
+                                                          />
+                                                      </td>
+                                                  )}
 
-                                                {row.cells.map((cell, cellIndex) => (
-                                                    <td
-                                                        {...cell.getCellProps()}
-                                                        className={`px-3 p-1 text-gray-600 text-start whitespace-nowrap ${cellIndex === 0 && typeof setOpenSingleModal === 'function'
-                                                            ? 'hover:cursor-pointer !text-brand hover:underline'
-                                                            : ''
-                                                            } ${classTd}`}
-                                                        onClick={() =>
-                                                            cellIndex === 0 && openModal ? openModal(rowId) : undefined
-                                                        }
-                                                    >
-                                                        {cellIndex === 0 && hasChildren && (
-                                                            <span
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    toggleExpanded(rowId);
-                                                                }}
-                                                                className="cursor-pointer text-lg mr-2 select-none float-start"
-                                                            >
-                                                                {isExpanded ? <MdExpandLess /> : <MdExpandMore />}
-                                                            </span>
-                                                        )}
-                                                        {cellIndex === 0 && fakeId
-                                                            ? `${index + 1}-${getNestedValue(row.original, fakeId) ?? ''}`
-                                                            : cell.render('Cell')}
-                                                    </td>
-                                                ))}
-                                            </tr>
+                                                  {row.cells.map(
+                                                      (cell, cellIndex) => (
+                                                          <td
+                                                              {...cell.getCellProps()}
+                                                              className={`px-3 p-1 text-gray-600 text-start whitespace-nowrap ${
+                                                                  cellIndex ===
+                                                                      0 &&
+                                                                  typeof setOpenSingleModal ===
+                                                                      'function'
+                                                                      ? 'hover:cursor-pointer !text-brand hover:underline'
+                                                                      : ''
+                                                              } ${classTd}`}
+                                                              onClick={() =>
+                                                                  cellIndex ===
+                                                                      0 &&
+                                                                  openModal
+                                                                      ? openModal(
+                                                                            rowId
+                                                                        )
+                                                                      : undefined
+                                                              }
+                                                          >
+                                                              {cellIndex ===
+                                                                  0 &&
+                                                                  hasChildren && (
+                                                                      <span
+                                                                          onClick={e => {
+                                                                              e.stopPropagation();
+                                                                              toggleExpanded(
+                                                                                  rowId
+                                                                              );
+                                                                          }}
+                                                                          className="cursor-pointer text-lg mr-2 select-none float-start"
+                                                                      >
+                                                                          {isExpanded ? (
+                                                                              <MdExpandLess />
+                                                                          ) : (
+                                                                              <MdExpandMore />
+                                                                          )}
+                                                                      </span>
+                                                                  )}
+                                                              {cellIndex ===
+                                                                  0 && fakeId
+                                                                  ? `${index + 1}-${getNestedValue(row.original, fakeId) ?? ''}`
+                                                                  : cell.render(
+                                                                        'Cell'
+                                                                    )}
+                                                          </td>
+                                                      )
+                                                  )}
+                                              </tr>
 
-                                            {hasChildren && isExpanded && (
-                                                <tr>
-                                                    <td colSpan={row.cells.length + (!hideActions ? 1 : 0)} className="bg-gray-50">
-                                                        <RenderNestedRows
-                                                            rows={row.original.children}
-                                                            columns={visibleColumns}
-                                                            primaryKey={primaryKey}
-                                                            hideActions={hideActions}
-                                                            expandedRows={expandedRows}
-                                                            toggleExpanded={toggleExpanded}
-                                                            classTd={classTd}
-                                                            openModal={openModal}
-                                                            fakeId={fakeId}
-                                                            level={1}
-                                                        />
-                                                    </td>
-                                                </tr>
-                                            )}
-                                        </React.Fragment>
-                                    );
-                                })}
+                                              {hasChildren && isExpanded && (
+                                                  <tr>
+                                                      <td
+                                                          colSpan={
+                                                              row.cells.length +
+                                                              (!hideActions
+                                                                  ? 1
+                                                                  : 0)
+                                                          }
+                                                          className="bg-gray-50"
+                                                      >
+                                                          <RenderNestedRows
+                                                              rows={
+                                                                  row.original
+                                                                      .children
+                                                              }
+                                                              columns={
+                                                                  visibleColumns
+                                                              }
+                                                              primaryKey={
+                                                                  primaryKey
+                                                              }
+                                                              hideActions={
+                                                                  hideActions
+                                                              }
+                                                              expandedRows={
+                                                                  expandedRows
+                                                              }
+                                                              toggleExpanded={
+                                                                  toggleExpanded
+                                                              }
+                                                              classTd={classTd}
+                                                              openModal={
+                                                                  openModal
+                                                              }
+                                                              fakeId={fakeId}
+                                                              level={1}
+                                                          />
+                                                      </td>
+                                                  </tr>
+                                              )}
+                                          </React.Fragment>
+                                      );
+                                  })}
                         </tbody>
                     </table>
                 </div>
 
-                <div className="border-t">
-                    <div className="flex justify-between items-center flex-wrap">
+                <div>
+                    <div className="flex justify-between items-center flex-wrap px-2">
                         <div className="flex items-center">
                             <button
-                                className="p-2 mr-4 rounded hover:underline disabled:cursor-not-allowed disabled:text-gray-400"
+                                className="p-2 mr-4 rounded hover:underline disabled:cursor-not-allowed disabled:text-gray-400 text-sm"
                                 onClick={() => GotoPage(meta.current_page - 2)}
                                 disabled={!meta.has_previous_page}
                             >
@@ -595,14 +676,14 @@ const DataTable = ({
                             />
 
                             <button
-                                className="p-2  rounded ml-2 hover:underline  disabled:cursor-not-allowed disabled:text-gray-400"
+                                className="p-2  rounded ml-2 hover:underline  disabled:cursor-not-allowed disabled:text-gray-400 text-sm"
                                 onClick={() => GotoPage(meta.current_page)}
                                 disabled={!meta.has_next_page}
                             >
                                 {t('next')}
                             </button>
                         </div>
-                        <div className="text-gray-600">
+                        <div className="text-gray-600 text-sm">
                             {totalSelected > 0 && (
                                 <div>
                                     <strong>{totalSelected} </strong>items
@@ -610,13 +691,13 @@ const DataTable = ({
                                 </div>
                             )}
                         </div>
-                        <div className="mx-2 text-gray-600">
+                        <div className="mx-2 text-gray-600 text-sm">
                             {t('Showing')} <strong>{meta.from ?? 0}</strong>{' '}
                             {t('to')} <strong>{meta.to ?? 0}</strong> {t('of')}{' '}
                             <strong>{meta.total ?? 0}</strong> {t('results')}
                         </div>
                         <select
-                            className="px-2 py-0 border-gray-300 rounded bg-none me-2"
+                            className="px-2 py-0 border-gray-300 text-gray-600 rounded bg-none me-2 text-sm"
                             value={pageSize}
                             onChange={e => setPageSize(Number(e.target.value))}
                         >
@@ -634,4 +715,3 @@ const DataTable = ({
 };
 
 export default DataTable;
-

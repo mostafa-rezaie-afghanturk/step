@@ -43,7 +43,7 @@ const Pagination = ({ totalPages, currentPage, setCurrentPage }) => {
                         className={` 
                         ${
                             currentPage + 1 === page
-                                ? 'h-7 w-7 px-2 rounded flex items-center justify-center hover:text-brand  font-semibold cursor-pointer transition-all duration-200 text-brand '
+                                ? 'h-7 w-7 px-2 rounded flex items-center justify-center hover:text-brand  font-semibold cursor-pointer transition-all duration-200 text-brand text-sm'
                                 : 'h-7 w-7 px-2 rounded bg-white flex items-center justify-center hover:bg-brand hover:text-white cursor-pointer transition-all duration-200'
                         }`}
                     >

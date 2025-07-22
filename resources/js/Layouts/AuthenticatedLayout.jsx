@@ -303,7 +303,7 @@ const Dashboard = ({ children }) => {
             >
                 <Breadcrumb />
 
-                <div className="p-2 md:p-4  flex flex-col gap-2 flex-1 w-full h-[calc(100vh-96px)] overflow-auto">
+                <div className="p-2 md:p-4  flex flex-col gap-4 flex-1 w-full h-[calc(100vh-96px)] overflow-auto">
                     {children}
                 </div>
             </div>
