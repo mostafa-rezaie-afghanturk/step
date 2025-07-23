@@ -21,4 +21,8 @@ class Land extends Model
             ->logAll()
             ->useLogName('lands');
     }
+
+    public function country() {
+        return $this->belongsTo(Country::class, 'country_id', 'country_id');
+    }
 }
