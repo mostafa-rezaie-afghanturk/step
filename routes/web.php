@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivityLogsController;
+use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\CampusController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DashboardController;
@@ -156,7 +157,7 @@ Route::middleware(['auth', 'force_password_change'])->group(function () {
 
         Route::get('/export', [LandController::class, 'export'])->name('lands.export')->middleware('can:lands export');
         Route::get('/pdf', [LandController::class, 'pdf'])->name('lands.pdf')->middleware('can:lands export');
-
+        Route::get('/search/{search?}', [LandController::class, 'search'])->name('lands.search')->middleware('can:lands read');
 
         Route::get('/datatable', [LandController::class, 'datatable'])->name('lands.datatable')->middleware('can:lands read');
         Route::group(['prefix' => 'bulk'], function () {
@@ -173,6 +174,29 @@ Route::middleware(['auth', 'force_password_change'])->group(function () {
         Route::post('/{id}/change-status', [LandController::class, 'changeStatus'])->name('lands.changeStatus')->middleware('can:lands edit');
         Route::delete('/{id}', [LandController::class, 'destroy'])->name('lands.destroy')->middleware('can:lands delete');
         Route::get('/activity_log/{id}', [LandController::class, 'logActivity'])->name('lands.logActivity');
+    });
+
+    Route::group(['prefix' => 'buildings'], function () {
+
+        Route::get('/export', [BuildingController::class, 'export'])->name('buildings.export')->middleware('can:buildings export');
+        Route::get('/pdf', [BuildingController::class, 'pdf'])->name('buildings.pdf')->middleware('can:buildings export');
+
+
+        Route::get('/datatable', [BuildingController::class, 'datatable'])->name('buildings.datatable')->middleware('can:buildings read');
+        Route::group(['prefix' => 'bulk'], function () {
+            Route::put('/edit', [BuildingController::class, 'bulkEdit'])->name('buildings.bulkEdit')->middleware('can:buildings edit');
+            Route::delete('/delete', [BuildingController::class, 'bulkDelete'])->name('buildings.bulkDelete')->middleware('can:buildings delete');
+        });
+
+        Route::get('/{id}/edit', [BuildingController::class, 'edit'])->name('buildings.edit')->middleware('can:buildings edit');
+        Route::get('/', [BuildingController::class, 'index'])->name('buildings.index')->middleware('can:buildings read');
+        Route::post('/', [BuildingController::class, 'store'])->name('buildings.store')->middleware('can:buildings create');
+        Route::get('/create/{id?}', [BuildingController::class, 'create'])->name('buildings.create')->middleware('can:buildings create');
+        Route::get('/show/{id}', [BuildingController::class, 'show'])->name('buildings.show')->middleware('can:buildings read');
+        Route::put('/{id}', [BuildingController::class, 'update'])->name('buildings.update')->middleware('can:buildings edit');
+        Route::post('/{id}/change-status', [BuildingController::class, 'changeStatus'])->name('buildings.changeStatus')->middleware('can:buildings edit');
+        Route::delete('/{id}', [BuildingController::class, 'destroy'])->name('buildings.destroy')->middleware('can:buildings delete');
+        Route::get('/activity_log/{id}', [BuildingController::class, 'logActivity'])->name('buildings.logActivity');
     });
 
     Route::group(['prefix' => 'activity-log'], function () {

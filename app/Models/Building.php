@@ -21,4 +21,8 @@ class Building extends Model
             ->logAll()
             ->useLogName('buildings');
     }
+
+    public function land() {
+        return $this->belongsTo(Land::class, 'land_id', 'land_id');
+    }
 }

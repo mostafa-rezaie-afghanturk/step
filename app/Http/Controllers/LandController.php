@@ -420,6 +420,23 @@ class LandController extends Controller
         ]);
     }
 
+    public function search($search = null)
+    {
+        return $this->handleDependentSearch(
+            Land::class,
+            $search,
+            null,
+            null,
+            null,
+            'name',
+            'land_id',
+            function ($land) {
+                return $land->land_code;
+            },
+            null
+        );
+    }
+
     public function create($id = null)
     {
         $land = $id ? Land::findOrFail($id) : null;
