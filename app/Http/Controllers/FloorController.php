@@ -8,12 +8,13 @@ use App\Repositories\ExportService;
 use App\Repositories\FilterRepository;
 use App\Traits\BulkDeleteTrait;
 use App\Traits\BulkEditTrait;
+use App\Traits\HasDependentDropdowns;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class FloorController extends Controller
 {
-    use BulkDeleteTrait, BulkEditTrait;
+    use BulkDeleteTrait, BulkEditTrait, HasDependentDropdowns;
 
     protected $columns;
     protected $fields;
@@ -107,6 +108,23 @@ class FloorController extends Controller
         return Inertia::render('Floors/Index', [
             'columns' => $this->columns,
         ]);
+    }
+
+    public function search($search = null)
+    {
+        return $this->handleDependentSearch(
+            Floor::class,
+            $search,
+            null,
+            null,
+            null,
+            'floor_code',
+            'floor_id',
+            function ($floor) {
+                return $floor->floor_code . ' ' . $floor->floor_level;
+            },
+            null
+        );
     }
 
     public function create($id = null)

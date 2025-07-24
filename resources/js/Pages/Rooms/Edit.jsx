@@ -1,0 +1,74 @@
+// resources/js/Pages/rooms/Edit.jsx
+import React from 'react';
+import { useForm } from '@inertiajs/react';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import Container from '@/Components/ui/Container';
+import ReactLoading from 'react-loading';
+import Button from '@/Components/ui/form/Button';
+import FormFieldsMapper from '@/Components/ui/form/FormFieldsMapper';
+import { usePermission } from '@/hooks/usePermission';
+import { useTranslation } from 'react-i18next';
+
+const Edit = ({ room, fields }) => {
+    const { hasPermission } = usePermission();
+    const { t } = useTranslation();
+
+    const initialData = fields.reduce((acc, field) => {
+        acc[field.name] = field.default;
+        return acc;
+    }, {});
+
+    const { data, setData, put, processing, errors } = useForm(initialData);
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        put(route('rooms.update', room.room_id));
+    };
+
+    return (
+        <>
+            <AuthenticatedLayout>
+                <div className="flex justify-between">
+                    <div></div>
+                    <div>
+                        {hasPermission('rooms write') && (
+                            <Button
+                                onClick={handleSubmit}
+                                type="submit"
+                                disabled={processing}
+                            >
+                                {processing ? (
+                                    <>
+                                        {' '}
+                                        <ReactLoading
+                                            color={'#fff'}
+                                            type="bars"
+                                            height={20}
+                                            width={20}
+                                        />{' '}
+                                         
+                                    </>
+                                ) : (
+                                    t('save')
+                                )}
+                            </Button>
+                        )}
+                    </div>
+                </div>
+
+                <Container>
+                    <form onSubmit={handleSubmit}>
+                        <FormFieldsMapper
+                            fields={fields}
+                            data={data}
+                            setData={setData}
+                            errors={errors}
+                        />
+                    </form>
+                </Container>
+            </AuthenticatedLayout>
+        </>
+    );
+};
+
+export default Edit;

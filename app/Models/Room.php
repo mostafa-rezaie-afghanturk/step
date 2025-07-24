@@ -21,4 +21,8 @@ class Room extends Model
             ->logAll()
             ->useLogName('rooms');
     }
+
+    public function floor() {
+        return $this->belongsTo(Floor::class, 'floor_id', 'floor_id');
+    }
 }

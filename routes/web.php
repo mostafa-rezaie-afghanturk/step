@@ -12,6 +12,7 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RolesController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
 use App\Models\EducationalInstitution;
 use Illuminate\Support\Facades\Route;
@@ -202,9 +203,9 @@ Route::middleware(['auth', 'force_password_change'])->group(function () {
 
     Route::group(['prefix' => 'floors'], function () {
 
-        Route::get('/export', [BuildingController::class, 'export'])->name('floors.export')->middleware('can:floors export');
-        Route::get('/pdf', [BuildingController::class, 'pdf'])->name('floors.pdf')->middleware('can:floors export');
-
+        Route::get('/export', [FloorController::class, 'export'])->name('floors.export')->middleware('can:floors export');
+        Route::get('/pdf', [FloorController::class, 'pdf'])->name('floors.pdf')->middleware('can:floors export');
+        Route::get('/search/{search?}', [BuildingController::class, 'search'])->name('floors.search')->middleware('can:floors read');
 
         Route::get('/datatable', [FloorController::class, 'datatable'])->name('floors.datatable')->middleware('can:floors read');
         Route::group(['prefix' => 'bulk'], function () {
@@ -221,6 +222,28 @@ Route::middleware(['auth', 'force_password_change'])->group(function () {
         Route::post('/{id}/change-status', [FloorController::class, 'changeStatus'])->name('floors.changeStatus')->middleware('can:floors edit');
         Route::delete('/{id}', [FloorController::class, 'destroy'])->name('floors.destroy')->middleware('can:floors delete');
         Route::get('/activity_log/{id}', [FloorController::class, 'logActivity'])->name('floors.logActivity');
+    });
+
+    Route::group(['prefix' => 'rooms'], function () {
+
+        Route::get('/export', [RoomController::class, 'export'])->name('rooms.export')->middleware('can:rooms export');
+        Route::get('/pdf', [RoomController::class, 'pdf'])->name('rooms.pdf')->middleware('can:rooms export');
+
+        Route::get('/datatable', [RoomController::class, 'datatable'])->name('rooms.datatable')->middleware('can:rooms read');
+        Route::group(['prefix' => 'bulk'], function () {
+            Route::put('/edit', [RoomController::class, 'bulkEdit'])->name('rooms.bulkEdit')->middleware('can:rooms edit');
+            Route::delete('/delete', [RoomController::class, 'bulkDelete'])->name('rooms.bulkDelete')->middleware('can:rooms delete');
+        });
+
+        Route::get('/{id}/edit', [RoomController::class, 'edit'])->name('rooms.edit')->middleware('can:rooms edit');
+        Route::get('/', [RoomController::class, 'index'])->name('rooms.index')->middleware('can:rooms read');
+        Route::post('/', [RoomController::class, 'store'])->name('rooms.store')->middleware('can:rooms create');
+        Route::get('/create/{id?}', [RoomController::class, 'create'])->name('rooms.create')->middleware('can:rooms create');
+        Route::get('/show/{id}', [RoomController::class, 'show'])->name('rooms.show')->middleware('can:rooms read');
+        Route::put('/{id}', [RoomController::class, 'update'])->name('rooms.update')->middleware('can:rooms edit');
+        Route::post('/{id}/change-status', [RoomController::class, 'changeStatus'])->name('rooms.changeStatus')->middleware('can:rooms edit');
+        Route::delete('/{id}', [RoomController::class, 'destroy'])->name('rooms.destroy')->middleware('can:rooms delete');
+        Route::get('/activity_log/{id}', [RoomController::class, 'logActivity'])->name('rooms.logActivity');
     });
 
     Route::group(['prefix' => 'activity-log'], function () {
