@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Building;
+use App\Models\Floor;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Repositories\ExportService;
@@ -189,7 +190,26 @@ class BuildingController extends Controller
 
     public function index()
     {
-        return Inertia::render('Buildings/Index', ['columns' => $this->columns]);
+        return Inertia::render('Buildings/Index', [
+            'columns' => $this->columns
+        ]);
+    }
+
+    public function search($search = null)
+    {
+        return $this->handleDependentSearch(
+            Building::class,
+            $search,
+            null,
+            null,
+            null,
+            'name',
+            'building_id',
+            function ($building) {
+                return $building->building_code . ' ' . $building->name;
+            },
+            null
+        );
     }
 
     public function create($id = null)

@@ -21,4 +21,8 @@ class Floor extends Model
             ->logAll()
             ->useLogName('floors');
     }
+
+    public function building() {
+        return $this->belongsTo(Building::class, 'building_id', 'building_id');
+    }
 }

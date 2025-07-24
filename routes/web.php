@@ -6,6 +6,7 @@ use App\Http\Controllers\CampusController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EducationalInstitutionController;
+use App\Http\Controllers\FloorController;
 use App\Http\Controllers\LandController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\PermissionsController;
@@ -180,7 +181,7 @@ Route::middleware(['auth', 'force_password_change'])->group(function () {
 
         Route::get('/export', [BuildingController::class, 'export'])->name('buildings.export')->middleware('can:buildings export');
         Route::get('/pdf', [BuildingController::class, 'pdf'])->name('buildings.pdf')->middleware('can:buildings export');
-
+        Route::get('/search/{search?}', [BuildingController::class, 'search'])->name('buildings.search')->middleware('can:buildings read');
 
         Route::get('/datatable', [BuildingController::class, 'datatable'])->name('buildings.datatable')->middleware('can:buildings read');
         Route::group(['prefix' => 'bulk'], function () {
@@ -197,6 +198,29 @@ Route::middleware(['auth', 'force_password_change'])->group(function () {
         Route::post('/{id}/change-status', [BuildingController::class, 'changeStatus'])->name('buildings.changeStatus')->middleware('can:buildings edit');
         Route::delete('/{id}', [BuildingController::class, 'destroy'])->name('buildings.destroy')->middleware('can:buildings delete');
         Route::get('/activity_log/{id}', [BuildingController::class, 'logActivity'])->name('buildings.logActivity');
+    });
+
+    Route::group(['prefix' => 'floors'], function () {
+
+        Route::get('/export', [BuildingController::class, 'export'])->name('floors.export')->middleware('can:floors export');
+        Route::get('/pdf', [BuildingController::class, 'pdf'])->name('floors.pdf')->middleware('can:floors export');
+
+
+        Route::get('/datatable', [FloorController::class, 'datatable'])->name('floors.datatable')->middleware('can:floors read');
+        Route::group(['prefix' => 'bulk'], function () {
+            Route::put('/edit', [FloorController::class, 'bulkEdit'])->name('floors.bulkEdit')->middleware('can:floors edit');
+            Route::delete('/delete', [FloorController::class, 'bulkDelete'])->name('floors.bulkDelete')->middleware('can:floors delete');
+        });
+
+        Route::get('/{id}/edit', [FloorController::class, 'edit'])->name('floors.edit')->middleware('can:floors edit');
+        Route::get('/', [FloorController::class, 'index'])->name('floors.index')->middleware('can:floors read');
+        Route::post('/', [FloorController::class, 'store'])->name('floors.store')->middleware('can:floors create');
+        Route::get('/create/{id?}', [FloorController::class, 'create'])->name('floors.create')->middleware('can:floors create');
+        Route::get('/show/{id}', [FloorController::class, 'show'])->name('floors.show')->middleware('can:floors read');
+        Route::put('/{id}', [FloorController::class, 'update'])->name('floors.update')->middleware('can:floors edit');
+        Route::post('/{id}/change-status', [FloorController::class, 'changeStatus'])->name('floors.changeStatus')->middleware('can:floors edit');
+        Route::delete('/{id}', [FloorController::class, 'destroy'])->name('floors.destroy')->middleware('can:floors delete');
+        Route::get('/activity_log/{id}', [FloorController::class, 'logActivity'])->name('floors.logActivity');
     });
 
     Route::group(['prefix' => 'activity-log'], function () {
