@@ -14,6 +14,7 @@ import 'react-quill/dist/quill.snow.css';
 import TranslateLinkComboBoxSelect from './TranslateLinkComboBoxSelect';
 import DynamicCombobox from './DynamicCombobox ';
 import { calcLength } from 'framer-motion';
+import AppDropZone from './AppDropZone';
 
 const FormFieldsMapper = ({ fields, data, setData, errors, children }) => {
     const { t } = useTranslation();
@@ -79,67 +80,14 @@ const FormFieldsMapper = ({ fields, data, setData, errors, children }) => {
 
             case 'file':
                 return (
-                    <div className="flex gap-2">
-                        {data[col.name] &&
-                            typeof data[col.name] === 'string' &&
-                            // Check if it's an image (assuming the file extension is an image type like .jpg, .png, etc.)
-                            (data[col.name].match(/\.(jpeg|jpg|png|gif)$/i) ? (
-                                <a
-                                    href={'/storage/' + data[col.name]}
-                                    target="_blank"
-                                    title="View Image"
-                                >
-                                    <img
-                                        src={'/storage/' + data[col.name]}
-                                        onError={e => {
-                                            e.target.style.display = 'none'; // Hide image on error (if not found)
-                                        }}
-                                        alt="Image"
-                                        style={{
-                                            width: '40px',
-                                            height: '40px',
-                                        }}
-                                        className="rounded-sm"
-                                    />
-                                </a>
-                            ) : // Check if it's a video (assuming the file extension is a common video type like .mp4, .mov, etc.)
-                            data[col.name].match(/\.(mp4|mov|avi)$/i) ? (
-                                <a
-                                    href={'/storage/' + data[col.name]}
-                                    target="_blank"
-                                    title="View Video"
-                                >
-                                    <video
-                                        width="80"
-                                        onError={e => {
-                                            e.target.style.display = 'none';
-                                        }}
-                                    >
-                                        <source
-                                            src={'/storage/' + data[col.name]}
-                                            type="video/mp4"
-                                        />
-                                        Your browser does not support the video
-                                        tag.
-                                    </video>
-                                </a>
-                            ) : (
-                                // Otherwise, if it's a link to view the file
-                                <a
-                                    href={'/storage/' + data[col.name]}
-                                    target="_blank"
-                                    title="View File"
-                                >
-                                    View File
-                                </a>
-                            ))}
-                        <Input
-                            id={col.name}
-                            type="file"
-                            onChange={e => setData(col.name, e.target.files[0])}
-                            accept={col.accept || '*'}
-                        />
-                    </div>
+                    <AppDropZone
+                        multiple={true}
+                        accept={{
+                            'image/*': ['.png', '.jpg', '.jpeg'],
+                            'application/pdf': ['.pdf'],
+                        }}
+                        onChange={e => setData(col.name, e)}
+                    />
                 );
 
             case 'tag':
@@ -190,7 +138,12 @@ const FormFieldsMapper = ({ fields, data, setData, errors, children }) => {
                                 : null
                         }
                         onChange={option => {
-                            setData(col.name, col.multiple ? option.map(opt => opt.value) : option?.value);
+                            setData(
+                                col.name,
+                                col.multiple
+                                    ? option.map(opt => opt.value)
+                                    : option?.value
+                            );
                         }}
                         onClear={() => {
                             if (col.name === 'parent_id') {

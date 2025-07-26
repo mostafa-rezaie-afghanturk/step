@@ -181,7 +181,7 @@ export default function Authenticated({ header, children }) {
             <div
                 id="welcome"
                 className={cn(
-                    'rounded-md  flex flex-col md:flex-row bg-white dark:bg-neutral-800 w-full flex-1  mx-auto  dark:border-neutral-700 overflow-y-auto overflow-x-hidden h-[100vh]',
+                    'rounded-md  flex flex-col md:flex-row bg-white dark:bg-neutral-800 w-full flex-1  mx-auto  dark:border-neutral-700',
                     fontClass
                     // "h-[100vh]" // for your use case, use `h-screen` instead of `h-[60vh]`
                 )}
@@ -296,14 +296,14 @@ const Dashboard = ({ children }) => {
     const { i18n } = useTranslation();
 
     return (
-        <div className="flex-1 w-full min-h-screen md:max-w-[calc(100vw-250px)]">
+        <div className="flex-1 w-full md:max-w-[calc(100vw-250px)]">
             <Navbar />
             <div
-                className={`overflow-x-auto overflow-y-auto w-full bg-neutral-100 border border-neutral-200 dark:border-neutral-700  dark:bg-neutral-900 h-[calc(100vh-42px)] ${i18n.dir() == 'rtl' ? 'rounded-tr-2xl' : 'rounded-tl-2xl'}`}
+                className={`overflow-x-auto overflow-y-auto w-full bg-neutral-100 border border-neutral-200 dark:border-neutral-700  dark:bg-neutral-900 ${i18n.dir() == 'rtl' ? 'rounded-tr-2xl' : 'rounded-tl-2xl'}`}
             >
                 <Breadcrumb />
 
-                <div className="p-2 md:p-4  flex flex-col gap-4 flex-1 w-full h-[calc(100vh-96px)] overflow-auto">
+                <div className="p-2 md:p-4  flex flex-col gap-4 flex-1 w-full">
                     {children}
                 </div>
             </div>

@@ -29,9 +29,7 @@ return new class extends Migration
             $table->decimal('rental_fee', 12, 2)->nullable();
             $table->date('lease_start')->nullable();
             $table->date('lease_end')->nullable();
-            $table->json('lease_docs')->nullable();
 
-            $table->json('allocation_docs')->nullable();
             $table->json('building_project')->nullable();
 
             $table->timestamps();

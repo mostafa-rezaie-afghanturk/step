@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\FileCategoryEnum;
 use App\Models\Land;
 use App\Repositories\ActivityLogRepository;
 use App\Repositories\ExportService;
@@ -146,14 +147,6 @@ class LandController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Purchase Docs',
-                'accessor' => 'purchase_docs',
-                'visibility' => false,
-                'type' => 'tag',
-                'validation' => 'required|json',
-                'context' => ['show', 'edit', 'create'],
-            ],
-            [
                 'header' => 'Rental Fee',
                 'accessor' => 'rental_fee',
                 'visibility' => false,
@@ -178,52 +171,12 @@ class LandController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Lease Docs',
-                'accessor' => 'lease_docs',
-                'visibility' => false,
-                'type' => 'tag',
-                'validation' => 'required|json',
-                'context' => ['show', 'edit', 'create'],
-            ],
-            [
-                'header' => 'Allocation Docs',
-                'accessor' => 'allocation_docs',
-                'visibility' => false,
-                'type' => 'tag',
-                'validation' => 'required|json',
-                'context' => ['show', 'edit', 'create'],
-            ],
-            [
-                'header' => 'Layout Plan',
-                'accessor' => 'layout_plan',
-                'visibility' => false,
-                'type' => 'tag',
-                'validation' => 'required|json',
-                'context' => ['show', 'edit', 'create'],
-            ],
-            [
                 'header' => 'Features',
                 'accessor' => 'features',
                 'visibility' => false,
                 'type' => 'tag',
                 'validation' => 'required|json',
                 'context' => ['show', 'edit', 'create'],
-            ],
-            [
-                'header' => 'Photos',
-                'accessor' => 'photos',
-                'visibility' => false,
-                'type' => 'tag',
-                'validation' => 'required|json',
-                'context' => ['show', 'edit', 'create'],
-            ],
-            [
-                'header' => 'Country',
-                'accessor' => 'country.name',
-                'visibility' => true,
-                'type' => 'link',
-                'validation' => '',
-                'context' => ['show'],
             ],
             [
                 'header' => 'Country',
@@ -234,6 +187,55 @@ class LandController extends Controller
                 'search_url' => route('countries.search'),
                 'context' => ['edit', 'create'],
             ],
+            [
+                'header' => 'Purchase Docs',
+                'accessor' => 'purchase_docs',
+                'visibility' => false,
+                'type' => 'file',
+                'validation' => 'required',
+                'context' => ['show', 'edit', 'create'],
+            ],
+            [
+                'header' => 'Lease Docs',
+                'accessor' => 'lease_docs',
+                'visibility' => false,
+                'type' => 'file',
+                'validation' => 'required',
+                'context' => ['show', 'edit', 'create'],
+            ],
+            [
+                'header' => 'Allocation Docs',
+                'accessor' => 'allocation_docs',
+                'visibility' => false,
+                'type' => 'file',
+                'validation' => 'required',
+                'context' => ['show', 'edit', 'create'],
+            ],
+            [
+                'header' => 'Layout Plan',
+                'accessor' => 'layout_plan',
+                'visibility' => false,
+                'type' => 'file',
+                'validation' => 'required',
+                'context' => ['show', 'edit', 'create'],
+            ],
+            [
+                'header' => 'Photos',
+                'accessor' => 'photos',
+                'visibility' => false,
+                'type' => 'file',
+                'validation' => 'required',
+                'context' => ['show', 'edit', 'create'],
+            ],
+            [
+                'header' => 'Country',
+                'accessor' => 'country.name',
+                'visibility' => true,
+                'type' => 'link',
+                'validation' => '',
+                'context' => ['show'],
+            ],
+
         ];
     }
 
@@ -335,7 +337,7 @@ class LandController extends Controller
             [
                 'name' => 'purchase_docs',
                 'label' => 'Purchase Docs',
-                'type' => 'tag',
+                'type' => 'file',
                 'default' => $land?->purchase_docs,
                 'required' => true,
             ],
@@ -480,7 +482,7 @@ class LandController extends Controller
      */
     public function show(string $id)
     {
-        $query = Land::with('country');
+        $query = Land::with(['country', 'purchaseDocs']);
         $data = $query->where('land_id', $id)->first();
 
         return response()->json([
@@ -498,7 +500,107 @@ class LandController extends Controller
         }
 
         $data = $request->validate($rules);
-        Land::create($data);
+
+        $land = Land::create([
+            'land_code' => $data['land_code'],
+            'address' => $data['address'],
+            'province' => $data['province'],
+            'district' => $data['district'],
+            'neighborhood' => $data['neighborhood'],
+            'street' => $data['street'],
+            'door_number' => $data['door_number'],
+            'country_land_number' => $data['country_land_number'],
+            'size_sqm' => $data['size_sqm'],
+            'tmv_start_date' => $data['tmv_start_date'],
+            'ownership_status' => $data['ownership_status'],
+            'purchase_price' => $data['purchase_price'],
+            'purchase_date' => $data['purchase_date'],
+            'rental_fee' => $data['rental_fee'],
+            'lease_start' => $data['lease_start'],
+            'lease_end' => $data['lease_end'],
+            'features' => $data['features'],
+            'country_id' => $data['country_id'],
+        ]);
+
+        if ($request->hasFile('allocation_docs')) {
+            foreach ($request->file('allocation_docs') as $uploadedFile) {
+                $path = $uploadedFile->store('uploads/allocation_docs', 'public');
+
+                $land->files()->create([
+                    'name' => $uploadedFile->getClientOriginalName(),
+                    'file_path' => $path,
+                    'file_type' => $uploadedFile->getClientMimeType(),
+                    'details' => json_encode([
+                        'size' => $uploadedFile->getSize()
+                    ]),
+                    'category' => FileCategoryEnum::ALLOCATION_DOC->value
+                ]);
+            }
+        }
+
+        if ($request->hasFile('purchase_docs')) {
+            foreach ($request->file('purchase_docs') as $uploadedFile) {
+                $path = $uploadedFile->store('uploads/purchase_docs', 'public');
+
+                $land->files()->create([
+                    'name' => $uploadedFile->getClientOriginalName(),
+                    'file_path' => $path,
+                    'file_type' => $uploadedFile->getClientMimeType(),
+                    'details' => json_encode([
+                        'size' => $uploadedFile->getSize()
+                    ]),
+                    'category' => FileCategoryEnum::PURCHASE_DOC->value
+                ]);
+            }
+        }
+
+        if ($request->hasFile('lease_docs')) {
+            foreach ($request->file('lease_docs') as $uploadedFile) {
+                $path = $uploadedFile->store('uploads/lease_docs', 'public');
+
+                $land->files()->create([
+                    'name' => $uploadedFile->getClientOriginalName(),
+                    'file_path' => $path,
+                    'file_type' => $uploadedFile->getClientMimeType(),
+                    'details' => json_encode([
+                        'size' => $uploadedFile->getSize()
+                    ]),
+                    'category' => FileCategoryEnum::LEASE_DOC->value
+                ]);
+            }
+        }
+
+        if ($request->hasFile('layout_plan')) {
+            foreach ($request->file('layout_plan') as $uploadedFile) {
+                $path = $uploadedFile->store('uploads/layout_plan', 'public');
+
+                $land->files()->create([
+                    'name' => $uploadedFile->getClientOriginalName(),
+                    'file_path' => $path,
+                    'file_type' => $uploadedFile->getClientMimeType(),
+                    'details' => json_encode([
+                        'size' => $uploadedFile->getSize()
+                    ]),
+                    'category' => FileCategoryEnum::LAYOUT_PLAN->value
+                ]);
+            }
+        }
+
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $uploadedFile) {
+                $path = $uploadedFile->store('uploads/land_photos', 'public');
+
+                $land->files()->create([
+                    'name' => $uploadedFile->getClientOriginalName(),
+                    'file_path' => $path,
+                    'file_type' => $uploadedFile->getClientMimeType(),
+                    'details' => json_encode([
+                        'size' => $uploadedFile->getSize()
+                    ]),
+                    'category' => FileCategoryEnum::LAND_PHOTO->value
+                ]);
+            }
+        }
 
         return redirect()->route('Lands.index')->with('success', 'Land created successfully.');
     }

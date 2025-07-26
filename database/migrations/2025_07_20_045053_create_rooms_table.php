@@ -62,7 +62,6 @@ return new class extends Migration
 
             $table->integer('seats')->nullable();
 
-            $table->string('photo')->nullable();
             $table->text('notes')->nullable();
 
             $table->timestamps();
