@@ -136,7 +136,7 @@ class LandController extends Controller
                 'accessor' => 'purchase_price',
                 'visibility' => false,
                 'type' => 'number',
-                'validation' => 'required|integer',
+                'validation' => 'required|decimal:0,2',
                 'context' => ['show', 'edit', 'create'],
             ],
             [
@@ -152,7 +152,7 @@ class LandController extends Controller
                 'accessor' => 'rental_fee',
                 'visibility' => false,
                 'type' => 'number',
-                'validation' => 'required|integer',
+                'validation' => 'required|decimal:0,2',
                 'context' => ['show', 'edit', 'create'],
             ],
             [
@@ -222,7 +222,7 @@ class LandController extends Controller
             ],
             [
                 'header' => 'Photos',
-                'accessor' => 'photos',
+                'accessor' => 'land_photos',
                 'visibility' => false,
                 'type' => 'file',
                 'validation' => 'required',
@@ -408,7 +408,7 @@ class LandController extends Controller
                 'required' => true,
             ],
             [
-                'name' => 'photos',
+                'name' => 'land_photos',
                 'label' => 'Photos',
                 'type' => 'file',
                 'default' => $land ? $land->landPhotos->map(function ($file) {

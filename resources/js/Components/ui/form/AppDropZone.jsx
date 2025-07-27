@@ -200,7 +200,7 @@ const AppDropZone = ({
     }, [files]);
 
     return (
-        <div className="w-full p-4 border-2 border-dashed border-gray-300 rounded-xl bg-gray-50">
+        <div className="w-full p-4 border-2 border-dashed border-gray-300 rounded-xl bg-black/5">
             <div
                 {...getRootProps()}
                 className={`p-6 text-center cursor-pointer transition-all duration-300 rounded-xl ${

@@ -37,7 +37,7 @@ class Land extends Model
             'purchase_docs'   => FileCategoryEnum::PURCHASE_DOC,
             'lease_docs'      => FileCategoryEnum::LEASE_DOC,
             'layout_plan'     => FileCategoryEnum::LAYOUT_PLAN,
-            'land_photo'     => FileCategoryEnum::LAND_PHOTO,
+            'land_photos'     => FileCategoryEnum::LAND_PHOTO,
         ];
     }
 }
