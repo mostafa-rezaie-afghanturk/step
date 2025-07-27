@@ -11,4 +11,9 @@ enum FileCategoryEnum: string
     case LAND_PHOTO = 'land_photo';
     case ROOM_PHOTO = 'room_photo';
     case WARRANTY_CERT = 'warranty_cert';
+
+    public function folder(): string
+    {
+        return config('files.subfolders')[$this->value] ?? 'others';
+    }
 }

@@ -86,6 +86,7 @@ const FormFieldsMapper = ({ fields, data, setData, errors, children }) => {
                             'image/*': ['.png', '.jpg', '.jpeg'],
                             'application/pdf': ['.pdf'],
                         }}
+                        initialFiles={col?.default || []}
                         onChange={e => setData(col.name, e)}
                     />
                 );

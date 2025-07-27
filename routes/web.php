@@ -172,7 +172,7 @@ Route::middleware(['auth', 'force_password_change'])->group(function () {
         Route::post('/', [LandController::class, 'store'])->name('lands.store')->middleware('can:lands create');
         Route::get('/create/{id?}', [LandController::class, 'create'])->name('lands.create')->middleware('can:lands create');
         Route::get('/show/{id}', [LandController::class, 'show'])->name('lands.show')->middleware('can:lands read');
-        Route::put('/{id}', [LandController::class, 'update'])->name('lands.update')->middleware('can:lands edit');
+        Route::post('/{id}', [LandController::class, 'update'])->name('lands.update')->middleware('can:lands edit');
         Route::post('/{id}/change-status', [LandController::class, 'changeStatus'])->name('lands.changeStatus')->middleware('can:lands edit');
         Route::delete('/{id}', [LandController::class, 'destroy'])->name('lands.destroy')->middleware('can:lands delete');
         Route::get('/activity_log/{id}', [LandController::class, 'logActivity'])->name('lands.logActivity');

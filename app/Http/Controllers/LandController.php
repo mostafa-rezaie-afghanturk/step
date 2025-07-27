@@ -10,12 +10,13 @@ use App\Repositories\FilterRepository;
 use App\Traits\BulkDeleteTrait;
 use App\Traits\BulkEditTrait;
 use App\Traits\HasDependentDropdowns;
+use App\Traits\HasFileUploads;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class LandController extends Controller
 {
-    use BulkDeleteTrait, BulkEditTrait, HasDependentDropdowns;
+    use BulkDeleteTrait, BulkEditTrait, HasDependentDropdowns, HasFileUploads;
 
     protected $activityLogRepository;
     protected $filterRepository;
@@ -335,13 +336,6 @@ class LandController extends Controller
                 'required' => true,
             ],
             [
-                'name' => 'purchase_docs',
-                'label' => 'Purchase Docs',
-                'type' => 'file',
-                'default' => $land?->purchase_docs,
-                'required' => true,
-            ],
-            [
                 'name' => 'rental_fee',
                 'label' => 'Rental Fee',
                 'type' => 'number',
@@ -363,24 +357,11 @@ class LandController extends Controller
                 'required' => true,
             ],
             [
-                'name' => 'lease_docs',
-                'label' => 'Lease Docs',
-                'type' => 'tag',
-                'default' => $land?->lease_docs,
-                'required' => true,
-            ],
-            [
-                'name' => 'allocation_docs',
-                'label' => 'Allocation Docs',
-                'type' => 'tag',
-                'default' => $land?->allocation_docs,
-                'required' => true,
-            ],
-            [
-                'name' => 'layout_plan',
-                'label' => 'Layout Plan',
-                'type' => 'tag',
-                'default' => $land?->layout_plan,
+                'name' => 'country_id',
+                'label' => 'Country',
+                'type' => 'link',
+                'search_url' => route('countries.search'),
+                'default' => $land?->country_id,
                 'required' => true,
             ],
             [
@@ -391,27 +372,51 @@ class LandController extends Controller
                 'required' => true,
             ],
             [
+                'name' => 'purchase_docs',
+                'label' => 'Purchase Docs',
+                'type' => 'file',
+                'default' => $land ? $land->purchaseDocs->map(function ($file) {
+                    return url('storage/' . $file->file_path);
+                })->toArray() : [],
+                'required' => true,
+            ],
+            [
+                'name' => 'lease_docs',
+                'label' => 'Lease Docs',
+                'type' => 'file',
+                'default' => $land ? $land->leaseDocs->map(function ($file) {
+                    return url('storage/' . $file->file_path);
+                })->toArray() : [],
+                'required' => true,
+            ],
+            [
+                'name' => 'allocation_docs',
+                'label' => 'Allocation Docs',
+                'type' => 'file',
+                'default' => $land ? $land->allocationDocs->map(function ($file) {
+                    return url('storage/' . $file->file_path);
+                })->toArray() : [],
+                'required' => true,
+            ],
+            [
+                'name' => 'layout_plan',
+                'label' => 'Layout Plan',
+                'type' => 'file',
+                'default' => $land ? $land->layoutPlans->map(function ($file) {
+                    return url('storage/' . $file->file_path);
+                })->toArray() : [],
+                'required' => true,
+            ],
+            [
                 'name' => 'photos',
                 'label' => 'Photos',
-                'type' => 'tag',
-                'default' => $land?->photos,
+                'type' => 'file',
+                'default' => $land ? $land->landPhotos->map(function ($file) {
+                    return url('storage/' . $file->file_path);
+                })->toArray() : [],
                 'required' => true,
             ],
-            [
-                'name' => 'country.name',
-                'label' => 'Country',
-                'type' => 'link',
-                'default' => $land?->country?->name_en,
-                'required' => false,
-            ],
-            [
-                'name' => 'country_id',
-                'label' => 'Country',
-                'type' => 'link',
-                'search_url' => route('countries.search'),
-                'default' => $land?->country_id,
-                'required' => true,
-            ],
+
         ];
     }
 
@@ -482,8 +487,27 @@ class LandController extends Controller
      */
     public function show(string $id)
     {
-        $query = Land::with(['country', 'purchaseDocs']);
+        $query = Land::with(['country', 'purchaseDocs', 'allocationDocs', 'layoutPlans', 'leaseDocs', 'landPhotos']);
         $data = $query->where('land_id', $id)->first();
+
+        // Map file relationships to include full URLs
+        if ($data) {
+            $data->purchase_docs = $data->purchaseDocs?->map(function ($file) {
+                return url('storage/' . $file->file_path);
+            })->toArray();
+            $data->allocation_docs = $data->allocationDocs?->map(function ($file) {
+                return url('storage/' . $file->file_path);
+            })->toArray();
+            $data->layout_plan = $data->layoutPlans?->map(function ($file) {
+                return url('storage/' . $file->file_path);
+            })->toArray();
+            $data->lease_docs = $data->leaseDocs?->map(function ($file) {
+                return url('storage/' . $file->file_path);
+            })->toArray();
+            $data->photos = $data->landPhotos?->map(function ($file) {
+                return url('storage/' . $file->file_path);
+            })->toArray();
+        }
 
         return response()->json([
             'record' => $data,
@@ -493,6 +517,7 @@ class LandController extends Controller
     public function store(Request $request)
     {
         $rules = [];
+
         foreach ($this->columns as $col) {
             if (in_array('create', $col['context']) && isset($col['validation'])) {
                 $rules[$col['accessor']] = $col['validation'];
@@ -522,104 +547,27 @@ class LandController extends Controller
             'country_id' => $data['country_id'],
         ]);
 
-        if ($request->hasFile('allocation_docs')) {
-            foreach ($request->file('allocation_docs') as $uploadedFile) {
-                $path = $uploadedFile->store('uploads/allocation_docs', 'public');
+        $land->handleFileUploads($request);
 
-                $land->files()->create([
-                    'name' => $uploadedFile->getClientOriginalName(),
-                    'file_path' => $path,
-                    'file_type' => $uploadedFile->getClientMimeType(),
-                    'details' => json_encode([
-                        'size' => $uploadedFile->getSize()
-                    ]),
-                    'category' => FileCategoryEnum::ALLOCATION_DOC->value
-                ]);
-            }
-        }
-
-        if ($request->hasFile('purchase_docs')) {
-            foreach ($request->file('purchase_docs') as $uploadedFile) {
-                $path = $uploadedFile->store('uploads/purchase_docs', 'public');
-
-                $land->files()->create([
-                    'name' => $uploadedFile->getClientOriginalName(),
-                    'file_path' => $path,
-                    'file_type' => $uploadedFile->getClientMimeType(),
-                    'details' => json_encode([
-                        'size' => $uploadedFile->getSize()
-                    ]),
-                    'category' => FileCategoryEnum::PURCHASE_DOC->value
-                ]);
-            }
-        }
-
-        if ($request->hasFile('lease_docs')) {
-            foreach ($request->file('lease_docs') as $uploadedFile) {
-                $path = $uploadedFile->store('uploads/lease_docs', 'public');
-
-                $land->files()->create([
-                    'name' => $uploadedFile->getClientOriginalName(),
-                    'file_path' => $path,
-                    'file_type' => $uploadedFile->getClientMimeType(),
-                    'details' => json_encode([
-                        'size' => $uploadedFile->getSize()
-                    ]),
-                    'category' => FileCategoryEnum::LEASE_DOC->value
-                ]);
-            }
-        }
-
-        if ($request->hasFile('layout_plan')) {
-            foreach ($request->file('layout_plan') as $uploadedFile) {
-                $path = $uploadedFile->store('uploads/layout_plan', 'public');
-
-                $land->files()->create([
-                    'name' => $uploadedFile->getClientOriginalName(),
-                    'file_path' => $path,
-                    'file_type' => $uploadedFile->getClientMimeType(),
-                    'details' => json_encode([
-                        'size' => $uploadedFile->getSize()
-                    ]),
-                    'category' => FileCategoryEnum::LAYOUT_PLAN->value
-                ]);
-            }
-        }
-
-        if ($request->hasFile('photos')) {
-            foreach ($request->file('photos') as $uploadedFile) {
-                $path = $uploadedFile->store('uploads/land_photos', 'public');
-
-                $land->files()->create([
-                    'name' => $uploadedFile->getClientOriginalName(),
-                    'file_path' => $path,
-                    'file_type' => $uploadedFile->getClientMimeType(),
-                    'details' => json_encode([
-                        'size' => $uploadedFile->getSize()
-                    ]),
-                    'category' => FileCategoryEnum::LAND_PHOTO->value
-                ]);
-            }
-        }
-
-        return redirect()->route('Lands.index')->with('success', 'Land created successfully.');
+        return redirect()->route('lands.index')->with('success', 'Land created successfully.');
     }
 
     public function edit($id)
     {
-        $institution = Land::with('country')->findOrFail($id);
+        $land = Land::with('country')->findOrFail($id);
 
-        $fields = $this->getFields($institution);
+        $fields = $this->getFields($land);
 
         return Inertia::render('Lands/Edit', [
             'fields' => $fields,
-            'institution' => $institution,
+            'land' => $land,
         ]);
     }
 
     public function update(Request $request, $id)
     {
-        $institution = Land::findOrFail($id);
+        info($request->all());
+        $land = Land::findOrFail($id);
 
         $rules = [];
         foreach ($this->columns as $col) {
@@ -629,7 +577,30 @@ class LandController extends Controller
         }
 
         $data = $request->validate($rules);
-        $institution->update($data);
+
+        $land->update([
+            'land_code' => $data['land_code'],
+            'address' => $data['address'],
+            'province' => $data['province'],
+            'district' => $data['district'],
+            'neighborhood' => $data['neighborhood'],
+            'street' => $data['street'],
+            'door_number' => $data['door_number'],
+            'country_land_number' => $data['country_land_number'],
+            'size_sqm' => $data['size_sqm'],
+            'tmv_start_date' => $data['tmv_start_date'],
+            'ownership_status' => $data['ownership_status'],
+            'purchase_price' => $data['purchase_price'],
+            'purchase_date' => $data['purchase_date'],
+            'rental_fee' => $data['rental_fee'],
+            'lease_start' => $data['lease_start'],
+            'lease_end' => $data['lease_end'],
+            'features' => $data['features'],
+            'country_id' => $data['country_id'],
+        ]);
+
+        // Handle file uploads
+        $land->handleFileUploads($request);
 
         return redirect()->route('lands.index')->with('success', 'Land updated successfully.');
     }

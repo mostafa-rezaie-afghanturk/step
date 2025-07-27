@@ -18,11 +18,11 @@ const Edit = ({ land, fields }) => {
         return acc;
     }, {});
 
-    const { data, setData, put, processing, errors } = useForm(initialData);
+    const { data, setData, post, processing, errors } = useForm(initialData);
 
     const handleSubmit = e => {
         e.preventDefault();
-        put(route('lands.update', land.land_id)); // Adjust the URL according to your routes
+        post(route('lands.update', land.land_id)); // Adjust the URL according to your routes
     };
 
     return (
