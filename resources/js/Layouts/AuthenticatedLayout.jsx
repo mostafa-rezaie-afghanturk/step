@@ -165,16 +165,16 @@ export default function Authenticated({ header, children }) {
     ];
 
     const [open, setOpen] = useState(false);
-    const { startTour, tourCompleted, resetTour, setIsLoggedIn, setUserRole } =
-        useTour();
+    // const { startTour, tourCompleted, resetTour, setIsLoggedIn, setUserRole } =
+    //     useTour();
 
-    useEffect(() => {
-        setIsLoggedIn(true);
-    }, []);
+    // useEffect(() => {
+    //     setIsLoggedIn(true);
+    // }, []);
 
-    useEffect(() => {
-        setUserRole(auth.roles && auth.roles[0]);
-    }, [auth.roles]);
+    // useEffect(() => {
+    //     setUserRole(auth.roles && auth.roles[0]);
+    // }, [auth.roles]);
 
     return (
         <>
@@ -198,14 +198,14 @@ export default function Authenticated({ header, children }) {
                                 </div>
                             </PerfectScrollbar>
                         </div>
-                        <div className="absolute right-0 bottom-0">
+                        {/* <div className="absolute right-0 bottom-0">
                             <Button
                                 onClick={tourCompleted ? resetTour : startTour}
                                 className="hover:text-brand text-gray-400"
                             >
                                 Start Tour
                             </Button>
-                        </div>
+                        </div> */}
                     </SidebarBody>
                 </Sidebar>
 
@@ -299,7 +299,7 @@ const Dashboard = ({ children }) => {
         <div className="flex-1 w-full md:max-w-[calc(100vw-250px)]">
             <Navbar />
             <div
-                className={`overflow-x-auto overflow-y-auto w-full bg-neutral-100 border border-neutral-200 dark:border-neutral-700  dark:bg-neutral-900 ${i18n.dir() == 'rtl' ? 'rounded-tr-2xl' : 'rounded-tl-2xl'}`}
+                className={`overflow-x-auto overflow-y-auto w-full bg-neutral-100 border border-neutral-200 dark:border-neutral-700  dark:bg-neutral-900`}
             >
                 <Breadcrumb />
 
@@ -321,7 +321,7 @@ const Breadcrumb = () => {
 
     return (
         <nav
-            className="bg-white flex px-5 py-2 text-gray-700 rounded-lg dark:bg-gray-800 dark:border-gray-700"
+            className="bg-white flex px-5 py-2 text-gray-700 dark:bg-gray-800 dark:border-gray-700"
             aria-label="Breadcrumb"
         >
             <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">

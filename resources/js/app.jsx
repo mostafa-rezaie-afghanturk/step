@@ -24,9 +24,9 @@ createInertiaApp({
         root.render(
             <NotificationProvider>
                 <I18nextProvider i18n={i18n}>
-                    <TourProvider>
+                    {/* <TourProvider> */}
                         <App {...props} />
-                    </TourProvider>
+                    {/* </TourProvider> */}
                 </I18nextProvider>
             </NotificationProvider>
         );

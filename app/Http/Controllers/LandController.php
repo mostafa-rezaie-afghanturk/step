@@ -11,12 +11,17 @@ use App\Traits\BulkDeleteTrait;
 use App\Traits\BulkEditTrait;
 use App\Traits\HasDependentDropdowns;
 use App\Traits\HasFileUploads;
+use App\Traits\UrlForFiles;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class LandController extends Controller
 {
-    use BulkDeleteTrait, BulkEditTrait, HasDependentDropdowns, HasFileUploads;
+    use BulkDeleteTrait,
+        BulkEditTrait,
+        HasDependentDropdowns,
+        HasFileUploads,
+        UrlForFiles;
 
     protected $activityLogRepository;
     protected $filterRepository;
@@ -136,48 +141,45 @@ class LandController extends Controller
                 'accessor' => 'purchase_price',
                 'visibility' => false,
                 'type' => 'number',
-                'validation' => 'required|decimal:0,2',
+                'validation' => 'required_if:ownership_status,TMV|nullable|decimal:0,2',
                 'context' => ['show', 'edit', 'create'],
+                'required_if' => 'ownership_status,TMV',
             ],
             [
                 'header' => 'Purchase Date',
                 'accessor' => 'purchase_date',
                 'visibility' => false,
                 'type' => 'date',
-                'validation' => 'required|date',
+                'validation' => 'required_if:ownership_status,TMV|nullable|date',
                 'context' => ['show', 'edit', 'create'],
+                'required_if' => 'ownership_status,TMV',
             ],
             [
-                'header' => 'Rental Fee',
+                'header' => 'Rental Fee (Annual)',
                 'accessor' => 'rental_fee',
                 'visibility' => false,
                 'type' => 'number',
-                'validation' => 'required|decimal:0,2',
+                'validation' => 'required_if:ownership_status,Rent|nullable|decimal:0,2',
                 'context' => ['show', 'edit', 'create'],
+                'required_if' => 'ownership_status,Rent',
             ],
             [
                 'header' => 'Lease Start',
                 'accessor' => 'lease_start',
                 'visibility' => false,
                 'type' => 'date',
-                'validation' => 'required|date',
+                'validation' => 'required_if:ownership_status,Rent|nullable|date',
                 'context' => ['show', 'edit', 'create'],
+                'required_if' => 'ownership_status,Rent',
             ],
             [
                 'header' => 'Lease End',
                 'accessor' => 'lease_end',
                 'visibility' => false,
                 'type' => 'date',
-                'validation' => 'required|date',
+                'validation' => 'required_if:ownership_status,Rent|nullable|date',
                 'context' => ['show', 'edit', 'create'],
-            ],
-            [
-                'header' => 'Features',
-                'accessor' => 'features',
-                'visibility' => false,
-                'type' => 'tag',
-                'validation' => 'required|json',
-                'context' => ['show', 'edit', 'create'],
+                'required_if' => 'ownership_status,Rent',
             ],
             [
                 'header' => 'Country',
@@ -189,12 +191,21 @@ class LandController extends Controller
                 'context' => ['edit', 'create'],
             ],
             [
+                'header' => 'Features',
+                'accessor' => 'features',
+                'visibility' => false,
+                'type' => 'tag',
+                'validation' => 'required|json',
+                'context' => ['show', 'edit', 'create'],
+            ],
+            [
                 'header' => 'Purchase Docs',
                 'accessor' => 'purchase_docs',
                 'visibility' => false,
                 'type' => 'file',
-                'validation' => 'required',
+                'validation' => 'required_if:ownership_status,TMV|nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
                 'context' => ['show', 'edit', 'create'],
+                'width' => '2'
             ],
             [
                 'header' => 'Lease Docs',
@@ -203,6 +214,7 @@ class LandController extends Controller
                 'type' => 'file',
                 'validation' => 'required',
                 'context' => ['show', 'edit', 'create'],
+                'width' => '2'
             ],
             [
                 'header' => 'Allocation Docs',
@@ -211,6 +223,7 @@ class LandController extends Controller
                 'type' => 'file',
                 'validation' => 'required',
                 'context' => ['show', 'edit', 'create'],
+                'width' => '2'
             ],
             [
                 'header' => 'Layout Plan',
@@ -219,6 +232,7 @@ class LandController extends Controller
                 'type' => 'file',
                 'validation' => 'required',
                 'context' => ['show', 'edit', 'create'],
+                'width' => '2'
             ],
             [
                 'header' => 'Photos',
@@ -227,6 +241,7 @@ class LandController extends Controller
                 'type' => 'file',
                 'validation' => 'required',
                 'context' => ['show', 'edit', 'create'],
+                'width' => '2'
             ],
             [
                 'header' => 'Country',
@@ -470,6 +485,7 @@ class LandController extends Controller
                 'search_url' => $column['search_url'] ?? null,
                 'depends_on' => $column['depends_on'] ?? null,
                 'required' => str_contains($column['validation'], 'required'),
+                'required_if' => $column['required_if'] ?? null,
             ];
 
             return $field; // Return the constructed field/ Return the constructed field
@@ -490,23 +506,12 @@ class LandController extends Controller
         $query = Land::with(['country', 'purchaseDocs', 'allocationDocs', 'layoutPlans', 'leaseDocs', 'landPhotos']);
         $data = $query->where('land_id', $id)->first();
 
-        // Map file relationships to include full URLs
         if ($data) {
-            $data->purchase_docs = $data->purchaseDocs?->map(function ($file) {
-                return url('storage/' . $file->file_path);
-            })->toArray();
-            $data->allocation_docs = $data->allocationDocs?->map(function ($file) {
-                return url('storage/' . $file->file_path);
-            })->toArray();
-            $data->layout_plan = $data->layoutPlans?->map(function ($file) {
-                return url('storage/' . $file->file_path);
-            })->toArray();
-            $data->lease_docs = $data->leaseDocs?->map(function ($file) {
-                return url('storage/' . $file->file_path);
-            })->toArray();
-            $data->photos = $data->landPhotos?->map(function ($file) {
-                return url('storage/' . $file->file_path);
-            })->toArray();
+            $data->purchase_docs = $data->purchase_docs_urls;
+            $data->allocation_docs = $data->allocation_docs_urls;
+            $data->layout_plan = $data->layout_plans_urls;
+            $data->lease_docs = $data->lease_docs_urls;
+            $data->photos = $data->land_photos_urls;
         }
 
         return response()->json([

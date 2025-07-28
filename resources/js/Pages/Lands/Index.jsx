@@ -69,8 +69,10 @@ const Index = ({ columns }) => {
     return (
         <>
             <AuthenticatedLayout>
-                <div className="flex justify-between ">
-                    <div></div>
+                <div className="flex justify-between items-center">
+                    <h1 className="text-2xl font-bold">
+                        {t('lands')}
+                    </h1>
                     <div>
                         {hasPermission('lands create') && (
                             <ButtonLink

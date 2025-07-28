@@ -224,9 +224,21 @@ const FormFieldsMapper = ({ fields, data, setData, errors, children }) => {
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+            <div className='col-span-2'></div>
             {fields.map((col, index) => {
-                if (col.required_if && !data[col.required_if]) {
-                    return null;
+                // Handle required_if in the format 'field,value'
+                if (col.required_if) {
+                    if (
+                        typeof col.required_if === 'string' &&
+                        col.required_if.includes(',')
+                    ) {
+                        const [field, value] = col.required_if.split(',');
+                        if (data[field] !== value) {
+                            return null;
+                        }
+                    } else if (!data[col.required_if]) {
+                        return null;
+                    }
                 }
                 return (
                     <div
@@ -236,18 +248,25 @@ const FormFieldsMapper = ({ fields, data, setData, errors, children }) => {
                         <Label
                             text={t(col.label)}
                             htmlFor={col.name}
-                            required={col?.required}
+                            required={(() => {
+                                // If required_if is in 'field,value' format, set required to true only if condition matches
+                                if (
+                                    col.required_if &&
+                                    typeof col.required_if === 'string' &&
+                                    col.required_if.includes(',')
+                                ) {
+                                    const [field, value] =
+                                        col.required_if.split(',');
+                                    return data[field] === value;
+                                }
+                                return col?.required;
+                            })()}
                         />
 
                         {renderField(col)}
 
                         {errors[col.name] && (
                             <div className="text-red-500 text-sm px-1">
-                                {/* {errors[col.name]}
-                                {t('errorRequired', {
-                                    field_name: t(col.name),
-                                })} */}
-
                                 {renderErrorMessage(
                                     errors[col.name],
                                     col.label
@@ -281,7 +300,7 @@ FormFieldsMapper.propTypes = {
                 'linkTrans',
             ]).isRequired,
             label: PropTypes.string.isRequired,
-            width: PropTypes.number,
+            width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
             required: PropTypes.bool,
             placeholder: PropTypes.string,
             option: PropTypes.array,

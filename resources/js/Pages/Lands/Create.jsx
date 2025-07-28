@@ -28,8 +28,10 @@ const Create = ({ land, fields }) => {
     return (
         <>
             <AuthenticatedLayout>
-                <div className="flex justify-between">
-                    <div></div>
+                <div className="flex justify-between items-center">
+                    <div>
+                        <h1 className="text-2xl font-bold">{t('create_land')}</h1>
+                    </div>
                     <div id="savelands">
                         {hasPermission('lands create') && (
                             <Button

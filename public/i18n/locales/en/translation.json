@@ -569,5 +569,10 @@
     "Local Name": "Local Name",
     "confirm_delete_land": "Are you sure you want to delete this land?",
     "confirm_delete_building": "Are you sure you want to delete this building?",
-    "confirm_delete_floor": "Are you sure you want to delete this floor?"
+    "confirm_delete_floor": "Are you sure you want to delete this floor?",
+    "create_land": "Create Land",
+    "create_building": "Create Building",
+    "create_floor": "Create Floor",
+    "create_room": "Create Room",
+    "create_furnishing": "Create Furnishing"
 }

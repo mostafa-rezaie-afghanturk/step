@@ -216,7 +216,7 @@ const AppDropZone = ({
             </div>
 
             {files.length > 0 && (
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-4">
                     {files.map((file, index) => {
                         const isFileObj = file instanceof File;
                         const fileType = isFileObj ? file.type : file.type;
@@ -260,7 +260,11 @@ const AppDropZone = ({
                                     </a>
                                 ) : (
                                     <div className="h-28 flex items-center justify-center text-sm text-gray-500 text-center p-2">
-                                        <a href={filePath} target="_blank" rel="noopener noreferrer">
+                                        <a
+                                            href={filePath}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
                                             <span className="break-all">
                                                 {fileName}
                                             </span>
