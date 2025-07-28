@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\FileCategoryEnum;
 use App\Models\Land;
 use App\Repositories\ActivityLogRepository;
 use App\Repositories\ExportService;
@@ -38,7 +37,6 @@ class LandController extends Controller
         FilterRepository $filterRepository
     ) {
         $this->columns = $this->getColumns();
-        $this->fields = $this->getFields();
         $this->exportService = $exportService;
         $this->activityLogRepository = $activityLogRepository;
         $this->filterRepository = $filterRepository;
@@ -203,18 +201,20 @@ class LandController extends Controller
                 'accessor' => 'purchase_docs',
                 'visibility' => false,
                 'type' => 'file',
-                'validation' => 'required_if:ownership_status,TMV|nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+                'validation' => 'required_if:ownership_status,TMV|nullable',
                 'context' => ['show', 'edit', 'create'],
-                'width' => '2'
+                'required_if' => 'ownership_status,TMV',
+                'width' => 2
             ],
             [
                 'header' => 'Lease Docs',
                 'accessor' => 'lease_docs',
                 'visibility' => false,
                 'type' => 'file',
-                'validation' => 'required',
+                'validation' => 'required_if:ownership_status,Rent|nullable',
                 'context' => ['show', 'edit', 'create'],
-                'width' => '2'
+                'required_if' => 'ownership_status,Rent',
+                'width' => 2
             ],
             [
                 'header' => 'Allocation Docs',
@@ -223,7 +223,7 @@ class LandController extends Controller
                 'type' => 'file',
                 'validation' => 'required',
                 'context' => ['show', 'edit', 'create'],
-                'width' => '2'
+                'width' => 2
             ],
             [
                 'header' => 'Layout Plan',
@@ -232,7 +232,7 @@ class LandController extends Controller
                 'type' => 'file',
                 'validation' => 'required',
                 'context' => ['show', 'edit', 'create'],
-                'width' => '2'
+                'width' => 2
             ],
             [
                 'header' => 'Photos',
@@ -241,7 +241,7 @@ class LandController extends Controller
                 'type' => 'file',
                 'validation' => 'required',
                 'context' => ['show', 'edit', 'create'],
-                'width' => '2'
+                'width' => 2
             ],
             [
                 'header' => 'Country',
@@ -250,186 +250,6 @@ class LandController extends Controller
                 'type' => 'link',
                 'validation' => '',
                 'context' => ['show'],
-            ],
-
-        ];
-    }
-
-    protected function getFields($land = null)
-    {
-        return [
-            [
-                'name' => 'land_code',
-                'label' => 'Land Code',
-                'type' => 'string',
-                'default' => $land?->land_code,
-                'required' => true,
-            ],
-            [
-                'name' => 'address',
-                'label' => 'Address',
-                'type' => 'string',
-                'default' => $land?->address,
-                'required' => true,
-            ],
-            [
-                'name' => 'province',
-                'label' => 'Province',
-                'type' => 'string',
-                'default' => $land?->province,
-                'required' => true,
-            ],
-            [
-                'name' => 'district',
-                'label' => 'District',
-                'type' => 'string',
-                'default' => $land?->district,
-                'required' => true,
-            ],
-            [
-                'name' => 'neighborhood',
-                'label' => 'Neighborhood',
-                'type' => 'string',
-                'default' => $land?->neighborhood,
-                'required' => true,
-            ],
-            [
-                'name' => 'street',
-                'label' => 'Street',
-                'type' => 'string',
-                'default' => $land?->street,
-                'required' => true,
-            ],
-            [
-                'name' => 'door_number',
-                'label' => 'Door Number',
-                'type' => 'string',
-                'default' => $land?->door_number,
-                'required' => true,
-            ],
-            [
-                'name' => 'country_land_number',
-                'label' => 'Country Land Number',
-                'type' => 'string',
-                'default' => $land?->country_land_number,
-                'required' => true,
-            ],
-            [
-                'name' => 'size_sqm',
-                'label' => 'Size SqM',
-                'type' => 'number',
-                'default' => $land?->size_sqm,
-                'required' => true,
-            ],
-            [
-                'name' => 'tmv_start_date',
-                'label' => 'TMV Start Date',
-                'type' => 'date',
-                'default' => $land?->tmv_start_date,
-                'required' => true,
-            ],
-            [
-                'name' => 'ownership_status',
-                'label' => 'Ownership Status',
-                'type' => 'select',
-                'option' => ['TMV', 'Rent'],
-                'default' => $land?->ownership_status,
-                'required' => true,
-            ],
-            [
-                'name' => 'purchase_price',
-                'label' => 'Purchase Price',
-                'type' => 'number',
-                'default' => $land?->purchase_price,
-                'required' => true,
-            ],
-            [
-                'name' => 'purchase_date',
-                'label' => 'Purchase Date',
-                'type' => 'date',
-                'default' => $land?->purchase_date,
-                'required' => true,
-            ],
-            [
-                'name' => 'rental_fee',
-                'label' => 'Rental Fee',
-                'type' => 'number',
-                'default' => $land?->rental_fee,
-                'required' => true,
-            ],
-            [
-                'name' => 'lease_start',
-                'label' => 'Lease Start',
-                'type' => 'date',
-                'default' => $land?->lease_start,
-                'required' => true,
-            ],
-            [
-                'name' => 'lease_end',
-                'label' => 'Lease End',
-                'type' => 'date',
-                'default' => $land?->lease_end,
-                'required' => true,
-            ],
-            [
-                'name' => 'country_id',
-                'label' => 'Country',
-                'type' => 'link',
-                'search_url' => route('countries.search'),
-                'default' => $land?->country_id,
-                'required' => true,
-            ],
-            [
-                'name' => 'features',
-                'label' => 'Features',
-                'type' => 'tag',
-                'default' => $land?->features,
-                'required' => true,
-            ],
-            [
-                'name' => 'purchase_docs',
-                'label' => 'Purchase Docs',
-                'type' => 'file',
-                'default' => $land ? $land->purchaseDocs->map(function ($file) {
-                    return url('storage/' . $file->file_path);
-                })->toArray() : [],
-                'required' => true,
-            ],
-            [
-                'name' => 'lease_docs',
-                'label' => 'Lease Docs',
-                'type' => 'file',
-                'default' => $land ? $land->leaseDocs->map(function ($file) {
-                    return url('storage/' . $file->file_path);
-                })->toArray() : [],
-                'required' => true,
-            ],
-            [
-                'name' => 'allocation_docs',
-                'label' => 'Allocation Docs',
-                'type' => 'file',
-                'default' => $land ? $land->allocationDocs->map(function ($file) {
-                    return url('storage/' . $file->file_path);
-                })->toArray() : [],
-                'required' => true,
-            ],
-            [
-                'name' => 'layout_plan',
-                'label' => 'Layout Plan',
-                'type' => 'file',
-                'default' => $land ? $land->layoutPlans->map(function ($file) {
-                    return url('storage/' . $file->file_path);
-                })->toArray() : [],
-                'required' => true,
-            ],
-            [
-                'name' => 'land_photos',
-                'label' => 'Photos',
-                'type' => 'file',
-                'default' => $land ? $land->landPhotos->map(function ($file) {
-                    return url('storage/' . $file->file_path);
-                })->toArray() : [],
-                'required' => true,
             ],
 
         ];
@@ -471,9 +291,7 @@ class LandController extends Controller
             return in_array('create', $column['context']);
         });
 
-        $options = [];
-        // Map the editable columns to the desired format for fields
-        $fields = array_map(function ($column) use ($options, $land) {
+        $fields = array_map(function ($column) use ($land) {
 
             $field = [
                 'label' => $column['header'],
@@ -488,7 +306,7 @@ class LandController extends Controller
                 'required_if' => $column['required_if'] ?? null,
             ];
 
-            return $field; // Return the constructed field/ Return the constructed field
+            return $field;
         }, $editableColumns);
         $fields = array_values($fields);
 
@@ -559,9 +377,62 @@ class LandController extends Controller
 
     public function edit($id)
     {
-        $land = Land::with('country')->findOrFail($id);
+        $land = Land::with(['country', 'purchaseDocs', 'allocationDocs', 'layoutPlans', 'leaseDocs', 'landPhotos'])->findOrFail($id);
 
-        $fields = $this->getFields($land);
+        $editableColumns = array_filter($this->getColumns(), function ($column) {
+            return in_array('edit', $column['context']);
+        });
+
+        $fields = array_map(function ($column) use ($land) {
+            $default = $land ? ($land[$column['accessor']] ?? null) : null;
+
+            // Handle file fields to provide URLs from relationships
+            if ($land) {
+                switch ($column['accessor']) {
+                    case 'purchase_docs':
+                        $default = $land->purchaseDocs ? $land->purchaseDocs->map(function ($file) {
+                            return url('storage/' . $file->file_path);
+                        })->toArray() : [];
+                        break;
+                    case 'lease_docs':
+                        $default = $land->leaseDocs ? $land->leaseDocs->map(function ($file) {
+                            return url('storage/' . $file->file_path);
+                        })->toArray() : [];
+                        break;
+                    case 'allocation_docs':
+                        $default = $land->allocationDocs ? $land->allocationDocs->map(function ($file) {
+                            return url('storage/' . $file->file_path);
+                        })->toArray() : [];
+                        break;
+                    case 'layout_plan':
+                        $default = $land->layoutPlans ? $land->layoutPlans->map(function ($file) {
+                            return url('storage/' . $file->file_path);
+                        })->toArray() : [];
+                        break;
+                    case 'land_photos':
+                        $default = $land->landPhotos ? $land->landPhotos->map(function ($file) {
+                            return url('storage/' . $file->file_path);
+                        })->toArray() : [];
+                        break;
+                }
+            }
+
+            $field = [
+                'label' => $column['header'],
+                'name' => $column['accessor'],
+                'type' => $column['type'],
+                'width' => $column['width'] ?? null,
+                'default' => $default,
+                'option' => $column['option'] ?? null,
+                'search_url' => $column['search_url'] ?? null,
+                'depends_on' => $column['depends_on'] ?? null,
+                'required' => str_contains($column['validation'], 'required'),
+                'required_if' => $column['required_if'] ?? null,
+            ];
+
+            return $field;
+        }, $editableColumns);
+        $fields = array_values($fields);
 
         return Inertia::render('Lands/Edit', [
             'fields' => $fields,
@@ -571,10 +442,10 @@ class LandController extends Controller
 
     public function update(Request $request, $id)
     {
-        info($request->all());
         $land = Land::findOrFail($id);
 
         $rules = [];
+
         foreach ($this->columns as $col) {
             if (in_array('edit', $col['context']) && isset($col['validation'])) {
                 $rules[$col['accessor']] = $col['validation'];

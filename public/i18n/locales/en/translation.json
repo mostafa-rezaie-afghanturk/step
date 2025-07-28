@@ -571,8 +571,13 @@
     "confirm_delete_building": "Are you sure you want to delete this building?",
     "confirm_delete_floor": "Are you sure you want to delete this floor?",
     "create_land": "Create Land",
+    "edit_land": "Edit Land",
     "create_building": "Create Building",
+    "edit_building": "Edit Building",
     "create_floor": "Create Floor",
+    "edit_floor": "Edit Floor",
     "create_room": "Create Room",
-    "create_furnishing": "Create Furnishing"
+    "edit_room": "Edit Room",
+    "create_furnishing": "Create Furnishing",
+    "edit_furnishing": "Edit Furnishing"
 }

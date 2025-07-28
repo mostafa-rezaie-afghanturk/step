@@ -9,100 +9,79 @@ export default function FileList({ files }) {
     return (
         <div className="mb-4">
             <div className="overflow-x-auto">
-                <table className="min-w-full bg-white border border-gray-200">
-                    <thead>
-                        <tr>
-                            <th className="px-4 py-2 border-b text-start w-64 max-w-xs truncate">
-                                Name
-                            </th>
-                            <th className="px-4 py-2 border-b text-start w-32 max-w-xs truncate">
-                                Type
-                            </th>
-                            <th className="px-4 py-2 border-b text-start w-48 max-w-xs truncate">
-                                Date & Time
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {files.map(file => {
-                            const isImage =
-                                /^(image\/|jpg$|jpeg$|png$|gif$|bmp$|webp$)/i.test(
-                                    file.file_type
-                                ) ||
-                                /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(
-                                    file.name
-                                );
-                            return (
-                                <tr
-                                    key={file.file_id}
-                                    className="hover:bg-gray-50"
+                <div className="grid grid-cols-4 bg-white border border-gray-200">
+                    <div className="col-span-2 px-4 py-2 border-b text-start font-semibold w-64 max-w-xs truncate">
+                        Name
+                    </div>
+                    <div className="px-4 py-2 border-b text-start font-semibold w-32 max-w-xs truncate">
+                        Type
+                    </div>
+                    <div className="px-4 py-2 border-b text-start font-semibold w-48 max-w-xs truncate">
+                        Date & Time
+                    </div>
+                </div>
+                {files.map(file => {
+                    const isImage =
+                        /^(image\/|jpg$|jpeg$|png$|gif$|bmp$|webp$)/i.test(
+                            file.file_type
+                        ) || /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(file.name);
+                    return (
+                        <div
+                            key={file.file_id}
+                            className="grid grid-cols-4 hover:bg-gray-50 border-b"
+                        >
+                            <div className="col-span-2 px-4 py-2 text-start max-w-xs overflow-hidden whitespace-nowrap text-ellipsis flex items-center gap-2">
+                                <a
+                                    href={file.file_path}
+                                    download={file.name}
+                                    className="mr-1 p-1 rounded hover:bg-gray-100 text-gray-500 hover:text-blue-600"
+                                    title="Download"
+                                    onClick={e => e.stopPropagation()}
                                 >
-                                    <td className="px-4 py-2 border-b text-start  max-w-xs overflow-hidden whitespace-nowrap text-ellipsis">
-                                        <div className="flex items-center gap-2">
-                                            <a
-                                                href={file.file_path}
-                                                download={file.name}
-                                                className="mr-1 p-1 rounded hover:bg-gray-100 text-gray-500 hover:text-blue-600"
-                                                title="Download"
-                                                onClick={e =>
-                                                    e.stopPropagation()
-                                                }
-                                            >
-                                                <MdDownload className="inline-block" />
-                                            </a>
-                                            <a
-                                                href={file.file_path}
-                                                className="text-blue-600 hover:underline block overflow-hidden whitespace-nowrap text-ellipsis"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={e => {
-                                                    if (isImage) {
-                                                        e.preventDefault();
-                                                        setModalImage(
-                                                            file.file_path
-                                                        );
-                                                        setModalAlt(file.name);
-                                                    }
-                                                }}
-                                                style={{ minWidth: 0, flex: 1 }}
-                                            >
-                                                {isImage && (
-                                                    <img
-                                                        src={file.file_path}
-                                                        alt={file.name}
-                                                        className="inline-block mr-2 align-middle max-h-8 max-w-12 rounded border border-gray-200 bg-gray-50 cursor-pointer"
-                                                        style={{
-                                                            verticalAlign:
-                                                                'middle',
-                                                        }}
-                                                        onClick={e => {
-                                                            e.preventDefault();
-                                                            setModalImage(
-                                                                file.file_path
-                                                            );
-                                                            setModalAlt(
-                                                                file.name
-                                                            );
-                                                        }}
-                                                    />
-                                                )}
-                                                {file.name}
-                                            </a>
-                                        </div>
-                                    </td>
-                                    <td className="px-4 py-2 border-b text-start max-w-xs overflow-hidden whitespace-nowrap text-ellipsis">
-                                        {file.file_type}
-                                    </td>
-                                    <td className="px-4 py-2 border-b text-start max-w-xs overflow-hidden whitespace-nowrap text-ellipsis">
-                                        {moment(file.created_at).format(
-                                            'YYYY MM DD hh:mm A'
-                                        )}
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                                    <MdDownload className="inline-block" />
+                                </a>
+                                <a
+                                    href={file.file_path}
+                                    className="text-blue-600 hover:underline block overflow-hidden whitespace-nowrap text-ellipsis"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={e => {
+                                        if (isImage) {
+                                            e.preventDefault();
+                                            setModalImage(file.file_path);
+                                            setModalAlt(file.name);
+                                        }
+                                    }}
+                                    style={{ minWidth: 0, flex: 1 }}
+                                    title={file.name}
+                                >
+                                    {isImage && (
+                                        <img
+                                            src={file.file_path}
+                                            alt={file.name}
+                                            className="inline-block mr-2 align-middle max-h-8 max-w-12 rounded border border-gray-200 bg-gray-50 cursor-pointer"
+                                            style={{ verticalAlign: 'middle' }}
+                                            onClick={e => {
+                                                e.preventDefault();
+                                                setModalImage(file.file_path);
+                                                setModalAlt(file.name);
+                                            }}
+                                        />
+                                    )}
+                                    {file.name}
+                                </a>
+                            </div>
+                            <div className="px-4 py-2 text-start max-w-xs overflow-hidden whitespace-nowrap text-ellipsis">
+                                {file.file_type}
+                            </div>
+                            <div className="px-4 py-2 text-start max-w-xs overflow-hidden whitespace-nowrap text-ellipsis">
+                                {moment(file.created_at).format(
+                                    'YYYY MM DD hh:mm A'
+                                )}
+                            </div>
+                        </div>
+                    );
+                })}
             </div>
             {modalImage && (
                 <Modal>
@@ -127,25 +106,7 @@ export default function FileList({ files }) {
                                     className="ml-1 p-1 rounded hover:bg-gray-100 text-gray-500 hover:text-blue-600"
                                     title="Download image"
                                 >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 20 20"
-                                        strokeWidth={1.5}
-                                        stroke="currentColor"
-                                        className="w-5 h-5"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M12.75 10.5V3.75a.75.75 0 00-1.5 0v6.75m0 0L8.25 8.25m3 2.25l-3 2.25m0 0V3.75a.75.75 0 00-1.5 0v9.75m0 0l3-2.25"
-                                        />
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M3.75 16.25h12.5"
-                                        />
-                                    </svg>
+                                    <MdDownload className="inline-block" />
                                 </a>
                             </div>
                         </ModalContent>
