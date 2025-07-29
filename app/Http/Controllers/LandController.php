@@ -189,8 +189,8 @@ class LandController extends Controller
                 'context' => ['edit', 'create'],
             ],
             [
-                'header' => 'Features',
-                'accessor' => 'features',
+                'header' => 'Building Exterior Spaces',
+                'accessor' => 'building_exterior_spaces',
                 'visibility' => false,
                 'type' => 'tag',
                 'validation' => 'required|json',
@@ -366,7 +366,7 @@ class LandController extends Controller
             'rental_fee' => $data['rental_fee'],
             'lease_start' => $data['lease_start'],
             'lease_end' => $data['lease_end'],
-            'features' => $data['features'],
+            'building_exterior_spaces' => $data['building_exterior_spaces'],
             'country_id' => $data['country_id'],
         ]);
 
@@ -471,7 +471,7 @@ class LandController extends Controller
             'rental_fee' => $data['rental_fee'],
             'lease_start' => $data['lease_start'],
             'lease_end' => $data['lease_end'],
-            'features' => $data['features'],
+            'building_exterior_spaces' => $data['building_exterior_spaces'],
             'country_id' => $data['country_id'],
         ]);
 
