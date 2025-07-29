@@ -46,7 +46,10 @@ const Index = ({ columns }) => {
                 <div className="flex gap-x-2">
                     {hasPermission('buildings edit') && (
                         <RoundedButtonLink
-                            href={route('buildings.edit', row.original.building_id)}
+                            href={route(
+                                'buildings.edit',
+                                row.original.building_id
+                            )}
                             icon={<FaPencil />}
                             popoverText={t('Edit')}
                             outline
@@ -69,8 +72,10 @@ const Index = ({ columns }) => {
     return (
         <>
             <AuthenticatedLayout>
-                <div className="flex justify-between ">
-                    <div></div>
+                <div className="flex justify-between items-center">
+                    <div>
+                        <h1 className="text-2xl font-bold">{t('buildings')}</h1>
+                    </div>
                     <div>
                         {hasPermission('buildings create') && (
                             <ButtonLink
