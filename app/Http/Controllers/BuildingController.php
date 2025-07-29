@@ -136,14 +136,7 @@ class BuildingController extends Controller
                 'context' => ['show', 'edit', 'create'],
                 'required_if' => 'ownership_status,Rent',
             ],
-            [
-                'header' => 'Building Project',
-                'accessor' => 'building_project',
-                'visibility' => false,
-                'type' => 'tag',
-                'validation' => 'nullable|json',
-                'context' => ['show', 'edit', 'create'],
-            ],
+
             [
                 'header' => 'Land',
                 'accessor' => 'land_id',
@@ -182,6 +175,15 @@ class BuildingController extends Controller
                 'required_if' => 'ownership_status,Rent',
                 'width' => 2,
             ],
+            [
+                'header' => 'Building Project',
+                'accessor' => 'building_project',
+                'visibility' => false,
+                'type' => 'file',
+                'validation' => 'nullable',
+                'context' => ['show', 'edit', 'create'],
+                'width' => 2,
+            ],
         ];
     }
 
@@ -214,6 +216,7 @@ class BuildingController extends Controller
         $building = $id ? Building::findOrFail($id) : null;
 
         $editableColumns = array_filter($this->getColumns(), fn($col) => in_array('create', $col['context']));
+
         $fields = array_map(function ($column) use ($building) {
             return [
                 'label' => $column['header'],
@@ -333,6 +336,7 @@ class BuildingController extends Controller
     public function update(Request $request, $id)
     {
         $building = Building::findOrFail($id);
+
         $rules = [];
 
         foreach ($this->columns as $col) {

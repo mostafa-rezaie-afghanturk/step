@@ -26,9 +26,26 @@ return new class extends Migration
             $table->float('size')->nullable();
             $table->float('width')->nullable();
 
-            $table->json('door_details')->nullable();
-            $table->json('window_details')->nullable();
+            // Door details (structured)
+            $table->boolean('has_door')->default(false);
+            $table->enum('door_material', ['Wood', 'PVC', 'Aluminum'])->nullable();
+            $table->integer('door_wingspan_cm')->nullable();
+            $table->enum('observation_window_type', ['None', 'Tampered', 'Non-Tampered'])->nullable();
+            $table->boolean('has_door_threshold')->default(false);
+            $table->boolean('has_door_shin_guard')->default(false);
+            $table->boolean('has_door_centre_back')->default(false);
 
+            // Window details (structured)
+            $table->boolean('has_window')->default(false);
+            $table->float('window_total_area')->nullable();
+            $table->float('window_starting_height')->nullable();
+            $table->enum('window_opening_type', ['Vasisdas', 'Sideways', 'Upwards'])->nullable();
+
+            // Additional features
+            $table->boolean('has_fire_escape')->default(false);
+            $table->boolean('has_elevator')->default(false);
+
+            // Ground / flooring
             $table->enum('flooring', [
                 'PVC',
                 'Laminate',
@@ -38,6 +55,7 @@ return new class extends Migration
                 'Rubber'
             ])->nullable();
 
+            // Environment conditions
             $table->enum('daylight_direction', [
                 'Left',
                 'Right',
@@ -51,22 +69,24 @@ return new class extends Migration
             $table->enum('sound_insulation', ['Sufficient', 'Insufficient'])->nullable();
             $table->enum('paint_condition', ['Sufficient', 'Insufficient'])->nullable();
 
+            // Infrastructure
             $table->integer('number_of_sockets')->nullable();
-            $table->json('data_outputs')->nullable(); // Cat 6, Cat 5, Multi mode Fiber, Single Mode Fiber with count
+            $table->json('data_outputs')->nullable(); // (e.g., { "Cat 6": 4, "Fiber": 2 })
 
             $table->enum('heating', ['None', 'Heating', 'Air Conditioning'])->nullable();
+            $table->integer('seats')->nullable();
 
             $table->boolean('has_clean_water')->default(false);
             $table->boolean('has_dirty_water')->default(false);
             $table->boolean('has_natural_gas')->default(false);
 
-            $table->integer('seats')->nullable();
-
-            $table->text('notes')->nullable();
+            $table->string('location_photo')->nullable(); // Assume storing URL or path
+            $table->text('notes')->nullable(); // Renovation info
 
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
