@@ -18,11 +18,11 @@ const Edit = ({ building, fields }) => {
         return acc;
     }, {});
 
-    const { data, setData, put, processing, errors } = useForm(initialData);
+    const { data, setData, post, processing, errors } = useForm(initialData);
 
     const handleSubmit = e => {
         e.preventDefault();
-        put(route('buildings.update', building.building_id));
+        post(route('buildings.update', building.building_id));
     };
 
     return (

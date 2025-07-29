@@ -5,6 +5,7 @@ import { Modal, ModalBody, ModalContent } from '@/Components/ui/modal';
 import { useEffect, useState } from 'react';
 import { usePermission } from '@/hooks/usePermission';
 import { useTranslation } from 'react-i18next';
+import FileList from '@/Components/ui/FileList';
 
 const SingleShow = ({ open, setOpen, selectedId }) => {
     const { hasPermission } = usePermission();
@@ -125,6 +126,48 @@ const SingleShow = ({ open, setOpen, selectedId }) => {
                                         itemText={singleData?.lease_end}
                                         itemName2={t('Country')}
                                         itemText2={singleData?.country?.name}
+                                    />
+                                    <SingleRow
+                                        singleRow={true}
+                                        itemName={t('Purchase Documents')}
+                                        itemText={
+                                            <div>
+                                                <FileList
+                                                    files={
+                                                        singleData?.purchase_docs ||
+                                                        []
+                                                    }
+                                                />
+                                            </div>
+                                        }
+                                    />
+                                    <SingleRow
+                                        singleRow={true}
+                                        itemName={t('Allocation Documents')}
+                                        itemText={
+                                            <div>
+                                                <FileList
+                                                    files={
+                                                        singleData?.allocation_docs ||
+                                                        []
+                                                    }
+                                                />
+                                            </div>
+                                        }
+                                    />
+                                    <SingleRow
+                                        singleRow={true}
+                                        itemName={t('Lease Documents')}
+                                        itemText={
+                                            <div>
+                                                <FileList
+                                                    files={
+                                                        singleData?.lease_docs ||
+                                                        []
+                                                    }
+                                                />
+                                            </div>
+                                        }
                                     />
                                 </div>
                             )}
