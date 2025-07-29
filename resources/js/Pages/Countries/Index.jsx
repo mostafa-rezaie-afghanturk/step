@@ -74,8 +74,10 @@ const Index = ({ columns }) => {
         <>
             <AuthenticatedLayout>
                 {/* <Head title="Countries" /> */}
-                <div className="flex justify-between ">
-                    <div></div>
+                <div className="flex justify-between items-center">
+                    <div>
+                        <h1 className="text-2xl font-bold">{t('countries')}</h1>
+                    </div>
                     <div id="add_New_countries">
                         {hasPermission('countries create') && (
                             <ButtonLink

@@ -37,6 +37,7 @@ class Building extends Model
             'allocation_docs' => FileCategoryEnum::ALLOCATION_DOC,
             'purchase_docs'   => FileCategoryEnum::PURCHASE_DOC,
             'lease_docs'      => FileCategoryEnum::LEASE_DOC,
+            'building_project' => FileCategoryEnum::BUILDING_PROJECT,
         ];
     }
 }

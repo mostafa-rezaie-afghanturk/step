@@ -30,7 +30,6 @@ class FloorController extends Controller
         FilterRepository $filterRepository
     ) {
         $this->columns = $this->getColumns();
-        $this->fields = $this->getFields();
         $this->exportService = $exportService;
         $this->activityLogRepository = $activityLogRepository;
         $this->filterRepository = $filterRepository;
@@ -51,7 +50,23 @@ class FloorController extends Controller
                 'header' => 'Floor Level',
                 'accessor' => 'floor_level',
                 'visibility' => true,
-                'type' => 'string',
+                'type' => 'select',
+                'option' => [
+                    'Basement -3rd Floor',
+                    'Basement -2nd Floor',
+                    'Basement -1st Floor',
+                    'Ground Floor',
+                    '1st Floor',
+                    '2nd Floor',
+                    '3rd Floor',
+                    '4th Floor',
+                    '5th Floor',
+                    '6th Floor',
+                    '7th Floor',
+                    '8th Floor',
+                    '9th Floor',
+                    '10th Floor',
+                ],
                 'validation' => 'required|string|max:255',
                 'context' => ['show', 'edit', 'create'],
             ],
@@ -72,34 +87,6 @@ class FloorController extends Controller
                 'search_url' => route('buildings.search'),
                 'context' => ['edit', 'create'],
             ],
-        ];
-    }
-
-    protected function getFields($floor = null)
-    {
-        return [
-            [
-                'name' => 'floor_code',
-                'label' => 'Floor Code',
-                'type' => 'string',
-                'default' => $floor?->floor_code,
-                'required' => true,
-            ],
-            [
-                'name' => 'floor_level',
-                'label' => 'Floor Level',
-                'type' => 'string',
-                'default' => $floor?->floor_level,
-                'required' => true,
-            ],
-            [
-                'name' => 'building_id',
-                'label' => 'Building',
-                'type' => 'link',
-                'default' => $floor?->building_id,
-                'search_url' => route('buildings.search'),
-                'required' => true,
-            ]
         ];
     }
 
@@ -166,12 +153,15 @@ class FloorController extends Controller
     public function store(Request $request)
     {
         $rules = [];
+
         foreach ($this->columns as $col) {
             if (in_array('create', $col['context'])) {
                 $rules[$col['accessor']] = $col['validation'];
             }
         }
+
         $data = $request->validate($rules);
+
         Floor::create($data);
 
         return redirect()->route('floors.index')->with('success', 'Floor created successfully.');
@@ -186,7 +176,30 @@ class FloorController extends Controller
     public function edit($id)
     {
         $floor = Floor::findOrFail($id);
-        $fields = $this->getFields($floor);
+
+        $editableColumns = array_filter($this->getColumns(), function ($column) {
+            return in_array('edit', $column['context']);
+        });
+
+        $fields = array_map(function ($column) use ($floor) {
+            $default = $floor ? ($floor[$column['accessor']] ?? null) : null;
+
+            $field = [
+                'label' => $column['header'],
+                'name' => $column['accessor'],
+                'type' => $column['type'],
+                'width' => $column['width'] ?? null,
+                'default' => $default,
+                'option' => $column['option'] ?? null,
+                'search_url' => $column['search_url'] ?? null,
+                'depends_on' => $column['depends_on'] ?? null,
+                'required' => str_contains($column['validation'], 'required'),
+                'required_if' => $column['required_if'] ?? null,
+            ];
+
+            return $field;
+        }, $editableColumns);
+        $fields = array_values($fields);
 
         return Inertia::render('Floors/Edit', [
             'fields' => $fields,
@@ -206,6 +219,7 @@ class FloorController extends Controller
         }
 
         $data = $request->validate($rules);
+
         $floor->update($data);
 
         return redirect()->route('floors.index')->with('success', 'Floor updated successfully.');
@@ -214,6 +228,7 @@ class FloorController extends Controller
     public function destroy($id)
     {
         Floor::findOrFail($id)->delete();
+
         return redirect()->route('floors.index')->with('success', 'Deleted successfully.');
     }
 

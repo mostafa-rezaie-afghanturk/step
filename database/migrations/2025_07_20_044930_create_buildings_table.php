@@ -30,8 +30,6 @@ return new class extends Migration
             $table->date('lease_start')->nullable();
             $table->date('lease_end')->nullable();
 
-            $table->json('building_project')->nullable();
-
             $table->timestamps();
         });
     }

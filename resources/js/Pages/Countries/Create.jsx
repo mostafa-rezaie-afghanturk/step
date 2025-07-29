@@ -43,7 +43,12 @@ const Create = ({ fields }) => {
     return (
         <>
             <AuthenticatedLayout>
-                <div className="flex justify-end">
+                <div className="flex justify-between items-center">
+                    <div>
+                        <h1 className="text-2xl font-bold">
+                            {t('create_country')}
+                        </h1>
+                    </div>
                     <div>
                         {hasPermission('countries create') && (
                             <Button

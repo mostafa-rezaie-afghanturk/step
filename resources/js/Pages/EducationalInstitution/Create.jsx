@@ -28,8 +28,12 @@ const Create = ({ school, fields }) => {
     return (
         <>
             <AuthenticatedLayout>
-                <div className="flex justify-between">
-                    <div></div>
+                <div className="flex justify-between items-center">
+                    <div>
+                        <h1 className="text-2xl font-bold">
+                            {t('create_institution')}
+                        </h1>
+                    </div>
                     <div id="saveeducational-institutions">
                         {hasPermission('educational-institutions create') && (
                             <Button

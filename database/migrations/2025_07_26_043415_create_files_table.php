@@ -20,7 +20,16 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('file_path');
             $table->string('file_type');
-            $table->enum('category', ['allocation_doc', 'layout_plan', 'lease_doc', 'land_photo', 'room_photo', 'warranty_cert', 'purchase_doc'])->nullable();
+            $table->enum('category', [
+                'allocation_doc',
+                'layout_plan',
+                'lease_doc',
+                'land_photo',
+                'room_photo',
+                'warranty_cert',
+                'purchase_doc',
+                'building_project'
+            ])->nullable();
             $table->json('details')->nullable();
 
             $table->timestamps();

@@ -37,8 +37,10 @@ const Edit = ({ country }) => {
 
     return (
         <AuthenticatedLayout>
-            <div className="flex justify-between">
-                <div></div>
+            <div className="flex justify-between items-center">
+                <div>
+                    <h1 className="text-2xl font-bold">{t('edit_country')}</h1>
+                </div>
                 <div>
                     {hasPermission('countries write') && (
                         <Button

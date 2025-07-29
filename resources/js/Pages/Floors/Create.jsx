@@ -28,8 +28,12 @@ const Create = ({ floor, fields }) => {
     return (
         <>
             <AuthenticatedLayout>
-                <div className="flex justify-between">
-                    <div></div>
+                <div className="flex justify-between items-center">
+                    <div>
+                        <h1 className="text-2xl font-bold">
+                            {t('create_floor')}
+                        </h1>
+                    </div>
                     <div id="savefloors">
                         {hasPermission('floors create') && (
                             <Button

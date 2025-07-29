@@ -28,8 +28,10 @@ const Edit = ({ school, fields }) => {
     return (
         <>
             <AuthenticatedLayout>
-                <div className="flex justify-between">
-                    <div></div>
+                <div className="flex justify-between items-center">
+                    <div>
+                        <h1 className="text-2xl font-bold">{t('edit_campus')}</h1>
+                    </div>
                     <div>
                         {hasPermission('schools write') && (
                             <Button

@@ -22,14 +22,20 @@ const Edit = ({ institution, fields }) => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        put(route('educational-institutions.update', institution.institution_id));
+        put(
+            route('educational-institutions.update', institution.institution_id)
+        );
     };
 
     return (
         <>
             <AuthenticatedLayout>
-                <div className="flex justify-between">
-                    <div></div>
+                <div className="flex justify-between items-center">
+                    <div>
+                        <h1 className="text-2xl font-bold">
+                            {t('edit_institution')}
+                        </h1>
+                    </div>
                     <div>
                         {hasPermission('educational-institutions write') && (
                             <Button
@@ -46,7 +52,6 @@ const Edit = ({ institution, fields }) => {
                                             height={20}
                                             width={20}
                                         />{' '}
-
                                     </>
                                 ) : (
                                     t('save') // Changed
