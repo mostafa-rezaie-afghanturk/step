@@ -24,7 +24,6 @@ return new class extends Migration
 
             $table->decimal('purchase_price', 12, 2)->nullable();
             $table->date('purchase_date')->nullable();
-            $table->json('purchase_docs')->nullable();
 
             $table->decimal('rental_fee', 12, 2)->nullable();
             $table->date('lease_start')->nullable();

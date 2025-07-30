@@ -80,7 +80,6 @@ return new class extends Migration
             $table->boolean('has_dirty_water')->default(false);
             $table->boolean('has_natural_gas')->default(false);
 
-            $table->string('location_photo')->nullable(); // Assume storing URL or path
             $table->text('notes')->nullable(); // Renovation info
 
             $table->timestamps();

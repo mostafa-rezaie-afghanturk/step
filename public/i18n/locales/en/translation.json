@@ -586,5 +586,7 @@
     "edit_furnishing": "Edit Furnishing",
     "educational_institutions": "Educational Institutions",
     "create_institution": "Create Educational Institution",
-    "edit_institution": "Edit Educational Institution"
+    "edit_institution": "Edit Educational Institution",
+    "add": "Add",
+    "remove": "Remove"
 }

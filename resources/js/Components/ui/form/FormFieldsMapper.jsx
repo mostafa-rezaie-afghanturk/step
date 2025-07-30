@@ -13,8 +13,8 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import TranslateLinkComboBoxSelect from './TranslateLinkComboBoxSelect';
 import DynamicCombobox from './DynamicCombobox ';
-import { calcLength } from 'framer-motion';
 import AppDropZone from './AppDropZone';
+import JsonCounterList from './JsonCounterList';
 
 const FormFieldsMapper = ({ fields, data, setData, errors, children }) => {
     const { t } = useTranslation();
@@ -216,6 +216,15 @@ const FormFieldsMapper = ({ fields, data, setData, errors, children }) => {
                         onChange={e => setData(col.name, e)}
                     />
                 );
+            case 'json_counter_list':
+                return (
+                    <JsonCounterList
+                        col={col}
+                        data={data}
+                        setData={setData}
+                        defaultValue={col.default}
+                    />
+                );
 
             default:
                 return null;
@@ -224,16 +233,24 @@ const FormFieldsMapper = ({ fields, data, setData, errors, children }) => {
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-            <div className='col-span-2'></div>
+            <div className="col-span-2"></div>
             {fields.map((col, index) => {
                 // Handle required_if in the format 'field,value'
+
                 if (col.required_if) {
                     if (
                         typeof col.required_if === 'string' &&
                         col.required_if.includes(',')
                     ) {
                         const [field, value] = col.required_if.split(',');
-                        if (data[field] !== value) {
+                        let compareValue = value;
+                        // Convert string to boolean if needed
+                        if (typeof data[field] === 'boolean') {
+                            compareValue = value === 'true';
+                        } else if (!isNaN(data[field])) {
+                            compareValue = Number(value);
+                        }
+                        if (data[field] !== compareValue) {
                             return null;
                         }
                     } else if (!data[col.required_if]) {
@@ -248,19 +265,7 @@ const FormFieldsMapper = ({ fields, data, setData, errors, children }) => {
                         <Label
                             text={t(col.label)}
                             htmlFor={col.name}
-                            required={(() => {
-                                // If required_if is in 'field,value' format, set required to true only if condition matches
-                                if (
-                                    col.required_if &&
-                                    typeof col.required_if === 'string' &&
-                                    col.required_if.includes(',')
-                                ) {
-                                    const [field, value] =
-                                        col.required_if.split(',');
-                                    return data[field] === value;
-                                }
-                                return col?.required;
-                            })()}
+                            required={col?.required}
                         />
 
                         {renderField(col)}

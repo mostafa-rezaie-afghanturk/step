@@ -192,8 +192,14 @@ class LandController extends Controller
                 'header' => 'Building Exterior Spaces',
                 'accessor' => 'building_exterior_spaces',
                 'visibility' => false,
-                'type' => 'tag',
-                'validation' => 'required|json',
+                'type' => 'json_counter_list',
+                'option' => [
+                    'Open Sports Area',
+                    'Garden Playground',
+                    'Social Area',
+                    'Promenades',
+                ],
+                'validation' => 'required|array',
                 'context' => ['show', 'edit', 'create'],
             ],
             [
@@ -366,7 +372,7 @@ class LandController extends Controller
             'rental_fee' => $data['rental_fee'],
             'lease_start' => $data['lease_start'],
             'lease_end' => $data['lease_end'],
-            'building_exterior_spaces' => $data['building_exterior_spaces'],
+            'building_exterior_spaces' => json_encode($data['building_exterior_spaces'], true),
             'country_id' => $data['country_id'],
         ]);
 
@@ -389,6 +395,9 @@ class LandController extends Controller
             // Handle file fields to provide URLs from relationships
             if ($land) {
                 switch ($column['accessor']) {
+                    case 'building_exterior_spaces':
+                        $default = $land->building_exterior_spaces ? json_decode($land->building_exterior_spaces, true) : [];
+                        break;
                     case 'purchase_docs':
                         $default = $land->purchaseDocs ? $land->purchaseDocs->map(function ($file) {
                             return url('storage/' . $file->file_path);
