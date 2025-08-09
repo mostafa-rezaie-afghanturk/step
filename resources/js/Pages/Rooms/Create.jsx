@@ -14,7 +14,11 @@ const Create = ({ room, fields }) => {
     const { t } = useTranslation();
 
     const initialData = fields.reduce((acc, field) => {
-        acc[field.name] = field.default;
+        if (field.type === 'boolean') {
+            acc[field.name] = field.default ?? false;
+        } else {
+            acc[field.name] = field.default ?? '';
+        }
         return acc;
     }, {});
 
@@ -28,8 +32,12 @@ const Create = ({ room, fields }) => {
     return (
         <>
             <AuthenticatedLayout>
-                <div className="flex justify-between">
-                    <div></div>
+                <div className="flex justify-between items-center">
+                    <div>
+                        <h1 className="text-2xl font-bold">
+                            {t('create_room')}
+                        </h1>
+                    </div>
                     <div id="saverooms">
                         {hasPermission('rooms create') && (
                             <Button

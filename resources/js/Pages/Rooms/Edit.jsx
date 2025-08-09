@@ -14,7 +14,11 @@ const Edit = ({ room, fields }) => {
     const { t } = useTranslation();
 
     const initialData = fields.reduce((acc, field) => {
-        acc[field.name] = field.default;
+        if (field.type === 'boolean') {
+            acc[field.name] = field.default ?? false;
+        } else {
+            acc[field.name] = field.default ?? '';
+        }
         return acc;
     }, {});
 
@@ -28,8 +32,10 @@ const Edit = ({ room, fields }) => {
     return (
         <>
             <AuthenticatedLayout>
-                <div className="flex justify-between">
-                    <div></div>
+                <div className="flex justify-between items-center">
+                    <div>
+                        <h1 className="text-2xl font-bold">{t('edit_room')}</h1>
+                    </div>
                     <div>
                         {hasPermission('rooms write') && (
                             <Button

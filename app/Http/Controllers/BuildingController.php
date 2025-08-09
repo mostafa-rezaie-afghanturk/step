@@ -269,7 +269,6 @@ class BuildingController extends Controller
             'rental_fee' => $data['rental_fee'],
             'lease_start' => $data['lease_start'],
             'lease_end' => $data['lease_end'],
-            'building_project' => json_encode($data['building_project']),
             'land_id' => $data['land_id'],
         ]);
 
@@ -358,7 +357,6 @@ class BuildingController extends Controller
             'rental_fee' => $data['rental_fee'],
             'lease_start' => $data['lease_start'],
             'lease_end' => $data['lease_end'],
-            'building_project' => json_encode($data['building_project']),
             'land_id' => $data['land_id'],
         ]);
 

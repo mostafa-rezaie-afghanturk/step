@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\FileCategoryEnum;
+use App\Traits\HasFileUploads;
 use App\Traits\MorphManyFiles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +12,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Room extends Model
 {
-    use HasFactory, LogsActivity, MorphManyFiles;
+    use HasFactory, LogsActivity, MorphManyFiles, HasFileUploads;
 
     protected $guarded = [];
 
@@ -23,7 +25,15 @@ class Room extends Model
             ->useLogName('rooms');
     }
 
-    public function floor() {
+    public function floor()
+    {
         return $this->belongsTo(Floor::class, 'floor_id', 'floor_id');
+    }
+
+    public function fileInputs(): array
+    {
+        return [
+            'room_photos' => FileCategoryEnum::ROOM_PHOTO,
+        ];
     }
 }

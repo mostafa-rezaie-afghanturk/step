@@ -160,7 +160,11 @@ const SingleShow = ({ open, setOpen, selectedId }) => {
                                     />
                                     <SingleRow
                                         itemName={t('Data Outputs')}
-                                        itemText={singleData?.data_outputs}
+                                        itemText={
+                                            Object.entries(JSON.parse(singleData?.data_outputs || '{}'))
+                                                .map(([key, value]) => `${key}: ${value}`)
+                                                .join(', ') || t('None')
+                                        }
                                         itemName2={t('Notes')}
                                         itemText2={singleData?.notes}
                                     />

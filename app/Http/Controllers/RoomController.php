@@ -9,12 +9,13 @@ use App\Repositories\ExportService;
 use App\Repositories\FilterRepository;
 use App\Traits\BulkDeleteTrait;
 use App\Traits\BulkEditTrait;
+use App\Traits\HasFileUploads;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class RoomController extends Controller
 {
-    use BulkDeleteTrait, BulkEditTrait;
+    use BulkDeleteTrait, BulkEditTrait, HasFileUploads;
 
     protected $columns;
     protected $fields;
@@ -30,7 +31,6 @@ class RoomController extends Controller
         FilterRepository $filterRepository
     ) {
         $this->columns = $this->getColumns();
-        $this->fields = $this->getFields();
         $this->exportService = $exportService;
         $this->activityLogRepository = $activityLogRepository;
         $this->filterRepository = $filterRepository;
@@ -77,9 +77,9 @@ class RoomController extends Controller
                 'accessor' => 'has_door',
                 'visibility' => false,
                 'type' => 'boolean',
-                'validation' => 'nullable|boolean',
+                'validation' => 'boolean',
                 'context' => ['show', 'edit', 'create'],
-                 'width' => 2
+                'width' => 2
             ],
             [
                 'header' => 'Door Material',
@@ -142,9 +142,9 @@ class RoomController extends Controller
                 'accessor' => 'has_window',
                 'visibility' => false,
                 'type' => 'boolean',
-                'validation' => 'nullable|boolean',
+                'validation' => 'boolean',
                 'context' => ['show', 'edit', 'create'],
-                 'width' => 2
+                'width' => 2
             ],
             [
                 'header' => 'Window Total Area',
@@ -263,7 +263,7 @@ class RoomController extends Controller
                     'Multi-mode Fiber',
                     'Single-mode Fiber',
                 ],
-                'validation' => 'nullable|json',
+                'validation' => 'nullable|array',
                 'context' => ['show', 'edit', 'create'],
             ],
             [
@@ -326,10 +326,10 @@ class RoomController extends Controller
             ],
             [
                 'header' => 'Photos',
-                'accessor' => 'room_photo',
+                'accessor' => 'room_photos',
                 'visibility' => false,
                 'type' => 'file',
-                'validation' => 'nullable|string|max:255',
+                'validation' => 'nullable',
                 'context' => ['show', 'edit', 'create'],
                 'width' => 2
             ],
@@ -343,21 +343,6 @@ class RoomController extends Controller
                 'width' => 2
             ],
         ];
-    }
-
-    protected function getFields($room = null)
-    {
-        return array_map(function ($column) use ($room) {
-            return [
-                'name' => $column['accessor'],
-                'label' => $column['header'],
-                'type' => $column['type'],
-                'option' => $column['option'] ?? null,
-                'default' => $room ? data_get($room, $column['accessor']) : null,
-                'search_url' => $column['search_url'] ?? null,
-                'required' => str_contains($column['validation'], 'required'),
-            ];
-        }, $this->columns);
     }
 
     public function index()
@@ -399,13 +384,51 @@ class RoomController extends Controller
     public function store(Request $request)
     {
         $rules = [];
+
         foreach ($this->columns as $col) {
             if (in_array('create', $col['context'])) {
                 $rules[$col['accessor']] = $col['validation'];
             }
         }
+
         $data = $request->validate($rules);
-        Room::create($data);
+
+        $room = Room::create([
+            'room_code' => $data['room_code'],
+            'room_type' => $data['room_type'],
+            'size' => $data['size'],
+            'width' => $data['width'],
+            'has_door' => $data['has_door'],
+            'door_material' => $data['door_material'],
+            'door_wingspan_cm' => $data['door_wingspan_cm'],
+            'observation_window_type' => $data['observation_window_type'],
+            'has_door_threshold' => $data['has_door_threshold'],
+            'has_door_shin_guard' => $data['has_door_shin_guard'],
+            'has_door_centre_back' => $data['has_door_centre_back'],
+            'has_window' => $data['has_window'],
+            'window_total_area' => $data['window_total_area'],
+            'window_starting_height' => $data['window_starting_height'],
+            'window_opening_type' => $data['window_opening_type'],
+            'has_fire_escape' => $data['has_fire_escape'],
+            'has_elevator' => $data['has_elevator'],
+            'flooring' => $data['flooring'],
+            'daylight_direction' => $data['daylight_direction'],
+            'ventilation' => $data['ventilation'],
+            'lighting' => $data['lighting'],
+            'sound_insulation' => $data['sound_insulation'],
+            'paint_condition' => $data['paint_condition'],
+            'number_of_sockets' => $data['number_of_sockets'],
+            'data_outputs' => json_encode($data['data_outputs']),
+            'heating' => $data['heating'],
+            'has_clean_water' => $data['has_clean_water'],
+            'has_dirty_water' => $data['has_dirty_water'],
+            'has_natural_gas' => $data['has_natural_gas'],
+            'seats' => $data['seats'],
+            'floor_id' => $data['floor_id'],
+            'notes' => $data['notes'] ?? null,
+        ]);
+
+        $room->handleFileUploads($request);
 
         return redirect()->route('rooms.index')->with('success', 'Room created successfully.');
     }
@@ -413,13 +436,51 @@ class RoomController extends Controller
     public function show($id)
     {
         $room = Room::with('floor.building')->where('room_id', $id)->firstOrFail();
+
         return response()->json(['record' => $room]);
     }
 
     public function edit($id)
     {
         $room = Room::findOrFail($id);
-        $fields = $this->getFields($room);
+
+        $editableColumns = array_filter($this->getColumns(), function ($column) {
+            return in_array('edit', $column['context']);
+        });
+
+        $fields = array_map(function ($column) use ($room) {
+            $default = $room ? ($room[$column['accessor']] ?? null) : null;
+
+            // Handle file fields to provide URLs from relationships
+            if ($room) {
+                switch ($column['accessor']) {
+                    case 'data_outputs':
+                        $default = $room->data_outputs ? json_decode($room->data_outputs, true) : [];
+                        break;
+                    case 'room_photos':
+                        $default = $room->roomPhotos ? $room->roomPhotos->map(function ($file) {
+                            return url('storage/' . $file->file_path);
+                        })->toArray() : [];
+                        break;
+                }
+            }
+
+            $field = [
+                'label' => $column['header'],
+                'name' => $column['accessor'],
+                'type' => $column['type'],
+                'width' => $column['width'] ?? null,
+                'default' => $default,
+                'option' => $column['option'] ?? null,
+                'search_url' => $column['search_url'] ?? null,
+                'depends_on' => $column['depends_on'] ?? null,
+                'required' => str_contains($column['validation'], 'required'),
+                'required_if' => $column['required_if'] ?? null,
+            ];
+
+            return $field;
+        }, $editableColumns);
+        $fields = array_values($fields);
 
         return Inertia::render('Rooms/Edit', [
             'fields' => $fields,
@@ -431,18 +492,59 @@ class RoomController extends Controller
     {
         $room = Room::findOrFail($id);
         $rules = [];
+
         foreach ($this->columns as $col) {
             if (in_array('edit', $col['context'])) {
                 $rule = $col['validation'];
                 if (str_contains($rule, 'unique:rooms,room_code')) {
-                    $rule = str_replace('unique:rooms,room_code', 'unique:rooms,room_code,' . $room->id, $rule);
+                    $rule = str_replace(
+                        'unique:rooms,room_code',
+                        'unique:rooms,room_code,' . $room->room_id . ',room_id',
+                        $rule
+                    );;
                 }
                 $rules[$col['accessor']] = $rule;
             }
         }
 
         $data = $request->validate($rules);
-        $room->update($data);
+
+        $room->update([
+            'room_code' => $data['room_code'],
+            'room_type' => $data['room_type'],
+            'size' => $data['size'],
+            'width' => $data['width'],
+            'has_door' => $data['has_door'],
+            'door_material' => $data['door_material'],
+            'door_wingspan_cm' => $data['door_wingspan_cm'],
+            'observation_window_type' => $data['observation_window_type'],
+            'has_door_threshold' => $data['has_door_threshold'],
+            'has_door_shin_guard' => $data['has_door_shin_guard'],
+            'has_door_centre_back' => $data['has_door_centre_back'],
+            'has_window' => $data['has_window'],
+            'window_total_area' => $data['window_total_area'],
+            'window_starting_height' => $data['window_starting_height'],
+            'window_opening_type' => $data['window_opening_type'],
+            'has_fire_escape' => $data['has_fire_escape'],
+            'has_elevator' => $data['has_elevator'],
+            'flooring' => $data['flooring'],
+            'daylight_direction' => $data['daylight_direction'],
+            'ventilation' => $data['ventilation'],
+            'lighting' => $data['lighting'],
+            'sound_insulation' => $data['sound_insulation'],
+            'paint_condition' => $data['paint_condition'],
+            'number_of_sockets' => $data['number_of_sockets'],
+            'data_outputs' => json_encode($data['data_outputs']),
+            'heating' => $data['heating'],
+            'has_clean_water' => $data['has_clean_water'],
+            'has_dirty_water' => $data['has_dirty_water'],
+            'has_natural_gas' => $data['has_natural_gas'],
+            'seats' => $data['seats'],
+            'floor_id' => $data['floor_id'],
+            'notes' => $data['notes'] ?? null,
+        ]);
+
+        $room->handleFileUploads($request);
 
         return redirect()->route('rooms.index')->with('success', 'Room updated successfully.');
     }

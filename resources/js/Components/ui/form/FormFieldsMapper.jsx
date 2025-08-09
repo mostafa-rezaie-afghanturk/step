@@ -15,6 +15,7 @@ import TranslateLinkComboBoxSelect from './TranslateLinkComboBoxSelect';
 import DynamicCombobox from './DynamicCombobox ';
 import AppDropZone from './AppDropZone';
 import JsonCounterList from './JsonCounterList';
+import { calcLength } from 'framer-motion';
 
 const FormFieldsMapper = ({ fields, data, setData, errors, children }) => {
     const { t } = useTranslation();
@@ -236,27 +237,46 @@ const FormFieldsMapper = ({ fields, data, setData, errors, children }) => {
             <div className="col-span-2"></div>
             {fields.map((col, index) => {
                 // Handle required_if in the format 'field,value'
-
+                console.log(col);
                 if (col.required_if) {
                     if (
                         typeof col.required_if === 'string' &&
                         col.required_if.includes(',')
                     ) {
                         const [field, value] = col.required_if.split(',');
-                        let compareValue = value;
-                        // Convert string to boolean if needed
-                        if (typeof data[field] === 'boolean') {
-                            compareValue = value === 'true';
-                        } else if (!isNaN(data[field])) {
-                            compareValue = Number(value);
+
+                        // Normalize actual data value
+                        let actualValue = data[field];
+                        if (
+                            actualValue === '1' ||
+                            actualValue === 1 ||
+                            actualValue === 'true'
+                        ) {
+                            actualValue = true;
+                        } else if (
+                            actualValue === '0' ||
+                            actualValue === 0 ||
+                            actualValue === 'false'
+                        ) {
+                            actualValue = false;
                         }
-                        if (data[field] !== compareValue) {
+
+                        // Normalize compare value
+                        let compareValue = value;
+                        if (value === '1' || value === 'true')
+                            compareValue = true;
+                        else if (value === '0' || value === 'false')
+                            compareValue = false;
+                        else if (!isNaN(value)) compareValue = Number(value);
+
+                        if (actualValue !== compareValue) {
                             return null;
                         }
                     } else if (!data[col.required_if]) {
                         return null;
                     }
                 }
+
                 return (
                     <div
                         key={col.name || index}
