@@ -28,7 +28,8 @@ return new class extends Migration
                 'room_photo',
                 'warranty_cert',
                 'purchase_doc',
-                'building_project'
+                'building_project',
+                'asset_photo'
             ])->nullable();
             $table->json('details')->nullable();
 

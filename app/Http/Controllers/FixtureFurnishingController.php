@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class FurnishingController extends Controller
+class FixtureFurnishingController extends Controller
 {
     //
 }

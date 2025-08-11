@@ -12,6 +12,7 @@ enum FileCategoryEnum: string
     case ROOM_PHOTO = 'room_photo';
     case WARRANTY_CERT = 'warranty_cert';
     case BUILDING_PROJECT = 'building_project';
+    case ASSET_PHOTO = 'asset_photo';
 
     public function folder(): string
     {

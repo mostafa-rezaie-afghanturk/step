@@ -56,4 +56,9 @@ trait MorphManyFiles
     {
         return $this->files()->where('category', FileCategoryEnum::WARRANTY_CERT->value);
     }
+
+    public function assetPhotos(): MorphMany
+    {
+        return $this->files()->where('category', FileCategoryEnum::ASSET_PHOTO->value);
+    }
 }

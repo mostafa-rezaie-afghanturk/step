@@ -7,18 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Furnishing extends Model
+class FixtureFurnishing extends Model
 {
     use HasFactory, LogsActivity;
 
     protected $guarded = [];
 
-    protected $primaryKey = 'furnishing_id';
+    protected $primaryKey = 'fixture_furnishing_id';
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
             ->logAll()
-            ->useLogName('furnishings');
+            ->useLogName('fixtures_furnishings');
     }
 }

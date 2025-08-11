@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('furnishings', function (Blueprint $table) {
-            $table->id('furnishing_id');
+        Schema::create('fixtures_furnishings', function (Blueprint $table) {
+            $table->id('fixture_furnishing_id');
             $table->morphs('location'); // location_type + location_id
 
             $table->string('asset_code')->unique();
@@ -32,17 +32,21 @@ return new class extends Migration
             $table->string('manufacturer')->nullable();
             $table->string('production_site')->nullable();
             $table->date('production_date')->nullable();
-            $table->json('specs')->nullable();
+            $table->json('technical_specifications')->nullable();
 
-            $table->string('related_level')->nullable(); // optional ENUM if limited
-            $table->string('photo')->nullable();
+            $table->enum('related_level', [
+                'Preschool',
+                'Primary School',
+                'Middle School',
+                'High School',
+                'Other'
+            ])->nullable();
 
             $table->integer('lifespan')->nullable();
             $table->date('start_date')->nullable();
 
             $table->date('warranty_start')->nullable();
             $table->date('warranty_end')->nullable();
-            $table->string('warranty_cert')->nullable();
 
             $table->string('brand')->nullable();
             $table->string('model')->nullable();
