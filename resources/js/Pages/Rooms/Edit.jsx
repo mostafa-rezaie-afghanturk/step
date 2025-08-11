@@ -22,11 +22,11 @@ const Edit = ({ room, fields }) => {
         return acc;
     }, {});
 
-    const { data, setData, put, processing, errors } = useForm(initialData);
+    const { data, setData, post, processing, errors } = useForm(initialData);
 
     const handleSubmit = e => {
         e.preventDefault();
-        put(route('rooms.update', room.room_id));
+        post(route('rooms.update', room.room_id));
     };
 
     return (

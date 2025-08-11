@@ -435,7 +435,7 @@ class RoomController extends Controller
 
     public function show($id)
     {
-        $room = Room::with('floor.building')->where('room_id', $id)->firstOrFail();
+        $room = Room::with('floor.building', 'roomPhotos')->where('room_id', $id)->firstOrFail();
 
         return response()->json(['record' => $room]);
     }

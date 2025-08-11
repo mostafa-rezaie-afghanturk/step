@@ -240,7 +240,7 @@ Route::middleware(['auth', 'force_password_change'])->group(function () {
         Route::post('/', [RoomController::class, 'store'])->name('rooms.store')->middleware('can:rooms create');
         Route::get('/create/{id?}', [RoomController::class, 'create'])->name('rooms.create')->middleware('can:rooms create');
         Route::get('/show/{id}', [RoomController::class, 'show'])->name('rooms.show')->middleware('can:rooms read');
-        Route::put('/{id}', [RoomController::class, 'update'])->name('rooms.update')->middleware('can:rooms edit');
+        Route::post('/{id}', [RoomController::class, 'update'])->name('rooms.update')->middleware('can:rooms edit');
         Route::post('/{id}/change-status', [RoomController::class, 'changeStatus'])->name('rooms.changeStatus')->middleware('can:rooms edit');
         Route::delete('/{id}', [RoomController::class, 'destroy'])->name('rooms.destroy')->middleware('can:rooms delete');
         Route::get('/activity_log/{id}', [RoomController::class, 'logActivity'])->name('rooms.logActivity');

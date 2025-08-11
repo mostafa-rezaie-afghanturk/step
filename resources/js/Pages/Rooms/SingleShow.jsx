@@ -5,6 +5,8 @@ import { Modal, ModalBody, ModalContent } from '@/Components/ui/modal';
 import { useEffect, useState } from 'react';
 import { usePermission } from '@/hooks/usePermission';
 import { useTranslation } from 'react-i18next';
+import FileList from '@/Components/ui/FileList';
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/20/solid';
 
 const SingleShow = ({ open, setOpen, selectedId }) => {
     const { hasPermission } = usePermission();
@@ -131,47 +133,223 @@ const SingleShow = ({ open, setOpen, selectedId }) => {
                                     <SingleRow
                                         itemName={t('Clean Water')}
                                         itemText={
-                                            singleData?.has_clean_water
-                                                ? t('Yes')
-                                                : t('No')
+                                            singleData?.has_clean_water ? (
+                                                <CheckCircleIcon className="h-5 w-5 text-green-400" />
+                                            ) : (
+                                                <XCircleIcon className="h-5 w-5 text-red-400" />
+                                            )
                                         }
                                         itemName2={t('Dirty Water')}
                                         itemText2={
-                                            singleData?.has_dirty_water
-                                                ? t('Yes')
-                                                : t('No')
+                                            singleData?.has_dirty_water ? (
+                                                <CheckCircleIcon className="h-5 w-5 text-green-400" />
+                                            ) : (
+                                                <XCircleIcon className="h-5 w-5 text-red-400" />
+                                            )
                                         }
                                         bgColor
                                     />
                                     <SingleRow
                                         itemName={t('Natural Gas')}
                                         itemText={
-                                            singleData?.has_natural_gas
-                                                ? t('Yes')
-                                                : t('No')
+                                            singleData?.has_natural_gas ? (
+                                                <CheckCircleIcon className="h-5 w-5 text-green-400" />
+                                            ) : (
+                                                <XCircleIcon className="h-5 w-5 text-red-400" />
+                                            )
+                                        }
+                                        itemName2={t('Has Fire Escape')}
+                                        itemText2={
+                                            singleData?.has_fire_escape ? (
+                                                <CheckCircleIcon className="h-5 w-5 text-green-400" />
+                                            ) : (
+                                                <XCircleIcon className="h-5 w-5 text-red-400" />
+                                            )
+                                        }
+                                    />
+                                    <SingleRow
+                                        itemName={t('Has Elevator')}
+                                        itemText={
+                                            singleData?.has_elevator ? (
+                                                <CheckCircleIcon className="h-5 w-5 text-green-400" />
+                                            ) : (
+                                                <XCircleIcon className="h-5 w-5 text-red-400" />
+                                            )
+                                        }
+                                        itemName2={t('Has Fire Escape')}
+                                        itemText2={
+                                            singleData?.has_fire_escape ? (
+                                                <CheckCircleIcon className="h-5 w-5 text-green-400" />
+                                            ) : (
+                                                <XCircleIcon className="h-5 w-5 text-red-400" />
+                                            )
                                         }
                                     />
                                     <SingleRow
                                         itemName={t('Door Details')}
-                                        itemText={singleData?.door_details}
+                                        itemText={
+                                            <div>
+                                                {singleData?.has_door ? (
+                                                    <CheckCircleIcon className="h-5 w-5 text-green-400" />
+                                                ) : (
+                                                    <XCircleIcon className="h-5 w-5 text-red-400" />
+                                                )}
+                                                {Boolean(
+                                                    singleData?.has_door
+                                                ) && (
+                                                    <div>
+                                                        <ul className="space-y-2 mt-2">
+                                                            <li>
+                                                                <strong>
+                                                                    {t(
+                                                                        'Door Material'
+                                                                    )}
+                                                                </strong>
+                                                                :{' '}
+                                                                {
+                                                                    singleData?.door_material
+                                                                }
+                                                            </li>
+                                                            <li>
+                                                                <strong>
+                                                                    {t(
+                                                                        'Door Wingspan (cm)'
+                                                                    )}
+                                                                </strong>
+                                                                :{' '}
+                                                                {
+                                                                    singleData?.door_wingspan_cm
+                                                                }
+                                                            </li>
+                                                            <li>
+                                                                <strong>
+                                                                    {t(
+                                                                        'Observation Window Type'
+                                                                    )}
+                                                                </strong>
+                                                                :{' '}
+                                                                {
+                                                                    singleData?.observation_window_type
+                                                                }
+                                                            </li>
+                                                            <li>
+                                                                <strong>
+                                                                    {t(
+                                                                        'Has Door Threshold'
+                                                                    )}
+                                                                </strong>
+                                                                :{' '}
+                                                                {
+                                                                    singleData?.has_door_threshold
+                                                                }
+                                                            </li>
+                                                            <li>
+                                                                <strong>
+                                                                    {t(
+                                                                        'Has Door Shin Guard'
+                                                                    )}
+                                                                </strong>
+                                                                :{' '}
+                                                                {
+                                                                    singleData?.has_door_shin_guard
+                                                                }
+                                                            </li>
+                                                            <li>
+                                                                <strong>
+                                                                    {t(
+                                                                        'Has Door Centre Back'
+                                                                    )}
+                                                                </strong>
+                                                                :{' '}
+                                                                {
+                                                                    singleData?.has_door_centre_back
+                                                                }
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        }
                                         itemName2={t('Window Details')}
-                                        itemText2={singleData?.window_details}
+                                        itemText2={
+                                            <div>
+                                                {singleData?.has_window ? (
+                                                    <CheckCircleIcon className="h-5 w-5 text-green-400" />
+                                                ) : (
+                                                    <XCircleIcon className="h-5 w-5 text-red-400" />
+                                                )}
+                                                {Boolean(
+                                                    singleData?.has_window
+                                                ) && (
+                                                    <div>
+                                                        <ul className="space-y-2 mt-2">
+                                                            <li>
+                                                                <strong>
+                                                                    {t(
+                                                                        'Window Total Area'
+                                                                    )}
+                                                                </strong>
+                                                                :{' '}
+                                                                {
+                                                                    singleData?.window_total_area
+                                                                }
+                                                            </li>
+                                                            <li>
+                                                                <strong>
+                                                                    {t(
+                                                                        'Window Starting Height'
+                                                                    )}
+                                                                </strong>
+                                                                :{' '}
+                                                                {
+                                                                    singleData?.window_starting_height
+                                                                }
+                                                            </li>
+                                                            <li>
+                                                                <strong>
+                                                                    {t(
+                                                                        'Window Opening Type'
+                                                                    )}
+                                                                </strong>
+                                                                :{' '}
+                                                                {
+                                                                    singleData?.window_opening_type
+                                                                }
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        }
                                         bgColor
                                     />
                                     <SingleRow
                                         itemName={t('Data Outputs')}
                                         itemText={
-                                            Object.entries(JSON.parse(singleData?.data_outputs || '{}'))
-                                                .map(([key, value]) => `${key}: ${value}`)
-                                                .join(', ') || t('None')
+                                            <ul className="space-y-2">
+                                                {Object.entries(
+                                                    (() => {
+                                                        try {
+                                                            return JSON.parse(
+                                                                singleData?.data_outputs ||
+                                                                    '{}'
+                                                            );
+                                                        } catch {
+                                                            return {};
+                                                        }
+                                                    })()
+                                                ).map(([key, value]) => (
+                                                    <li key={key}>
+                                                        <strong>
+                                                            {t(key)}
+                                                        </strong>
+                                                        : {value}
+                                                    </li>
+                                                ))}
+                                            </ul>
                                         }
                                         itemName2={t('Notes')}
                                         itemText2={singleData?.notes}
-                                    />
-                                    <SingleRow
-                                        itemName={t('Photo')}
-                                        itemText={singleData?.photo}
-                                        bgColor
                                     />
                                     <SingleRow
                                         itemName={t('Floor Code')}
@@ -179,6 +357,21 @@ const SingleShow = ({ open, setOpen, selectedId }) => {
                                         itemName2={t('Building')}
                                         itemText2={
                                             singleData?.floor?.building?.name
+                                        }
+                                        bgColor
+                                    />
+                                    <SingleRow
+                                        singleRow={true}
+                                        itemName={t('Photos')}
+                                        itemText={
+                                            <div>
+                                                <FileList
+                                                    files={
+                                                        singleData?.room_photos ||
+                                                        []
+                                                    }
+                                                />
+                                            </div>
                                         }
                                     />
                                 </div>
