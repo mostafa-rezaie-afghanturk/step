@@ -97,8 +97,8 @@ export default function Authenticated({ header, children }) {
             icon: <SiGoogleclassroom className="  h-5 w-5 flex-shrink-0" />,
         },
         {
-            label: 'furnishings',
-            id: 'furnishings',
+            label: 'fixture-furnishings',
+            id: 'fixture-furnishings',
             icon: <PiNotebookBold className="  h-5 w-5 flex-shrink-0" />,
         },
         {

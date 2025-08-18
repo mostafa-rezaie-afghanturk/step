@@ -21,7 +21,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'buildings',
             'floors',
             'rooms',
-            'furnishings',
+            'fixture-furnishings',
             'educational-materials',
             'users',
             'roles',

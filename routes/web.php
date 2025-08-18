@@ -6,6 +6,7 @@ use App\Http\Controllers\CampusController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EducationalInstitutionController;
+use App\Http\Controllers\FixtureFurnishingController;
 use App\Http\Controllers\FloorController;
 use App\Http\Controllers\LandController;
 use App\Http\Controllers\PasswordController;
@@ -244,6 +245,29 @@ Route::middleware(['auth', 'force_password_change'])->group(function () {
         Route::post('/{id}/change-status', [RoomController::class, 'changeStatus'])->name('rooms.changeStatus')->middleware('can:rooms edit');
         Route::delete('/{id}', [RoomController::class, 'destroy'])->name('rooms.destroy')->middleware('can:rooms delete');
         Route::get('/activity_log/{id}', [RoomController::class, 'logActivity'])->name('rooms.logActivity');
+    });
+
+    Route::group(['prefix' => 'fixture-furnishings'], function () {
+
+        Route::get('/export', [FixtureFurnishingController::class, 'export'])->name('fixture-furnishings.export')->middleware('can:fixture-furnishings export');
+        Route::get('/pdf', [FixtureFurnishingController::class, 'pdf'])->name('fixture-furnishings.pdf')->middleware('can:fixture-furnishings export');
+        Route::get('/search/{search?}', [FixtureFurnishingController::class, 'search'])->name('fixture-furnishings.search')->middleware('can:fixture-furnishings read');
+        Route::get('/location/{search?}', [FixtureFurnishingController::class, 'location'])->name('locations.search')->middleware('can:fixture-furnishings read');
+
+        Route::get('/datatable', [FixtureFurnishingController::class, 'datatable'])->name('fixture-furnishings.datatable')->middleware('can:fixture-furnishings read');
+        Route::group(['prefix' => 'bulk'], function () {
+            Route::put('/edit', [FixtureFurnishingController::class, 'bulkEdit'])->name('fixture-furnishings.bulkEdit')->middleware('can:fixture-furnishings edit');
+            Route::delete('/delete', [FixtureFurnishingController::class, 'bulkDelete'])->name('fixture-furnishings.bulkDelete')->middleware('can:fixture-furnishings delete');
+        });
+
+        Route::get('/{id}/edit', [FixtureFurnishingController::class, 'edit'])->name('fixture-furnishings.edit')->middleware('can:fixture-furnishings edit');
+        Route::get('/', [FixtureFurnishingController::class, 'index'])->name('fixture-furnishings.index')->middleware('can:fixture-furnishings read');
+        Route::post('/', [FixtureFurnishingController::class, 'store'])->name('fixture-furnishings.store')->middleware('can:fixture-furnishings create');
+        Route::get('/create/{id?}', [FixtureFurnishingController::class, 'create'])->name('fixture-furnishings.create')->middleware('can:fixture-furnishings create');
+        Route::get('/show/{id}', [FixtureFurnishingController::class, 'show'])->name('fixture-furnishings.show')->middleware('can:fixture-furnishings read');
+        Route::put('/{id}', [FixtureFurnishingController::class, 'update'])->name('fixture-furnishings.update')->middleware('can:fixture-furnishings edit');
+        Route::delete('/{id}', [FixtureFurnishingController::class, 'destroy'])->name('fixture-furnishings.destroy')->middleware('can:fixture-furnishings delete');
+        Route::get('/activity_log/{id}', [FixtureFurnishingController::class, 'logActivity'])->name('fixture-furnishings.logActivity');
     });
 
     Route::group(['prefix' => 'activity-log'], function () {

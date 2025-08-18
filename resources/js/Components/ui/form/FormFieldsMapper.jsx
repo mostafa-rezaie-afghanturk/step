@@ -135,8 +135,8 @@ const FormFieldsMapper = ({ fields, data, setData, errors, children }) => {
                         dependsOn={
                             col?.depends_on
                                 ? {
-                                      [col.depends_on]: data[col.depends_on],
-                                  }
+                                    [col.depends_on]: data[col.depends_on],
+                                }
                                 : null
                         }
                         onChange={option => {
@@ -171,8 +171,8 @@ const FormFieldsMapper = ({ fields, data, setData, errors, children }) => {
                         dependsOn={
                             col?.depends_on
                                 ? {
-                                      [col.depends_on]: data[col.depends_on],
-                                  }
+                                    [col.depends_on]: data[col.depends_on],
+                                }
                                 : null
                         }
                         onChange={option => setData(col.name, option?.value)}
@@ -237,7 +237,6 @@ const FormFieldsMapper = ({ fields, data, setData, errors, children }) => {
             <div className="col-span-2"></div>
             {fields.map((col, index) => {
                 // Handle required_if in the format 'field,value'
-                console.log(col);
                 if (col.required_if) {
                     if (
                         typeof col.required_if === 'string' &&
