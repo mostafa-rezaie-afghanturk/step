@@ -366,10 +366,10 @@ class UserController extends Controller
     public function datatable(Request $request)
     {
         $query = User::query();
-        $query->with('userRestrictions');
+        // $query->with('userRestrictions');
 
         // Only list users without a userable
-        $query->whereNull('userable_id');
+        // $query->whereNull('userable_id');
 
         $data = $this->filterRepository->applyFilters($query, $request, $this->searchColumns);
 
