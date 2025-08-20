@@ -19,18 +19,6 @@ class FixtureFurnishing extends Model
     protected $table = 'fixtures_furnishings';
     protected $primaryKey = 'fixture_furnishing_id';
 
-    protected $casts = [
-        'technical_specifications' => 'array',
-        'calibration_history' => 'array',
-        'available_date' => 'date',
-        'production_date' => 'date',
-        'start_date' => 'date',
-        'warranty_start' => 'date',
-        'warranty_end' => 'date',
-        'calibration_required' => 'boolean',
-        'price' => 'decimal:2',
-    ];
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -50,6 +38,7 @@ class FixtureFurnishing extends Model
     {
         return [
             'warranty_cert' => FileCategoryEnum::WARRANTY_CERT,
+            'asset_photo' => FileCategoryEnum::ASSET_PHOTO,
         ];
     }
 }

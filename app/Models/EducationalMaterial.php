@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\FileCategoryEnum;
+use App\Traits\HasFileUploads;
+use App\Traits\MorphManyFiles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
@@ -9,7 +12,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class EducationalMaterial extends Model
 {
-    use HasFactory, LogsActivity;
+    use HasFactory, LogsActivity, MorphManyFiles, HasFileUploads;
 
     protected $guarded = [];
 
@@ -20,5 +23,21 @@ class EducationalMaterial extends Model
         return LogOptions::defaults()
             ->logAll()
             ->useLogName('educational_materials');
+    }
+
+    /**
+     * Get the parent location model (Room, Floor, Building, or Land).
+     */
+    public function location()
+    {
+        return $this->morphTo();
+    }
+
+    public function fileInputs(): array
+    {
+        return [
+            'warranty_cert' => FileCategoryEnum::WARRANTY_CERT,
+            'asset_photo' => FileCategoryEnum::ASSET_PHOTO,
+        ];
     }
 }

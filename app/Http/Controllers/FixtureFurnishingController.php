@@ -150,7 +150,6 @@ class FixtureFurnishingController extends Controller
                 'validation' => 'nullable|date',
                 'context' => ['show', 'edit', 'create'],
             ],
-
             [
                 'header' => 'Related Level',
                 'accessor' => 'related_level',
@@ -159,6 +158,15 @@ class FixtureFurnishingController extends Controller
                 'option' => ['Preschool', 'Primary School', 'Middle School', 'High School', 'Other'],
                 'validation' => 'nullable|in:Preschool,Primary School,Middle School,High School,Other',
                 'context' => ['show', 'edit', 'create'],
+            ],
+            [
+                'header' => 'Photo',
+                'accessor' => 'asset_photo',
+                'visibility' => false,
+                'type' => 'file',
+                'validation' => 'nullable',
+                'context' => ['show', 'edit', 'create'],
+                'width' => 2,
             ],
             [
                 'header' => 'Lifespan (Years)',
@@ -476,6 +484,11 @@ class FixtureFurnishingController extends Controller
                         break;
                     case 'warranty_cert':
                         $default = $fixtureFurnishing->warrantyCerts ? $fixtureFurnishing->warrantyCerts->map(function ($file) {
+                            return url('storage/' . $file->file_path);
+                        })->toArray() : [];
+                        break;
+                    case 'asset_photo':
+                        $default = $fixtureFurnishing->assetPhotos ? $fixtureFurnishing->assetPhotos->map(function ($file) {
                             return url('storage/' . $file->file_path);
                         })->toArray() : [];
                         break;

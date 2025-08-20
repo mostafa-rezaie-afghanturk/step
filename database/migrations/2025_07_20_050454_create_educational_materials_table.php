@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('manufacturer')->nullable();
             $table->string('production_site')->nullable();
             $table->date('production_date')->nullable();
-            $table->json('specs')->nullable();
+            $table->json('technical_specifications')->nullable();
 
             $table->string('related_level')->nullable();
             $table->string('photo')->nullable();

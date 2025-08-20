@@ -6,6 +6,7 @@ use App\Http\Controllers\CampusController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EducationalInstitutionController;
+use App\Http\Controllers\EducationalMaterialController;
 use App\Http\Controllers\FixtureFurnishingController;
 use App\Http\Controllers\FloorController;
 use App\Http\Controllers\LandController;
@@ -268,6 +269,29 @@ Route::middleware(['auth', 'force_password_change'])->group(function () {
         Route::put('/{id}', [FixtureFurnishingController::class, 'update'])->name('fixture-furnishings.update')->middleware('can:fixture-furnishings edit');
         Route::delete('/{id}', [FixtureFurnishingController::class, 'destroy'])->name('fixture-furnishings.destroy')->middleware('can:fixture-furnishings delete');
         Route::get('/activity_log/{id}', [FixtureFurnishingController::class, 'logActivity'])->name('fixture-furnishings.logActivity');
+    });
+
+    Route::group(['prefix' => 'educational-materials'], function () {
+
+        Route::get('/export', [EducationalMaterialController::class, 'export'])->name('educational-materials.export')->middleware('can:educational-materials export');
+        Route::get('/pdf', [EducationalMaterialController::class, 'pdf'])->name('educational-materials.pdf')->middleware('can:educational-materials export');
+        Route::get('/search/{search?}', [EducationalMaterialController::class, 'search'])->name('educational-materials.search')->middleware('can:educational-materials read');
+        Route::get('/location/{search?}', [EducationalMaterialController::class, 'location'])->name('educational-materials.location')->middleware('can:educational-materials read');
+
+        Route::get('/datatable', [EducationalMaterialController::class, 'datatable'])->name('educational-materials.datatable')->middleware('can:educational-materials read');
+        Route::group(['prefix' => 'bulk'], function () {
+            Route::put('/edit', [EducationalMaterialController::class, 'bulkEdit'])->name('educational-materials.bulkEdit')->middleware('can:educational-materials edit');
+            Route::delete('/delete', [EducationalMaterialController::class, 'bulkDelete'])->name('educational-materials.bulkDelete')->middleware('can:educational-materials delete');
+        });
+
+        Route::get('/{id}/edit', [EducationalMaterialController::class, 'edit'])->name('educational-materials.edit')->middleware('can:educational-materials edit');
+        Route::get('/', [EducationalMaterialController::class, 'index'])->name('educational-materials.index')->middleware('can:educational-materials read');
+        Route::post('/', [EducationalMaterialController::class, 'store'])->name('educational-materials.store')->middleware('can:educational-materials create');
+        Route::get('/create/{id?}', [EducationalMaterialController::class, 'create'])->name('educational-materials.create')->middleware('can:educational-materials create');
+        Route::get('/show/{id}', [EducationalMaterialController::class, 'show'])->name('educational-materials.show')->middleware('can:educational-materials read');
+        Route::post('/{id}', [EducationalMaterialController::class, 'update'])->name('educational-materials.update')->middleware('can:educational-materials edit');
+        Route::delete('/{id}', [EducationalMaterialController::class, 'destroy'])->name('educational-materials.destroy')->middleware('can:educational-materials delete');
+        Route::get('/activity_log/{id}', [EducationalMaterialController::class, 'logActivity'])->name('educational-materials.logActivity');
     });
 
     Route::group(['prefix' => 'activity-log'], function () {
