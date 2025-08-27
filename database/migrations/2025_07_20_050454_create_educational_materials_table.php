@@ -51,7 +51,7 @@ return new class extends Migration
             $table->string('service_info')->nullable();
 
             $table->boolean('calibration_required')->default(false);
-            $table->json('calibration_history')->nullable();
+            $table->text('calibration_history')->nullable();
 
             $table->timestamps();
         });

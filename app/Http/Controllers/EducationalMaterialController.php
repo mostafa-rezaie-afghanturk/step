@@ -75,6 +75,7 @@ class EducationalMaterialController extends Controller
                 'validation' => 'required|string|max:255',
                 'context' => ['show', 'edit', 'create'],
             ],
+
             [
                 'header' => 'Subgroup',
                 'accessor' => 'subgroup',
@@ -455,7 +456,7 @@ class EducationalMaterialController extends Controller
             'maintenance_notes' => $data['maintenance_notes'],
             'service_info' => $data['service_info'],
             'calibration_required' => $data['calibration_required'] ?? false,
-            'calibration_history' => json_encode($data['calibration_history'] ?? []),
+            'calibration_history' => $data['calibration_history'] ?? [],
             'location_type' => $locationType,
             'location_id' => $data['location_id'],
         ]);
