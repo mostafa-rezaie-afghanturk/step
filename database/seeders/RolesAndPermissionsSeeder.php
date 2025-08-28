@@ -28,6 +28,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'permissions',
             'activity-log',
             'reports',
+            'asset-transfer',
         ];
         $actions = ['read', 'write', 'create', 'edit', 'delete', 'report', 'import', 'export', 'print'];
 

@@ -15,6 +15,7 @@ use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\TransferController;
 use App\Http\Controllers\UserController;
 use App\Models\EducationalInstitution;
 use Illuminate\Support\Facades\Route;
@@ -292,6 +293,31 @@ Route::middleware(['auth', 'force_password_change'])->group(function () {
         Route::post('/{id}', [EducationalMaterialController::class, 'update'])->name('educational-materials.update')->middleware('can:educational-materials edit');
         Route::delete('/{id}', [EducationalMaterialController::class, 'destroy'])->name('educational-materials.destroy')->middleware('can:educational-materials delete');
         Route::get('/activity_log/{id}', [EducationalMaterialController::class, 'logActivity'])->name('educational-materials.logActivity');
+    });
+
+    Route::group(['prefix' => 'asset-transfer'], function () {
+        Route::get('/export', [TransferController::class, 'export'])->name('asset-transfer.export')->middleware('can:asset-transfer export');
+        Route::get('/pdf', [TransferController::class, 'pdf'])->name('asset-transfer.pdf')->middleware('can:asset-transfer export');
+        
+        Route::get('/datatable', [TransferController::class, 'datatable'])->name('asset-transfer.datatable')->middleware('can:asset-transfer read');
+        
+        Route::group(['prefix' => 'bulk'], function () {
+            Route::put('/edit', [TransferController::class, 'bulkEdit'])->name('asset-transfer.bulkEdit')->middleware('can:asset-transfer edit');
+            Route::delete('/delete', [TransferController::class, 'bulkDelete'])->name('asset-transfer.bulkDelete')->middleware('can:asset-transfer delete');
+        });
+        
+        Route::get('/', [TransferController::class, 'index'])->name('asset-transfer.index')->middleware('can:asset-transfer read');
+        Route::get('/create', [TransferController::class, 'create'])->name('asset-transfer.create')->middleware('can:asset-transfer create');
+        Route::post('/', [TransferController::class, 'store'])->name('asset-transfer.store')->middleware('can:asset-transfer create');
+        Route::get('/{id}', [TransferController::class, 'show'])->name('asset-transfer.show')->middleware('can:asset-transfer read');
+        Route::get('/{id}/edit', [TransferController::class, 'edit'])->name('asset-transfer.edit')->middleware('can:asset-transfer edit');
+        Route::put('/{id}', [TransferController::class, 'update'])->name('asset-transfer.update')->middleware('can:asset-transfer edit');
+        Route::delete('/{id}', [TransferController::class, 'destroy'])->name('asset-transfer.delete')->middleware('can:asset-transfer delete');
+        Route::post('/{id}/return', [TransferController::class, 'return'])->name('asset-transfer.return')->middleware('can:asset-transfer edit');
+        
+        // API endpoints for dynamic data
+        Route::get('/available-assets', [TransferController::class, 'getAvailableAssets'])->name('asset-transfer.available-assets');
+        Route::get('/asset-history', [TransferController::class, 'getAssetHistory'])->name('asset-transfer.asset-history');
     });
 
     Route::group(['prefix' => 'activity-log'], function () {

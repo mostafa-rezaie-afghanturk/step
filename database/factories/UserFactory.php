@@ -23,8 +23,10 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        static $userCodeCounter = 1;
+        
         return [
-            'user_code' => 'U0001',
+            'user_code' => 'U' . str_pad($userCodeCounter++, 4, '0', STR_PAD_LEFT),
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),

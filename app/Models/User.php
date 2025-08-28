@@ -99,4 +99,29 @@ class User extends Authenticatable
             ->logOnlyDirty()
             ->useLogName('user');
     }
+
+    /**
+     * Get transfers initiated by this user
+     */
+    public function transfersInitiated()
+    {
+        return $this->hasMany(TransferTransaction::class, 'from_user_id');
+    }
+
+    /**
+     * Get transfers received by this user
+     */
+    public function transfersReceived()
+    {
+        return $this->hasMany(TransferTransaction::class, 'to_user_id');
+    }
+
+    /**
+     * Get all transfers involving this user
+     */
+    public function allTransfers()
+    {
+        return TransferTransaction::where('from_user_id', $this->id)
+            ->orWhere('to_user_id', $this->id);
+    }
 }

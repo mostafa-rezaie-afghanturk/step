@@ -40,4 +40,32 @@ class EducationalMaterial extends Model
             'asset_photo' => FileCategoryEnum::ASSET_PHOTO,
         ];
     }
+
+    /**
+     * Get all transfer transactions for this educational material
+     */
+    public function transferTransactions()
+    {
+        return $this->morphMany(TransferTransaction::class, 'asset_or_material');
+    }
+
+    /**
+     * Get the current holder of this material (user who has it transferred to them)
+     */
+    public function currentHolder()
+    {
+        return $this->transferTransactions()
+            ->active()
+            ->with('toUser')
+            ->latest('transfer_date')
+            ->first()?->toUser;
+    }
+
+    /**
+     * Check if this material is currently transferred to someone
+     */
+    public function isTransferred(): bool
+    {
+        return $this->transferTransactions()->active()->exists();
+    }
 }

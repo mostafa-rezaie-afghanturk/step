@@ -41,4 +41,32 @@ class FixtureFurnishing extends Model
             'asset_photo' => FileCategoryEnum::ASSET_PHOTO,
         ];
     }
+
+    /**
+     * Get all transfer transactions for this fixture/furnishing
+     */
+    public function transferTransactions()
+    {
+        return $this->morphMany(TransferTransaction::class, 'asset_or_material');
+    }
+
+    /**
+     * Get the current holder of this asset (user who has it transferred to them)
+     */
+    public function currentHolder()
+    {
+        return $this->transferTransactions()
+            ->active()
+            ->with('toUser')
+            ->latest('transfer_date')
+            ->first()?->toUser;
+    }
+
+    /**
+     * Check if this asset is currently transferred to someone
+     */
+    public function isTransferred(): bool
+    {
+        return $this->transferTransactions()->active()->exists();
+    }
 }

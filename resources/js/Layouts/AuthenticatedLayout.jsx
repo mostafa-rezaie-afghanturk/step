@@ -107,6 +107,11 @@ export default function Authenticated({ header, children }) {
             icon: <PiNotebookBold className="  h-5 w-5 flex-shrink-0" />,
         },
         {
+            label: 'asset-transfer',
+            id: 'asset-transfer',
+            icon: <PiNotebookBold className="  h-5 w-5 flex-shrink-0" />,
+        },
+        {
             label: 'users',
             id: 'users',
             icon: <LuUsers className="  h-5 w-5 flex-shrink-0" />,
