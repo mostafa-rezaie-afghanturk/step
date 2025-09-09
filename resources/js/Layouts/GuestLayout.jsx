@@ -56,7 +56,11 @@ export default function Guest({ children }) {
         <div className="flex min-h-screen bg-[#F4F5F5]">
             {/* Left Side (Image and Branding) */}
             <div className="rtl:order-2 hidden lg:block">
-                <img
+                <div className=' h-screen  object-cover  w-[600px] bg-[#115DAB] '>
+
+                </div>
+
+                {/* <img
                     src={`/assets/illustrations/covers/${i18n.language}.svg`}
                     alt="Library Illustration"
                     className={`
@@ -70,7 +74,7 @@ export default function Guest({ children }) {
                         e.target.onerror = null; // Prevents infinite loop if fallback image also fails
                         e.target.src = '/assets/illustrations/covers/en.svg'; // Fallback image path
                     }}
-                />
+                /> */}
             </div>
 
             <div className="flex flex-col gap-28 flex-auto">
