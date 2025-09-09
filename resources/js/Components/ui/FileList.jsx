@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import moment from 'moment';
-import { Modal, ModalBody, ModalContent } from './Modal';
+import { Modal, ModalBody, ModalContent } from './modal';
 import { MdDownload } from 'react-icons/md';
 
 export default function FileList({ files }) {
