@@ -12,11 +12,11 @@ import RoundedButton from '@/Components/ui/RoundedButton';
 import { onConfirm } from '@/lib/appAlert';
 import ButtonLink from '@/Components/ui/form/ButtonLink';
 import SingleShow from './SingleShow';
-import { hasPermission } from '../../hooks/usePermission';
+import { usePermission } from '@/hooks/usePermission';
 import moment from 'moment';
 
 const Index = ({ columns }) => {
-    const { hasPermission } = hasPermission();
+    const { hasPermission } = usePermission();
     const { t } = useTranslation();
     const route = window.route;
     const [refreshDatatable, setRefreshDatatable] = useState(false);
