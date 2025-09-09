@@ -9,9 +9,10 @@ import RoundedButton from '@/Components/ui/RoundedButton';
 import RoundedButtonLink from '@/Components/ui/RoundedButtonLink';
 import { BUTTON_TYPES } from '@/Components/Constants/buttons';
 import { IoArrowBack } from 'react-icons/io5';
-import { FaPencil, FaUndo, FaTrash } from 'react-icons/fa6';
+import { FaPencil, FaTrash } from 'react-icons/fa6';
 import { onConfirm } from '@/lib/appAlert';
 import { router } from '@inertiajs/react';
+import { MdUndo } from 'react-icons/md';
 
 const Show = ({ transfer }) => {
     const { t } = useTranslation();
@@ -100,7 +101,7 @@ const Show = ({ transfer }) => {
                                     )}
                                     {hasPermission('asset-transfer edit') && transfer.return_status === 'Transferred' && (
                                         <RoundedButton
-                                            icon={<FaUndo />}
+                                            icon={<MdUndo />}
                                             popoverText={t('mark_returned')}
                                             buttonType={BUTTON_TYPES.SUCCESS}
                                             onClick={() => markAsReturned(transfer.transfer_transaction_id)}
