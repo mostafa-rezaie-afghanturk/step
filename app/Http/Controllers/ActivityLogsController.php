@@ -44,7 +44,7 @@ class ActivityLogsController extends Controller
                 'context' => ['show'],
             ],
             [
-                'header' => 'causer',
+                'header' => 'Causer Name',
                 'accessor' => 'causer.name',
                 'visibility' => true,
                 'type' => 'string',

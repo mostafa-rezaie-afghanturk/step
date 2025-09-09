@@ -42,7 +42,7 @@ class BuildingController extends Controller
     {
         return [
             [
-                'header' => 'Building Code',
+                'header' => 'building_code',
                 'accessor' => 'building_code',
                 'visibility' => true,
                 'type' => 'string',
@@ -50,7 +50,7 @@ class BuildingController extends Controller
                 'context' => ['show', 'create'],
             ],
             [
-                'header' => 'Name',
+                'header' => 'name',
                 'accessor' => 'name',
                 'visibility' => true,
                 'type' => 'string',
@@ -58,7 +58,7 @@ class BuildingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Construction Date',
+                'header' => 'construction_date',
                 'accessor' => 'construction_date',
                 'visibility' => true,
                 'type' => 'date',
@@ -66,7 +66,7 @@ class BuildingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'TMV Start Date',
+                'header' => 'tmv_start_date',
                 'accessor' => 'tmv_start_date',
                 'visibility' => true,
                 'type' => 'date',
@@ -74,7 +74,7 @@ class BuildingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Floor Count',
+                'header' => 'floor_count',
                 'accessor' => 'floor_count',
                 'visibility' => true,
                 'type' => 'number',
@@ -82,7 +82,7 @@ class BuildingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Ownership Status',
+                'header' => 'ownership_status',
                 'accessor' => 'ownership_status',
                 'visibility' => true,
                 'type' => 'select',
@@ -91,7 +91,7 @@ class BuildingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Purchase Price',
+                'header' => 'purchase_price',
                 'accessor' => 'purchase_price',
                 'visibility' => false,
                 'type' => 'number',
@@ -100,7 +100,7 @@ class BuildingController extends Controller
                 'required_if' => 'ownership_status,TMV',
             ],
             [
-                'header' => 'Purchase Date',
+                'header' => 'purchase_date',
                 'accessor' => 'purchase_date',
                 'visibility' => false,
                 'type' => 'date',
@@ -110,7 +110,7 @@ class BuildingController extends Controller
             ],
 
             [
-                'header' => 'Rental Fee (Annual)',
+                'header' => 'rental_fee',
                 'accessor' => 'rental_fee',
                 'visibility' => false,
                 'type' => 'number',
@@ -119,7 +119,7 @@ class BuildingController extends Controller
                 'required_if' => 'ownership_status,Rent',
             ],
             [
-                'header' => 'Lease Start',
+                'header' => 'lease_start',
                 'accessor' => 'lease_start',
                 'visibility' => false,
                 'type' => 'date',
@@ -128,7 +128,7 @@ class BuildingController extends Controller
                 'required_if' => 'ownership_status,Rent',
             ],
             [
-                'header' => 'Lease End',
+                'header' => 'lease_end',
                 'accessor' => 'lease_end',
                 'visibility' => false,
                 'type' => 'date',
@@ -138,7 +138,7 @@ class BuildingController extends Controller
             ],
 
             [
-                'header' => 'Land',
+                'header' => 'land',
                 'accessor' => 'land_id',
                 'visibility' => false,
                 'type' => 'link',
@@ -147,7 +147,7 @@ class BuildingController extends Controller
                 'context' => ['edit', 'create'],
             ],
             [
-                'header' => 'Allocation Docs',
+                'header' => 'allocation_docs',
                 'accessor' => 'allocation_docs',
                 'visibility' => false,
                 'type' => 'file',
@@ -156,7 +156,7 @@ class BuildingController extends Controller
                 'width' => 2,
             ],
             [
-                'header' => 'Purchase Docs',
+                'header' => 'purchase_docs',
                 'accessor' => 'purchase_docs',
                 'visibility' => false,
                 'type' => 'file',
@@ -166,7 +166,7 @@ class BuildingController extends Controller
                 'width' => 2,
             ],
             [
-                'header' => 'Lease Docs',
+                'header' => 'lease_docs',
                 'accessor' => 'lease_docs',
                 'visibility' => false,
                 'type' => 'file',
@@ -176,7 +176,7 @@ class BuildingController extends Controller
                 'width' => 2,
             ],
             [
-                'header' => 'Building Project',
+                'header' => 'building_project',
                 'accessor' => 'building_project',
                 'visibility' => false,
                 'type' => 'file',

@@ -55,7 +55,7 @@ class CampusController extends Controller
                 'context' => ['show', 'edit', 'create'], // Only visible in the "show" view
             ],
             [
-                'header' => 'Name',
+                'header' => 'name',
                 'accessor' => 'name_en',
                 'visibility' => true,
                 'type' => 'string',
@@ -63,7 +63,7 @@ class CampusController extends Controller
                 'context' => ['show', 'edit', 'create'], // Only visible in the "show" view
             ],
             [
-                'header' => 'Turkish Name',
+                'header' => 'name_tr',
                 'accessor' => 'name_tr',
                 'visibility' => true,
                 'type' => 'string',
@@ -71,7 +71,7 @@ class CampusController extends Controller
                 'context' => ['show', 'edit', 'create'], // Visible in all views
             ],
             [
-                'header' => 'Local Name',
+                'header' => 'local_name',
                 'accessor' => 'name_local',
                 'visibility' => true,
                 'type' => 'string',
@@ -79,7 +79,7 @@ class CampusController extends Controller
                 'context' => ['show', 'edit', 'create'], // Visible in all views
             ],
             [
-                'header' => 'Phone',
+                'header' => 'phone',
                 'accessor' => 'phone',
                 'visibility' => true,
                 'type' => 'string',
@@ -87,7 +87,7 @@ class CampusController extends Controller
                 'context' => ['show', 'edit', 'create'], // Visible in all views
             ],
             [
-                'header' => 'Address',
+                'header' => 'address',
                 'accessor' => 'address',
                 'visibility' => true,
                 'type' => 'string',
@@ -95,7 +95,7 @@ class CampusController extends Controller
                 'context' => ['show', 'edit', 'create'], // Visible in all views
             ],
             [
-                'header' => 'Website',
+                'header' => 'website',
                 'accessor' => 'website',
                 'visibility' => true,
                 'type' => 'string',
@@ -103,7 +103,7 @@ class CampusController extends Controller
                 'context' => ['show', 'edit', 'create'], // Visible in all views
             ],
             [
-                'header' => 'Country',
+                'header' => 'country',
                 'accessor' => 'country.name',
                 'visibility' => true,
                 'type' => 'link',
@@ -112,7 +112,7 @@ class CampusController extends Controller
                 'context' => ['show'],
             ],
             [
-                'header' => 'Country',
+                'header' => 'country id',
                 'accessor' => 'country_id',
                 'visibility' => false,
                 'type' => 'link',
@@ -121,7 +121,7 @@ class CampusController extends Controller
                 'context' => ['edit', 'create'],
             ],
             [
-                'header' => 'Social Media Address 1',
+                'header' => 'social_media_address_1',
                 'accessor' => 'social_media_address_1',
                 'visibility' => false,
                 'type' => 'string',
@@ -158,49 +158,49 @@ class CampusController extends Controller
                 'default' => $country?->campus_code,
             ],
             [
-                'label' => 'Name (English)',
+                'label' => 'name',
                 'name' => 'name_en',
                 'type' => 'string',
                 'required' => true,
                 'default' => $country?->name_en,
             ],
             [
-                'label' => 'Name (Turkish)',
+                'label' => 'name_tr',
                 'name' => 'name_tr',
                 'type' => 'string',
                 'required' => true,
                 'default' => $country?->name_tr,
             ],
             [
-                'label' => 'Local Name',
+                'label' => 'local_name',
                 'name' => 'name_local',
                 'type' => 'string',
                 'required' => true,
                 'default' => $country?->name_local,
             ],
             [
-                'label' => 'Phone',
+                'label' => 'phone',
                 'name' => 'phone',
                 'type' => 'string',
                 'required' => true,
                 'default' => $country?->phone,
             ],
             [
-                'label' => 'Address',
+                'label' => 'address',
                 'name' => 'address',
                 'type' => 'string',
                 'required' => true,
                 'default' => $country?->address,
             ],
             [
-                'label' => 'Website',
+                'label' => 'website',
                 'name' => 'website',
                 'type' => 'string',
                 'required' => true,
                 'default' => $country?->website,
             ],
             [
-                'label' => 'Country',
+                'label' => 'country',
                 'name' => 'country_id',
                 'type' => 'link',
                 'required' => true,
@@ -208,21 +208,21 @@ class CampusController extends Controller
                 'search_url' => route('countries.search'),
             ],
             [
-                'label' => 'Social Media Address 1',
+                'label' => 'social_media_address_1',
                 'name' => 'social_media_address_1',
                 'type' => 'string',
                 'required' => false,
                 'default' => $country?->social_media_address_1,
             ],
             [
-                'label' => 'Social Media Address 2',
+                'label' => 'social_media_address_2',
                 'name' => 'social_media_address_2',
                 'type' => 'string',
                 'required' => false,
                 'default' => $country?->social_media_address_2,
             ],
             [
-                'label' => 'Social Media Address 3',
+                'label' => 'social_media_address_3',
                 'name' => 'social_media_address_3',
                 'type' => 'string',
                 'required' => false,

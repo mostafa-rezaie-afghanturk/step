@@ -46,7 +46,7 @@ class LandController extends Controller
     {
         return [
             [
-                'header' => 'Land Code',
+                'header' => 'land_code',
                 'accessor' => 'land_code',
                 'visibility' => true,
                 'type' => 'string',
@@ -54,7 +54,7 @@ class LandController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Address',
+                'header' => 'address',
                 'accessor' => 'address',
                 'visibility' => false,
                 'type' => 'string',
@@ -62,7 +62,7 @@ class LandController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Province',
+                'header' => 'province',
                 'accessor' => 'province',
                 'visibility' => true,
                 'type' => 'string',
@@ -70,7 +70,7 @@ class LandController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'District',
+                'header' => 'district',
                 'accessor' => 'district',
                 'visibility' => false,
                 'type' => 'string',
@@ -78,7 +78,7 @@ class LandController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Neighborhood',
+                'header' => 'neighborhood',
                 'accessor' => 'neighborhood',
                 'visibility' => false,
                 'type' => 'string',
@@ -86,7 +86,7 @@ class LandController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Street',
+                'header' => 'street',
                 'accessor' => 'street',
                 'visibility' => false,
                 'type' => 'string',
@@ -94,7 +94,7 @@ class LandController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Door Number',
+                'header' => 'door_number',
                 'accessor' => 'door_number',
                 'visibility' => false,
                 'type' => 'string',
@@ -102,7 +102,7 @@ class LandController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Country Land Number',
+                'header' => 'country_land_number',
                 'accessor' => 'country_land_number',
                 'visibility' => true,
                 'type' => 'string',
@@ -110,7 +110,7 @@ class LandController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Size SqM',
+                'header' => 'size_sqm',
                 'accessor' => 'size_sqm',
                 'visibility' => false,
                 'type' => 'number',
@@ -118,7 +118,7 @@ class LandController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'TMV Start Date',
+                'header' => 'tmv_start_date',
                 'accessor' => 'tmv_start_date',
                 'visibility' => true,
                 'type' => 'date',
@@ -126,7 +126,7 @@ class LandController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Ownership Status',
+                'header' => 'ownership_status',
                 'accessor' => 'ownership_status',
                 'visibility' => true,
                 'type' => 'select',
@@ -135,7 +135,7 @@ class LandController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Purchase Price',
+                'header' => 'purchase_price',
                 'accessor' => 'purchase_price',
                 'visibility' => false,
                 'type' => 'number',
@@ -144,7 +144,7 @@ class LandController extends Controller
                 'required_if' => 'ownership_status,TMV',
             ],
             [
-                'header' => 'Purchase Date',
+                'header' => 'purchase_date',
                 'accessor' => 'purchase_date',
                 'visibility' => false,
                 'type' => 'date',
@@ -153,7 +153,7 @@ class LandController extends Controller
                 'required_if' => 'ownership_status,TMV',
             ],
             [
-                'header' => 'Rental Fee (Annual)',
+                'header' => 'rental_fee',
                 'accessor' => 'rental_fee',
                 'visibility' => false,
                 'type' => 'number',
@@ -162,7 +162,7 @@ class LandController extends Controller
                 'required_if' => 'ownership_status,Rent',
             ],
             [
-                'header' => 'Lease Start',
+                'header' => 'lease_start',
                 'accessor' => 'lease_start',
                 'visibility' => false,
                 'type' => 'date',
@@ -171,7 +171,7 @@ class LandController extends Controller
                 'required_if' => 'ownership_status,Rent',
             ],
             [
-                'header' => 'Lease End',
+                'header' => 'lease_end',
                 'accessor' => 'lease_end',
                 'visibility' => false,
                 'type' => 'date',
@@ -180,7 +180,7 @@ class LandController extends Controller
                 'required_if' => 'ownership_status,Rent',
             ],
             [
-                'header' => 'Country',
+                'header' => 'country',
                 'accessor' => 'country_id',
                 'visibility' => false,
                 'type' => 'link',
@@ -189,7 +189,7 @@ class LandController extends Controller
                 'context' => ['edit', 'create'],
             ],
             [
-                'header' => 'Building Exterior Spaces',
+                'header' => 'building_exterior_spaces',
                 'accessor' => 'building_exterior_spaces',
                 'visibility' => false,
                 'type' => 'json_counter_list',
@@ -203,7 +203,7 @@ class LandController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Purchase Docs',
+                'header' => 'purchase_docs',
                 'accessor' => 'purchase_docs',
                 'visibility' => false,
                 'type' => 'file',
@@ -213,7 +213,7 @@ class LandController extends Controller
                 'width' => 2
             ],
             [
-                'header' => 'Lease Docs',
+                'header' => 'lease_docs',
                 'accessor' => 'lease_docs',
                 'visibility' => false,
                 'type' => 'file',
@@ -223,7 +223,7 @@ class LandController extends Controller
                 'width' => 2
             ],
             [
-                'header' => 'Allocation Docs',
+                'header' => 'allocation_docs',
                 'accessor' => 'allocation_docs',
                 'visibility' => false,
                 'type' => 'file',
@@ -232,7 +232,7 @@ class LandController extends Controller
                 'width' => 2
             ],
             [
-                'header' => 'Layout Plan',
+                'header' => 'layout_plan',
                 'accessor' => 'layout_plan',
                 'visibility' => false,
                 'type' => 'file',
@@ -241,7 +241,7 @@ class LandController extends Controller
                 'width' => 2
             ],
             [
-                'header' => 'Photos',
+                'header' => 'land_photos',
                 'accessor' => 'land_photos',
                 'visibility' => false,
                 'type' => 'file',
@@ -250,7 +250,7 @@ class LandController extends Controller
                 'width' => 2
             ],
             [
-                'header' => 'Country',
+                'header' => 'country',
                 'accessor' => 'country.name',
                 'visibility' => true,
                 'type' => 'link',

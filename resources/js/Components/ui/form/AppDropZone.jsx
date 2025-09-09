@@ -210,8 +210,8 @@ const AppDropZone = ({
                 <input {...getInputProps()} />
                 <p className="text-gray-600">
                     {isDragActive
-                        ? 'Drop the files here...'
-                        : 'Drag & drop files here, or click to select'}
+                        ? t('drop_file')
+                        : t('drop_or_click')}
                 </p>
             </div>
 

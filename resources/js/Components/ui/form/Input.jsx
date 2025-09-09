@@ -22,7 +22,7 @@ const Input = ({
             id={id}
             type={type}
             placeholder={t(placeholder)}
-            value={value}
+            value={value ?? ""}
             onChange={onChange}
             className={`${className}`}
             {...props}

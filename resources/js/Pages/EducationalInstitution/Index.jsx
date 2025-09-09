@@ -75,7 +75,7 @@ const Index = ({ columns }) => {
                 <div className="flex justify-between items-center">
                     <div>
                         <h1 className="text-2xl font-bold">
-                            {t('educational_institutions')}
+                            {t('educational-institutions')}
                         </h1>
                     </div>
                     <div>

@@ -538,6 +538,8 @@ const DataTable = ({
                                           row.original.children &&
                                           row.original.children.length > 0;
 
+
+
                                       return (
                                           <React.Fragment key={rowId}>
                                               <tr
@@ -562,6 +564,7 @@ const DataTable = ({
                                                   {row.cells.map(
                                                       (cell, cellIndex) => (
                                                           <td
+                                                            key={cellIndex}
                                                               {...cell.getCellProps()}
                                                               className={`px-3 p-1 text-gray-600 text-start whitespace-nowrap ${
                                                                   cellIndex ===
@@ -701,8 +704,8 @@ const DataTable = ({
                             value={pageSize}
                             onChange={e => setPageSize(Number(e.target.value))}
                         >
-                            {[10, 30, 50, 100, 200, 500].map(size => (
-                                <option key={size} value={size}>
+                            {[10, 30, 50, 100, 200, 500].map((size ,index) => (
+                                <option key={index} value={size}>
                                     {t('show')} {size}
                                 </option>
                             ))}
