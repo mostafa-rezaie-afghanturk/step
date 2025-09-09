@@ -14,7 +14,7 @@ import ReactLoading from 'react-loading';
 import { Link } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { FaEllipsisVertical } from 'react-icons/fa6';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 
 const Actions = ({ permissionModule }) => {
     const [bulkEdit, setBulkEdit] = useState(false);

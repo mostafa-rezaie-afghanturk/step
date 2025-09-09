@@ -12,7 +12,7 @@ import RoundedButton from '@/Components/ui/RoundedButton';
 import { onConfirm } from '@/lib/appAlert';
 import ButtonLink from '@/Components/ui/form/ButtonLink';
 import SingleShow from './SingleShow';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 import moment from 'moment';
 
 const Index = ({ columns }) => {

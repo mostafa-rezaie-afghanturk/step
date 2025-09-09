@@ -1,6 +1,6 @@
 import { Button } from '@headlessui/react';
 import { Link, Head } from '@inertiajs/react';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
     const { hasPermission } = usePermission();

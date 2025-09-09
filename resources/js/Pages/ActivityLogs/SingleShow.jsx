@@ -5,7 +5,7 @@ import { Modal, ModalBody, ModalContent } from '@/Components/ui/modal';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 
 const SingleShow = ({ open, setOpen, selectedId }) => {
     const { hasPermission } = usePermission();

@@ -10,7 +10,7 @@ import { IoArrowUndo } from 'react-icons/io5';
 import RoundedButtonLink from '@/Components/ui/RoundedButtonLink';
 import ButtonLink from '@/Components/ui/form/ButtonLink';
 import SingleShow from './SingleShow';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 import RoundedButton from '@/Components/ui/RoundedButton';
 import { router } from '@inertiajs/react';
 import { onConfirm } from '@/lib/appAlert';

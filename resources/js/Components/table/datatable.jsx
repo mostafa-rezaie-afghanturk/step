@@ -11,7 +11,7 @@ import Checkbox from '../ui/form/Checkbox';
 import { useTranslation } from 'react-i18next';
 import { Field, Label, Switch } from '@headlessui/react';
 import Import from './import';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 import { MdExpandLess, MdExpandMore } from 'react-icons/md';
 
 const DataTable = ({

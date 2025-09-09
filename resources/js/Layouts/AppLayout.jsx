@@ -3,7 +3,7 @@ import Header from '../Components/Portal/Header';
 import { usePage } from '@inertiajs/react';
 import { onError, onSuccess } from '@/lib/appAlert';
 import { useTranslation } from 'react-i18next';
-import useRealTimeNotifications from '@/hooks/useRealTimeNotifications';
+import useRealTimeNotifications from '@/Hooks/useRealTimeNotifications';
 
 const AppLayout = ({ children }) => {
     // useRealTimeNotifications();

@@ -6,7 +6,7 @@ import Container from '@/Components/ui/Container';
 import ReactLoading from 'react-loading';
 import Button from '@/Components/ui/form/Button';
 import FormFieldsMapper from '@/Components/ui/form/FormFieldsMapper';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 import { useTranslation } from 'react-i18next';
 
 const Edit = ({ land, fields }) => {

@@ -2,7 +2,7 @@ import React from 'react';
 import DataTable from '@/Components/table/datatable';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { useTranslation } from 'react-i18next';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 
 const Index = ({ columns }) => {
     const { hasPermission } = usePermission();

@@ -14,7 +14,7 @@ import {
     PencilIcon,
 } from '@heroicons/react/20/solid';
 import HTTPClient from '@/lib/HTTPClient';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 
 const DynamicCombobox = ({
     url, // Default to "book-type" URL prefix

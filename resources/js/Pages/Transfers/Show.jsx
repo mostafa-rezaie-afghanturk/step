@@ -1,7 +1,7 @@
 import React from 'react';
 import { Head } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import ButtonLink from '@/Components/ui/form/ButtonLink';

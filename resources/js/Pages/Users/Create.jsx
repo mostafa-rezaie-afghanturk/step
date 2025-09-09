@@ -8,7 +8,7 @@ import ReactLoading from 'react-loading';
 import Button from '@/Components/ui/form/Button';
 import LinkComboBoxSelect from '@/Components/ui/form/LinkComboBoxSelect';
 import FormFieldsMapper from '@/Components/ui/form/FormFieldsMapper';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 import { useTranslation } from 'react-i18next';
 import { BUTTON_SIZES, BUTTON_TYPES } from '@/Components/Constants/buttons';
 import { IoAddOutline } from 'react-icons/io5';

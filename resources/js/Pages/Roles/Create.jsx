@@ -12,7 +12,7 @@ import { Inertia } from '@inertiajs/inertia';
 import FormFieldsMapper from '@/Components/ui/form/FormFieldsMapper';
 import Checkbox from '@/Components/ui/form/Checkbox';
 import { useTranslation } from 'react-i18next';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 
 const Create = ({ fields, role, permissions }) => {
     const { hasPermission } = usePermission();

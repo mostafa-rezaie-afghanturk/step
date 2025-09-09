@@ -13,7 +13,7 @@ import RoundedButtonLink from '@/Components/ui/RoundedButtonLink';
 import { BUTTON_TYPES } from '@/Components/Constants/buttons';
 import ButtonLink from '@/Components/ui/form/ButtonLink';
 import { useTranslation } from 'react-i18next';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 
 const Index = ({ columns }) => {
     const { hasPermission } = usePermission();

@@ -10,7 +10,7 @@ import Button from '@/Components/ui/form/Button';
 import { countryListAllIsoData } from '@/lib/countries';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 
 const Create = ({ fields }) => {
     const { hasPermission } = usePermission();

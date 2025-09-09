@@ -8,7 +8,7 @@ import { useForm } from '@inertiajs/react';
 import { countryListAllIsoData } from '@/lib/countries';
 import Select from '@/Components/ui/form/Select';
 import { useEffect } from 'react';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 import { useTranslation } from 'react-i18next';
 
 const Edit = ({ country }) => {

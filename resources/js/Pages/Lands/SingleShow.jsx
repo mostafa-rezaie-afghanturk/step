@@ -3,7 +3,7 @@ import SingleViewHeader from '@/Components/CustomComponents/SingleViewHeader';
 import LogActivity from '@/Components/Logs/LogActivity';
 import { Modal, ModalBody, ModalContent } from '@/Components/ui/modal';
 import { useEffect, useState } from 'react';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 import { useTranslation } from 'react-i18next';
 import FileList from '@/Components/ui/FileList';
 

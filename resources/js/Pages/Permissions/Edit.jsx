@@ -5,7 +5,7 @@ import Button from '@/Components/ui/form/Button';
 import ReactLoading from 'react-loading';
 import { useForm } from '@inertiajs/react';
 import FormFieldsMapper from '@/Components/ui/form/FormFieldsMapper';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 import { useTranslation } from 'react-i18next'; // Added import
 
 const Edit = ({ fields, permission }) => {

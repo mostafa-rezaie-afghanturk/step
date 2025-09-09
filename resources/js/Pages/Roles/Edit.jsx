@@ -7,7 +7,7 @@ import { onError } from '@/lib/appAlert';
 import Checkbox from '@/Components/ui/form/Checkbox';
 import Button from '@/Components/ui/form/Button';
 import { useTranslation } from 'react-i18next';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 
 const EditRole = ({ fields, role, permissions, rolePermissions }) => {
     const { hasPermission } = usePermission();

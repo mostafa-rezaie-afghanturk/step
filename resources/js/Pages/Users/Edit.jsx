@@ -9,7 +9,7 @@ import LinkComboBoxSelect from '@/Components/ui/form/LinkComboBoxSelect';
 import FormFieldsMapper from '@/Components/ui/form/FormFieldsMapper';
 import { ACCOUNT_TYPES } from './Create';
 import Select from '@/Components/ui/form/Select';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 import { useTranslation } from 'react-i18next';
 import { IoAddOutline } from 'react-icons/io5';
 import { BUTTON_SIZES, BUTTON_TYPES } from '@/Components/Constants/buttons';

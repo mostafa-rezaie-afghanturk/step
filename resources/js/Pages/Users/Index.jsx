@@ -15,7 +15,7 @@ import ButtonLink from '@/Components/ui/form/ButtonLink';
 import { BUTTON_TYPES } from '@/Components/Constants/buttons';
 import RoundedButtonLink from '@/Components/ui/RoundedButtonLink';
 import { useTranslation } from 'react-i18next';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 import ChangePasswordModal from './ChangePasswordModal';
 import SingleShow from './SingleShow';
 

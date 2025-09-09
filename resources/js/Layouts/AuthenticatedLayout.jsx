@@ -20,7 +20,7 @@ import { HiOutlineUserGroup } from 'react-icons/hi';
 import { useTranslation } from 'react-i18next';
 import { onError, onSuccess } from '@/lib/appAlert';
 import { TbReport } from 'react-icons/tb';
-import { usePermission } from '@/hooks/usePermission';
+import { usePermission } from '@/Hooks/usePermission';
 import { FaBullhorn } from 'react-icons/fa6';
 import { useTour } from '@/context/TourProvider';
 import { Button } from '@headlessui/react';
