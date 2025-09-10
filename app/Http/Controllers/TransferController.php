@@ -43,7 +43,7 @@ class TransferController extends Controller
     {
         return [
             [
-                'header' => 'id',
+                'header' => 'ID',
                 'accessor' => 'transfer_transaction_id',
                 'visibility' => true,
                 'type' => 'number',
@@ -51,7 +51,7 @@ class TransferController extends Controller
                 'context' => ['show'],
             ],
             [
-                'header' => 'transfer_date',
+                'header' => 'Transfer Date',
                 'accessor' => 'transfer_date',
                 'visibility' => true,
                 'type' => 'date',
@@ -59,7 +59,7 @@ class TransferController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'from_user',
+                'header' => 'From User',
                 'accessor' => 'from_user_id',
                 'visibility' => true,
                 'type' => 'link',
@@ -68,7 +68,7 @@ class TransferController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'to_user',
+                'header' => 'To User',
                 'accessor' => 'to_user_id',
                 'visibility' => true,
                 'type' => 'link',
@@ -78,7 +78,7 @@ class TransferController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'asset_type',
+                'header' => 'Asset Type',
                 'accessor' => 'asset_or_material_type',
                 'visibility' => true,
                 'type' => 'select',
@@ -90,7 +90,7 @@ class TransferController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'asset_code',
+                'header' => 'Asset Code',
                 'accessor' => 'asset_or_material_id',
                 'visibility' => true,
                 'type' => 'link',
@@ -100,7 +100,7 @@ class TransferController extends Controller
                 'depends_on' => 'asset_or_material_type',
             ],
             [
-                'header' => 'return_status',
+                'header' => 'Return Status',
                 'accessor' => 'return_status',
                 'visibility' => true,
                 'type' => 'select',
@@ -109,21 +109,13 @@ class TransferController extends Controller
                 'context' => ['show', 'edit'],
             ],
             [
-                'header' => 'notes',
+                'header' => 'Notes',
                 'accessor' => 'notes',
-                'visibility' => true,
+                'visibility' => false,
                 'type' => 'text',
                 'validation' => 'nullable|string|max:1000',
                 'context' => ['show', 'edit', 'create'],
                 'width' => 2,
-            ],
-            [
-                'header' => 'created_at',
-                'accessor' => 'created_at',
-                'visibility' => true,
-                'type' => 'date',
-                'validation' => 'required',
-                'context' => ['show'],
             ],
         ];
     }
