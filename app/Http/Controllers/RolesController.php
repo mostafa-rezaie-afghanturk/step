@@ -34,13 +34,13 @@ class RolesController extends Controller
         $this->exportService = $exportService;
         $this->columns = [
             [
-                'header' => 'ID',
+                'header' => 'id',
                 'accessor' => 'id',
                 'visibility' => false,
                 'type' => 'number',
             ],
             [
-                'header' => 'Name',
+                'header' => 'name',
                 'accessor' => 'name',
                 'visibility' => true,
                 'type' => 'string',

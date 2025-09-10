@@ -28,13 +28,13 @@ class PermissionsController extends Controller
         $this->filterRepository = $filterRepository;
         $this->columns = [
             [
-                'header' => 'Name',
+                'header' => 'name',
                 'accessor' => 'name',
                 'visibility' => true,
                 'type' => 'string',
             ],
             [
-                'header' => 'Module',
+                'header' => 'module',
                 'accessor' => 'module',
                 'visibility' => true,
                 'type' => 'string',

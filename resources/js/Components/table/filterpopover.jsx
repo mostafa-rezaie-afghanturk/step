@@ -74,7 +74,7 @@ export default function FilterPopover() {
                                     }
                                     className="form-select w-full md:flex-1 bg-gray-100 border border-gray-300 rounded-md p-1 text-sm"
                                 >
-                                    <option>{t('Field Name')}</option>
+                                    <option>{t('field_name')}</option>
                                     {columns.map(
                                         col =>
                                             col.accessor && (
@@ -96,14 +96,14 @@ export default function FilterPopover() {
                                     }
                                     className="form-select w-full md:flex-1 bg-gray-100 border border-gray-300 rounded-md p-1 text-sm"
                                 >
-                                    <option value="=">{t('Equals')}</option>
+                                    <option value="=">{t('equals')}</option>
                                     <option value="!=">
-                                        {t('Not Equals')}
+                                        {t('not_equals')}
                                     </option>
-                                    <option value="like">{t('Like')}</option>
-                                    <option value="in">{t('In')}</option>
+                                    <option value="like">{t('like')}</option>
+                                    <option value="in">{t('in')}</option>
                                     <option value="not in">
-                                        {t('Not In')}
+                                        {t('not_in')}
                                     </option>
                                 </select>
                                 {/* Value Input */}
@@ -114,7 +114,7 @@ export default function FilterPopover() {
                                         handleFilterChange(index, event)
                                     }
                                     type="text"
-                                    placeholder={t('Value')}
+                                    placeholder={t('value')}
                                     className="w-full  bg-gray-100 border md:flex-1 border-gray-300 rounded-md p-1 text-sm"
                                 />
                             </div>
@@ -139,7 +139,7 @@ export default function FilterPopover() {
                             outline
                             icon={<FaPlus className="h-4 w-4" />}
                         >
-                            {t('Add a Filter')}
+                            {t('add_a_filter')}
                         </Button>
                         <div className="flex gap-x-1">
                             <Button
@@ -148,13 +148,13 @@ export default function FilterPopover() {
                                 buttonType={BUTTON_TYPES.DANGER}
                                 outline
                             >
-                                {t('Clear Filters')}
+                                {t('clear_filters')}
                             </Button>
                             <Button
                                 onClick={applyFilters}
                                 size={BUTTON_SIZES.SMALL}
                             >
-                                {t('Apply Filters')}
+                                {t('apply_filters')}
                             </Button>
                         </div>
                     </div>

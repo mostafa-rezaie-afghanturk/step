@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { useTranslation } from 'react-i18next';
 import { FaTimes } from 'react-icons/fa';
 
 /**
@@ -72,6 +73,7 @@ const AppDropZone = ({
 }) => {
     // Internal state to manage files, can be File objects or { name, url, type } objects
     const [files, setFiles] = useState([]);
+    const { t } = useTranslation();
 
     // This state stores the original initial file paths for consistent output
     const [originalInitialPaths, setOriginalInitialPaths] = useState([]);

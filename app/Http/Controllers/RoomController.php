@@ -40,7 +40,7 @@ class RoomController extends Controller
     {
         return [
             [
-                'header' => 'Room Code',
+                'header' => 'room_code',
                 'accessor' => 'room_code',
                 'visibility' => true,
                 'type' => 'string',
@@ -48,7 +48,7 @@ class RoomController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Room Type',
+                'header' => 'room_type',
                 'accessor' => 'room_type',
                 'visibility' => true,
                 'type' => 'select',
@@ -57,7 +57,7 @@ class RoomController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Size',
+                'header' => 'size',
                 'accessor' => 'size',
                 'visibility' => false,
                 'type' => 'number',
@@ -65,7 +65,7 @@ class RoomController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Width',
+                'header' => 'width',
                 'accessor' => 'width',
                 'visibility' => false,
                 'type' => 'number',
@@ -73,7 +73,7 @@ class RoomController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Has Door',
+                'header' => 'has_door',
                 'accessor' => 'has_door',
                 'visibility' => false,
                 'type' => 'boolean',
@@ -82,7 +82,7 @@ class RoomController extends Controller
                 'width' => 2
             ],
             [
-                'header' => 'Door Material',
+                'header' => 'door_material',
                 'accessor' => 'door_material',
                 'visibility' => false,
                 'type' => 'select',
@@ -92,7 +92,7 @@ class RoomController extends Controller
                 'required_if' => 'has_door,true',
             ],
             [
-                'header' => 'Door Wingspan (cm)',
+                'header' => 'door_wingspan_cm',
                 'accessor' => 'door_wingspan_cm',
                 'visibility' => false,
                 'type' => 'number',
@@ -101,7 +101,7 @@ class RoomController extends Controller
                 'required_if' => 'has_door,true',
             ],
             [
-                'header' => 'Observation Window Type',
+                'header' => 'observation_window_type',
                 'accessor' => 'observation_window_type',
                 'visibility' => false,
                 'type' => 'select',
@@ -111,7 +111,7 @@ class RoomController extends Controller
                 'required_if' => 'has_door,true',
             ],
             [
-                'header' => 'Has Door Threshold',
+                'header' => 'has_door_threshold',
                 'accessor' => 'has_door_threshold',
                 'visibility' => false,
                 'type' => 'boolean',
@@ -120,7 +120,7 @@ class RoomController extends Controller
                 'required_if' => 'has_door,true',
             ],
             [
-                'header' => 'Has Door Shin Guard',
+                'header' => 'has_door_shin_guard',
                 'accessor' => 'has_door_shin_guard',
                 'visibility' => false,
                 'type' => 'boolean',
@@ -129,7 +129,7 @@ class RoomController extends Controller
                 'required_if' => 'has_door,true',
             ],
             [
-                'header' => 'Has Door Centre Back',
+                'header' => 'has_door_centre_back',
                 'accessor' => 'has_door_centre_back',
                 'visibility' => false,
                 'type' => 'boolean',
@@ -138,7 +138,7 @@ class RoomController extends Controller
                 'required_if' => 'has_door,true',
             ],
             [
-                'header' => 'Has Window',
+                'header' => 'has_window',
                 'accessor' => 'has_window',
                 'visibility' => false,
                 'type' => 'boolean',
@@ -147,7 +147,7 @@ class RoomController extends Controller
                 'width' => 2
             ],
             [
-                'header' => 'Window Total Area',
+                'header' => 'window_total_area',
                 'accessor' => 'window_total_area',
                 'visibility' => false,
                 'type' => 'number',
@@ -156,7 +156,7 @@ class RoomController extends Controller
                 'required_if' => 'has_window,true',
             ],
             [
-                'header' => 'Window Starting Height',
+                'header' => 'window_starting_height',
                 'accessor' => 'window_starting_height',
                 'visibility' => false,
                 'type' => 'number',
@@ -165,7 +165,7 @@ class RoomController extends Controller
                 'required_if' => 'has_window,true',
             ],
             [
-                'header' => 'Window Opening Type',
+                'header' => 'window_opening_type',
                 'accessor' => 'window_opening_type',
                 'visibility' => false,
                 'type' => 'select',
@@ -175,7 +175,7 @@ class RoomController extends Controller
                 'required_if' => 'has_window,true',
             ],
             [
-                'header' => 'Has Fire Escape',
+                'header' => 'has_fire_escape',
                 'accessor' => 'has_fire_escape',
                 'visibility' => false,
                 'type' => 'boolean',
@@ -183,7 +183,7 @@ class RoomController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Has Elevator',
+                'header' => 'has_elevator',
                 'accessor' => 'has_elevator',
                 'visibility' => false,
                 'type' => 'boolean',
@@ -191,7 +191,7 @@ class RoomController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Flooring',
+                'header' => 'flooring',
                 'accessor' => 'flooring',
                 'visibility' => true,
                 'type' => 'select',
@@ -200,7 +200,7 @@ class RoomController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Daylight Direction',
+                'header' => 'daylight_direction',
                 'accessor' => 'daylight_direction',
                 'visibility' => true,
                 'type' => 'select',
@@ -209,7 +209,7 @@ class RoomController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Ventilation',
+                'header' => 'ventilation',
                 'accessor' => 'ventilation',
                 'visibility' => false,
                 'type' => 'select',
@@ -218,7 +218,7 @@ class RoomController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Lighting',
+                'header' => 'lighting',
                 'accessor' => 'lighting',
                 'visibility' => false,
                 'type' => 'select',
@@ -227,7 +227,7 @@ class RoomController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Sound Insulation',
+                'header' => 'sound_insulation',
                 'accessor' => 'sound_insulation',
                 'visibility' => false,
                 'type' => 'select',
@@ -236,7 +236,7 @@ class RoomController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Paint Condition',
+                'header' => 'paint_condition',
                 'accessor' => 'paint_condition',
                 'visibility' => false,
                 'type' => 'select',
@@ -245,7 +245,7 @@ class RoomController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Sockets',
+                'header' => 'number_of_sockets',
                 'accessor' => 'number_of_sockets',
                 'visibility' => false,
                 'type' => 'number',
@@ -253,7 +253,7 @@ class RoomController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Data Outputs',
+                'header' => 'data_outputs',
                 'accessor' => 'data_outputs',
                 'visibility' => false,
                 'type' => 'json_counter_list',
@@ -267,7 +267,7 @@ class RoomController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Heating',
+                'header' => 'heating',
                 'accessor' => 'heating',
                 'visibility' => false,
                 'type' => 'select',
@@ -276,7 +276,7 @@ class RoomController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Clean Water',
+                'header' => 'has_clean_water',
                 'accessor' => 'has_clean_water',
                 'visibility' => false,
                 'type' => 'boolean',
@@ -284,7 +284,7 @@ class RoomController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Dirty Water',
+                'header' => 'has_dirty_water',
                 'accessor' => 'has_dirty_water',
                 'visibility' => false,
                 'type' => 'boolean',
@@ -292,7 +292,7 @@ class RoomController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Natural Gas',
+                'header' => 'has_natural_gas',
                 'accessor' => 'has_natural_gas',
                 'visibility' => false,
                 'type' => 'boolean',
@@ -300,7 +300,7 @@ class RoomController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Seats',
+                'header' => 'seats',
                 'accessor' => 'seats',
                 'visibility' => true,
                 'type' => 'number',
@@ -308,7 +308,7 @@ class RoomController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Floor',
+                'header' => 'floor',
                 'accessor' => 'floor.floor_id',
                 'visibility' => true,
                 'type' => 'string',
@@ -316,7 +316,7 @@ class RoomController extends Controller
                 'context' => ['show'],
             ],
             [
-                'header' => 'Floor',
+                'header' => 'floor',
                 'accessor' => 'floor_id',
                 'visibility' => false,
                 'type' => 'link',
@@ -325,7 +325,7 @@ class RoomController extends Controller
                 'context' => ['edit', 'create'],
             ],
             [
-                'header' => 'Photos',
+                'header' => 'photos',
                 'accessor' => 'room_photos',
                 'visibility' => false,
                 'type' => 'file',
@@ -334,7 +334,7 @@ class RoomController extends Controller
                 'width' => 2
             ],
             [
-                'header' => 'Notes',
+                'header' => 'notes',
                 'accessor' => 'notes',
                 'visibility' => false,
                 'type' => 'text',

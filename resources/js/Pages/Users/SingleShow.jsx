@@ -16,7 +16,7 @@ const SingleShow = ({ open, setOpen, selectedId }) => {
     const tabs = [
         {
             id: 'all',
-            label: t('All'),
+            label: t('all'),
         },
         {
             id: 'logs',
@@ -109,22 +109,21 @@ const SingleShow = ({ open, setOpen, selectedId }) => {
                                     <SingleRow
                                         itemName={t('username')}
                                         itemText={singleData?.username}
-                                        itemName2={t('Country')}
+                                        itemName2={t('country')}
                                         itemText2={singleData?.country?.name}
                                         bgColor
                                     />
-                                    <SingleRow
-                                        itemName={t('School')}
+                                    {/* <SingleRow
+                                        itemName={t('school')}
                                         itemText={singleData?.school?.name}
-                                        itemName2={t('Library')}
+                                        itemName2={t('library')}
                                         itemText2={singleData?.library?.library_name}
-                                    />
+                                    /> */}
                                     <SingleRow
                                         itemName={t('role')}
                                         itemText={singleData?.roles && singleData?.roles[0]?.name}
                                         itemName2={t('account_type')}
                                         itemText2={singleData?.account_type}
-                                        bgColor
                                     />
                                 </div>
                             )}

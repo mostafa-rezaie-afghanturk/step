@@ -23,7 +23,7 @@ class ActivityLogsController extends Controller
     {
         $columns = [
             [
-                'header' => 'ID',
+                'header' => 'id',
                 'accessor' => 'id',
                 'visibility' => true,
                 'type' => 'string',
@@ -44,14 +44,14 @@ class ActivityLogsController extends Controller
                 'context' => ['show'],
             ],
             [
-                'header' => 'Causer Name',
+                'header' => 'causer_name',
                 'accessor' => 'causer.name',
                 'visibility' => true,
                 'type' => 'string',
                 'context' => ['show'],
             ],
             [
-                'header' => 'Created At',
+                'header' => 'created_at',
                 'accessor' => 'created_at',
                 'visibility' => true,
                 'type' => 'string',

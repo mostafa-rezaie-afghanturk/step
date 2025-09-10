@@ -695,7 +695,7 @@ const DataTable = ({
                             )}
                         </div>
                         <div className="mx-2 text-gray-600 text-sm">
-                            {t('Showing')} <strong>{meta.from ?? 0}</strong>{' '}
+                            {t('showing')} <strong>{meta.from ?? 0}</strong>{' '}
                             {t('to')} <strong>{meta.to ?? 0}</strong> {t('of')}{' '}
                             <strong>{meta.total ?? 0}</strong> {t('results')}
                         </div>
