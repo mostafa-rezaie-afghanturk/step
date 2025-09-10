@@ -256,7 +256,7 @@ export const Logo = ({ hideLabel }) => {
                 <motion.span
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="font-bold text-brand dark:text-white whitespace-pre text-3xl ms-4"
+                    className="font-semibold text-brand dark:text-white whitespace-pre text-2xl ms-4"
                 >
                     {t('step')}
                 </motion.span>
@@ -305,7 +305,7 @@ const Dashboard = ({ children }) => {
         <div className="flex-1 w-full min-h-screen md:max-w-[calc(100vw-250px)]">
             <Navbar />
             <div
-                className={`overflow-x-auto overflow-y-auto w-full bg-neutral-100 border border-neutral-200 dark:border-neutral-700  dark:bg-neutral-900 h-[calc(100vh-42px)] ${i18n.dir() == 'rtl' ? 'rounded-tr-2xl' : 'rounded-tl-2xl'}`}
+                className={`mt-3 overflow-x-auto overflow-y-auto w-full bg-neutral-100 border border-neutral-200 dark:border-neutral-700  dark:bg-neutral-900 h-[calc(100vh-55px)] ${i18n.dir() == 'rtl' ? 'rounded-tr-2xl' : 'rounded-tl-2xl'}`}
             >
                 <Breadcrumb />
 

@@ -1,5 +1,5 @@
 {
-    "step" : "STEP",
+    "step" : "STEP (System for Tracking Educational Practices)",
     "welcome": "Welcome",
     "errors": {
         "required": "The {{field}} field is required.",
