@@ -241,7 +241,7 @@ class TransferController extends Controller
 
     public function edit($id)
     {
-        $transfer = TransferTransaction::findOrFail($id);
+        $transfer = TransferTransaction::with(['fromUser', 'toUser'])->findOrFail($id);
 
         $editableColumns = array_filter($this->getColumns(), function ($column) {
             return in_array('edit', $column['context']);
@@ -270,9 +270,6 @@ class TransferController extends Controller
         return Inertia::render('Transfers/Edit', [
             'fields' => $fields,
             'transfer' => $transfer,
-            'users' => User::select('id', 'name', 'email')->get(),
-            'fixtures' => FixtureFurnishing::select('fixture_furnishing_id', 'asset_code', 'group', 'subgroup')->get(),
-            'materials' => EducationalMaterial::select('educational_material_id', 'asset_code', 'group', 'subgroup')->get(),
         ]);
     }
 
@@ -295,6 +292,7 @@ class TransferController extends Controller
             'asset_or_material_type' => $data['asset_or_material_type'],
             'asset_or_material_id' => $data['asset_or_material_id'],
             'transfer_date' => $data['transfer_date'],
+            'return_status' => $data['return_status'],
             'notes' => $data['notes'],
         ]);
 

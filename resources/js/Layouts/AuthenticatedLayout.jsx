@@ -256,7 +256,7 @@ export const Logo = ({ hideLabel }) => {
                 <motion.span
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="font-semibold text-brand dark:text-white whitespace-pre text-2xl ms-4"
+                    className="font-semibold text-brand dark:text-white whitespace-pre text-lg ms-4"
                 >
                     {t('step')}
                 </motion.span>

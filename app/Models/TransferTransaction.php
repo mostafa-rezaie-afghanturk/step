@@ -17,10 +17,6 @@ class TransferTransaction extends Model
 
     protected $primaryKey = 'transfer_transaction_id';
 
-    protected $casts = [
-        'transfer_date' => 'date',
-    ];
-
     /**
      * Get the user who initiated the transfer (from user)
      */
