@@ -39,7 +39,7 @@ const Index = ({ columns }) => {
     tableColumns = [
         ...tableColumns,
         {
-            Header: t('Actions'),
+            Header: t('actions'),
             visible: true,
             id: 'actions',
             Cell: ({ row }) => (
@@ -71,7 +71,7 @@ const Index = ({ columns }) => {
             <AuthenticatedLayout>
                 <div className="flex justify-between items-center">
                     <div>
-                        <h1 className="text-2xl font-bold">{t('educational_material')}</h1>
+                        <h1 className="text-2xl font-bold">{t('educational-materials')}</h1>
                     </div>
                     <div>
                         {hasPermission('educational-materials create') && (

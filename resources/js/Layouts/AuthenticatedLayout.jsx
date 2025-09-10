@@ -9,12 +9,11 @@ import { IconArrowLeft } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import Navbar from '@/Components/Dashboard/navbar';
-import { PiNotebookBold } from 'react-icons/pi';
-import { MdDashboard, MdOutlineTypeSpecimen } from 'react-icons/md';
+import { PiArmchairFill, PiNotebookBold } from 'react-icons/pi';
+import { MdDashboard, MdOutlineBedroomParent, MdOutlineEmojiTransportation, MdOutlineHouseSiding } from 'react-icons/md';
 import { SiGoogleclassroom } from 'react-icons/si';
 import { FaRegFlag } from 'react-icons/fa';
-import { IoLibraryOutline } from 'react-icons/io5';
-import { LuSchool, LuUsers } from 'react-icons/lu';
+import { LuLandPlot, LuPencilRuler, LuSchool, LuUsers } from 'react-icons/lu';
 import { RiShieldKeyholeLine } from 'react-icons/ri';
 import { HiOutlineUserGroup } from 'react-icons/hi';
 import { useTranslation } from 'react-i18next';
@@ -25,6 +24,8 @@ import { FaBullhorn } from 'react-icons/fa6';
 import { useTour } from '@/context/TourProvider';
 import { Button } from '@headlessui/react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { GrMapLocation } from 'react-icons/gr';
+import { BsFillBuildingsFill } from 'react-icons/bs';
 
 export default function Authenticated({ header, children }) {
     const { hasPermission } = usePermission();
@@ -69,7 +70,7 @@ export default function Authenticated({ header, children }) {
         {
             label: 'campuses',
             id: 'campuses',
-            icon: <IoLibraryOutline className="  h-5 w-5 flex-shrink-0" />,
+            icon: <GrMapLocation className="  h-5 w-5 flex-shrink-0" />,
         },
         {
             label: 'educational-institutions',
@@ -79,37 +80,37 @@ export default function Authenticated({ header, children }) {
         {
             label: 'lands',
             id: 'lands',
-            icon: <MdOutlineTypeSpecimen className="  h-5 w-5 flex-shrink-0" />,
+            icon: <LuLandPlot className="  h-5 w-5 flex-shrink-0" />,
         },
         {
             label: 'buildings',
             id: 'buildings',
-            icon: <MdOutlineTypeSpecimen className="  h-5 w-5 flex-shrink-0" />,
+            icon: <BsFillBuildingsFill className="  h-5 w-5 flex-shrink-0" />,
         },
         {
             label: 'floors',
             id: 'floors',
-            icon: <MdOutlineTypeSpecimen className="  h-5 w-5 flex-shrink-0" />,
+            icon: <MdOutlineHouseSiding className=" h-5 w-5 flex-shrink-0" />,
         },
         {
             label: 'rooms',
             id: 'rooms',
-            icon: <SiGoogleclassroom className="  h-5 w-5 flex-shrink-0" />,
+            icon: <MdOutlineBedroomParent className="  h-5 w-5 flex-shrink-0" />,
         },
         {
             label: 'fixture-furnishings',
             id: 'fixture-furnishings',
-            icon: <PiNotebookBold className="  h-5 w-5 flex-shrink-0" />,
+            icon: <PiArmchairFill className="  h-5 w-5 flex-shrink-0" />,
         },
         {
             label: 'educational-materials',
             id: 'educational-materials',
-            icon: <PiNotebookBold className="  h-5 w-5 flex-shrink-0" />,
+            icon: <LuPencilRuler className="  h-5 w-5 flex-shrink-0" />,
         },
         {
             label: 'asset-transfer',
             id: 'asset-transfer',
-            icon: <PiNotebookBold className="  h-5 w-5 flex-shrink-0" />,
+            icon: <MdOutlineEmojiTransportation className="  h-5 w-5 flex-shrink-0" />,
         },
         {
             label: 'users',
@@ -255,9 +256,9 @@ export const Logo = ({ hideLabel }) => {
                 <motion.span
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="font-medium text-brand dark:text-white whitespace-pre"
+                    className="font-semibold text-brand dark:text-white whitespace-pre text-2xl ms-4"
                 >
-                    {t('mes')}
+                    {t('step')}
                 </motion.span>
             )}
         </a>
@@ -301,21 +302,20 @@ const Dashboard = ({ children }) => {
     const { i18n } = useTranslation();
 
     return (
-        <div className="flex-1 w-full md:max-w-[calc(100vw-250px)]">
+        <div className="flex-1 w-full min-h-screen md:max-w-[calc(100vw-250px)]">
             <Navbar />
             <div
-                className={`overflow-x-auto overflow-y-auto w-full bg-neutral-100 border border-neutral-200 dark:border-neutral-700  dark:bg-neutral-900`}
+                className={`mt-3 overflow-x-auto overflow-y-auto w-full bg-neutral-100 border border-neutral-200 dark:border-neutral-700  dark:bg-neutral-900 h-[calc(100vh-55px)] ${i18n.dir() == 'rtl' ? 'rounded-tr-2xl' : 'rounded-tl-2xl'}`}
             >
                 <Breadcrumb />
 
-                <div className="p-2 md:p-4  flex flex-col gap-4 flex-1 w-full">
+                <div className="p-2 md:p-4  flex flex-col gap-2 flex-1 w-full h-[calc(100vh-96px)] overflow-auto">
                     {children}
                 </div>
             </div>
         </div>
     );
 };
-
 const Breadcrumb = () => {
     const { t } = useTranslation();
     const { url } = usePage(); // Get the current URL

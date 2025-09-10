@@ -39,7 +39,7 @@ class FloorController extends Controller
     {
         return [
             [
-                'header' => 'Floor Code',
+                'header' => 'floor_code',
                 'accessor' => 'floor_code',
                 'visibility' => true,
                 'type' => 'string',
@@ -47,7 +47,7 @@ class FloorController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Floor Level',
+                'header' => 'floor_level',
                 'accessor' => 'floor_level',
                 'visibility' => true,
                 'type' => 'select',
@@ -71,7 +71,7 @@ class FloorController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Building',
+                'header' => 'building',
                 'accessor' => 'building.name',
                 'visibility' => true,
                 'type' => 'string',
@@ -79,7 +79,7 @@ class FloorController extends Controller
                 'context' => ['show'],
             ],
             [
-                'header' => 'Building',
+                'header' => 'building',
                 'accessor' => 'building_id',
                 'visibility' => false,
                 'type' => 'link',

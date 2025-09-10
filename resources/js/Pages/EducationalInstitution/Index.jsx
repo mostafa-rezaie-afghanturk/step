@@ -39,7 +39,7 @@ const Index = ({ columns }) => {
     tableColumns = [
         ...tableColumns,
         {
-            Header: t('Actions'),
+            Header: t('actions'),
             visible: true,
             id: 'actions', // Unique id for the actions column
             Cell: ({ row }) => (
@@ -75,7 +75,7 @@ const Index = ({ columns }) => {
                 <div className="flex justify-between items-center">
                     <div>
                         <h1 className="text-2xl font-bold">
-                            {t('educational_institutions')}
+                            {t('educational-institutions')}
                         </h1>
                     </div>
                     <div>

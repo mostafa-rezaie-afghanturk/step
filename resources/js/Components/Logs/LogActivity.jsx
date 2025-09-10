@@ -11,19 +11,19 @@ import { useTranslation } from 'react-i18next';
 const LogActivity = ({ id, url, subTable = null, subUrl = '' }) => {
     const { t } = useTranslation();
     const tableColumns = [
-        { Header: 'ID', accessor: 'id', visible: true },
-        { Header: 'Causer Name', accessor: 'causer.name', visible: true },
-        { Header: 'Causer Email', accessor: 'causer.email', visible: true },
-        { Header: 'Action', accessor: 'event', visible: true },
+        { Header: 'id', accessor: 'id', visible: true },
+        { Header: 'causer_name', accessor: 'causer.name', visible: true },
+        { Header: 'causer_email', accessor: 'causer.email', visible: true },
+        { Header: 'action', accessor: 'event', visible: true },
         {
-            Header: 'Changes',
+            Header: 'changes',
             accessor: 'properties',
             visible: true,
             Cell: ({ row }) => (
                 <div key={row.original.id} className="md:!min-w-[400px]">
                     <Disclosure>
                         <DisclosureButton className="group flex items-center gap-2 text-brand hover:cursor-pointer hover:underline">
-                            {t('Changes')}
+                            {t('changes')}
                             <ChevronDownIcon className="w-5 group-data-[open]:rotate-180" />
                         </DisclosureButton>
                         <DisclosurePanel>
@@ -59,7 +59,7 @@ const LogActivity = ({ id, url, subTable = null, subUrl = '' }) => {
             ),
         },
         {
-            Header: t('Updated At'),
+            Header: t('updated_at'),
             accessor: 'updated_at',
             visible: true,
             Cell: ({ row }) => (
@@ -84,6 +84,7 @@ const LogActivity = ({ id, url, subTable = null, subUrl = '' }) => {
                             <DataTable
                                 permissionModule="activity-log"
                                 columns={tableColumns}
+                                hideColumn
                                 url={route(subUrl, id)}
                                 hideActions
                                 hideExport
@@ -92,7 +93,6 @@ const LogActivity = ({ id, url, subTable = null, subUrl = '' }) => {
                                 placeholderLength={1}
                                 classTd=" align-top"
                                 hideFilter={false}
-                                hideColumn={false}
                             />
                         </DisclosurePanel>
                     </Disclosure>

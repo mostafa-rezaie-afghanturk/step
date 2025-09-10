@@ -43,7 +43,7 @@ class EducationalInstitutionController extends Controller
     {
         return [
             [
-                'header' => 'Institution Code',
+                'header' => 'institution_code',
                 'accessor' => 'institution_code',
                 'visibility' => true,
                 'type' => 'string',
@@ -51,7 +51,7 @@ class EducationalInstitutionController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Name',
+                'header' => 'name',
                 'accessor' => 'name_en',
                 'visibility' => true,
                 'type' => 'string',
@@ -59,7 +59,7 @@ class EducationalInstitutionController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Turkish Name',
+                'header' => 'name_tr',
                 'accessor' => 'name_tr',
                 'visibility' => true,
                 'type' => 'string',
@@ -67,7 +67,7 @@ class EducationalInstitutionController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Local Name',
+                'header' => 'local_name',
                 'accessor' => 'name_local',
                 'visibility' => true,
                 'type' => 'string',
@@ -75,7 +75,7 @@ class EducationalInstitutionController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Type',
+                'header' => 'type',
                 'accessor' => 'type',
                 'visibility' => true,
                 'type' => 'select',
@@ -84,7 +84,7 @@ class EducationalInstitutionController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Stage',
+                'header' => 'stage',
                 'accessor' => 'stage',
                 'visibility' => false,
                 'type' => 'tag',
@@ -92,7 +92,7 @@ class EducationalInstitutionController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Level',
+                'header' => 'level',
                 'accessor' => 'level',
                 'visibility' => false,
                 'type' => 'tag',
@@ -100,7 +100,7 @@ class EducationalInstitutionController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Campus',
+                'header' => 'campus',
                 'accessor' => 'campus.name_en',
                 'visibility' => true,
                 'type' => 'link',
@@ -117,7 +117,7 @@ class EducationalInstitutionController extends Controller
                 'context' => ['edit', 'create'],
             ],
             [
-                'header' => 'Start Date',
+                'header' => 'start_date',
                 'accessor' => 'start_date',
                 'visibility' => false,
                 'type' => 'date',
@@ -125,7 +125,7 @@ class EducationalInstitutionController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Status',
+                'header' => 'status',
                 'accessor' => 'status',
                 'visibility' => true,
                 'type' => 'select',
@@ -134,7 +134,7 @@ class EducationalInstitutionController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Open Date',
+                'header' => 'open_date',
                 'accessor' => 'open_date',
                 'visibility' => false,
                 'type' => 'date',
@@ -142,7 +142,7 @@ class EducationalInstitutionController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Former Name',
+                'header' => 'former_name',
                 'accessor' => 'former_name',
                 'visibility' => false,
                 'type' => 'string',
@@ -157,35 +157,35 @@ class EducationalInstitutionController extends Controller
         return [
             [
                 'name' => 'institution_code',
-                'label' => 'Institution Code',
+                'label' => 'institution_code',
                 'type' => 'string',
                 'default' => $institution?->institution_code,
                 'required' => true,
             ],
             [
                 'name' => 'name_en',
-                'label' => 'Name',
+                'label' => 'name',
                 'type' => 'string',
                 'default' => $institution?->name_en,
                 'required' => true,
             ],
             [
                 'name' => 'name_tr',
-                'label' => 'Turkish Name',
+                'label' => 'name_tr',
                 'type' => 'string',
                 'default' => $institution?->name_tr,
                 'required' => true,
             ],
             [
                 'name' => 'name_local',
-                'label' => 'Local Name',
+                'label' => 'local_name',
                 'type' => 'string',
                 'default' => $institution?->name_local,
                 'required' => true,
             ],
             [
                 'name' => 'type',
-                'label' => 'Type',
+                'label' => 'type',
                 'type' => 'select',
                 'option' => ['School', 'Dormitory', 'Education Center', 'Other'],
                 'default' => $institution?->type,
@@ -193,21 +193,21 @@ class EducationalInstitutionController extends Controller
             ],
             [
                 'name' => 'stage',
-                'label' => 'Stage',
+                'label' => 'stage',
                 'type' => 'tag',
                 'default' => $institution?->stage,
                 'required' => false,
             ],
             [
                 'name' => 'level',
-                'label' => 'Level',
+                'label' => 'level',
                 'type' => 'tag',
                 'default' => $institution?->level,
                 'required' => false,
             ],
             [
                 'name' => 'campus_id',
-                'label' => 'Campus',
+                'label' => 'campus',
                 'type' => 'link',
                 'search_url' => route('campuses.search'),
                 'default' => $institution?->campus_id,
@@ -215,21 +215,21 @@ class EducationalInstitutionController extends Controller
             ],
             [
                 'name' => 'start_date',
-                'label' => 'Start Date',
+                'label' => 'start_date',
                 'type' => 'date',
                 'default' => $institution?->start_date,
                 'required' => true,
             ],
             [
                 'name' => 'open_date',
-                'label' => 'Open Date',
+                'label' => 'open_date',
                 'type' => 'date',
                 'default' => $institution?->open_date,
                 'required' => true,
             ],
             [
                 'name' => 'status',
-                'label' => 'Status',
+                'label' => 'status',
                 'type' => 'select',
                 'option' => ['TMV Installation', 'Transfer from FETO', 'Transfer from 2nd Party'],
                 'default' => $institution?->status,
@@ -237,7 +237,7 @@ class EducationalInstitutionController extends Controller
             ],
             [
                 'name' => 'former_name',
-                'label' => 'Former Name',
+                'label' => 'former_name',
                 'type' => 'string',
                 'default' => $institution?->former_name,
                 'required' => false,

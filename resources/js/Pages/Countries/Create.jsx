@@ -85,13 +85,13 @@ const Create = ({ fields }) => {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
                                     <div className="mb-3 ">
                                         <Label
-                                            text={t('Country Name')}
+                                            text={t('name')}
                                             htmlFor="name"
                                             required={true}
                                         />
                                         <Select
                                             id="name"
-                                            aria-label="Country Name"
+                                            aria-label="name"
                                             className="!h-[38px]"
                                             onChange={e =>
                                                 setData('name', e.target.value)
@@ -147,7 +147,7 @@ const Create = ({ fields }) => {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
                                     <div className="mb-3">
                                         <Label
-                                            text={t('Turkish Name')}
+                                            text={t('name_tr')}
                                             htmlFor="name_tr"
                                             required={true}
                                         />
@@ -171,7 +171,7 @@ const Create = ({ fields }) => {
 
                                     <div className="mb-3">
                                         <Label
-                                            text={t('Primary Name')}
+                                            text={t('name_primary')}
                                             htmlFor="name_primary"
                                             required={true}
                                         />

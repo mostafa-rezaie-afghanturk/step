@@ -67,7 +67,7 @@ class UserController extends Controller
     {
         return [
             [
-                'header' => 'ID',
+                'header' => 'id',
                 'accessor' => 'id',
                 'visibility' => false,
                 'type' => 'number',
@@ -75,7 +75,7 @@ class UserController extends Controller
                 'context' => ['show'], // Only visible in the "show" view
             ],
             [
-                'header' => 'User Code',
+                'header' => 'user_code',
                 'accessor' => 'user_code',
                 'visibility' => true,
                 'type' => 'string',
@@ -83,7 +83,7 @@ class UserController extends Controller
                 'context' => ['show'],
             ],
             [
-                'header' => 'Name',
+                'header' => 'name',
                 'accessor' => 'name',
                 'visibility' => true,
                 'type' => 'string',
@@ -91,7 +91,7 @@ class UserController extends Controller
                 'context' => ['show', 'edit', 'create'], // Visible in all views
             ],
             [
-                'header' => 'Email',
+                'header' => 'email',
                 'accessor' => 'email',
                 'visibility' => true,
                 'type' => 'string',
@@ -99,7 +99,7 @@ class UserController extends Controller
                 'context' => ['show', 'edit', 'create'], // Visible in all views
             ],
             [
-                'header' => 'Password',
+                'header' => 'password',
                 'accessor' => 'password',
                 'visibility' => false,
                 'type' => 'password',

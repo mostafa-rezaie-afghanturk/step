@@ -52,7 +52,7 @@ const Index = ({ columns }) => {
   tableColumns = [
     ...tableColumns,
     {
-      Header: t('Actions'),
+      Header: t('actions'),
       visible: true,
       id: 'actions',
       Cell: ({ row }) => (

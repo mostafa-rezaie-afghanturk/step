@@ -43,7 +43,7 @@ class FixtureFurnishingController extends Controller
     {
         return [
             [
-                'header' => 'Asset Code',
+                'header' => 'asset_code',
                 'accessor' => 'asset_code',
                 'visibility' => true,
                 'type' => 'string',
@@ -51,7 +51,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'TMV Code',
+                'header' => 'tmv_code',
                 'accessor' => 'tmv_code',
                 'visibility' => true,
                 'type' => 'string',
@@ -59,7 +59,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Group',
+                'header' => 'group',
                 'accessor' => 'group',
                 'visibility' => true,
                 'type' => 'select',
@@ -68,7 +68,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Subgroup',
+                'header' => 'subgroup',
                 'accessor' => 'subgroup',
                 'visibility' => true,
                 'type' => 'string',
@@ -76,7 +76,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Status',
+                'header' => 'status',
                 'accessor' => 'status',
                 'visibility' => true,
                 'type' => 'select',
@@ -85,7 +85,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Usage',
+                'header' => 'usage',
                 'accessor' => 'usage',
                 'visibility' => true,
                 'type' => 'select',
@@ -94,7 +94,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Available Date',
+                'header' => 'available_date',
                 'accessor' => 'available_date',
                 'visibility' => false,
                 'type' => 'date',
@@ -102,7 +102,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Supply Method',
+                'header' => 'supply_method',
                 'accessor' => 'supply_method',
                 'visibility' => false,
                 'type' => 'select',
@@ -111,7 +111,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Supply Info',
+                'header' => 'supply_info',
                 'accessor' => 'supply_info',
                 'visibility' => false,
                 'type' => 'string',
@@ -119,7 +119,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Price',
+                'header' => 'price',
                 'accessor' => 'price',
                 'visibility' => false,
                 'type' => 'number',
@@ -127,7 +127,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Manufacturer',
+                'header' => 'manufacturer',
                 'accessor' => 'manufacturer',
                 'visibility' => false,
                 'type' => 'string',
@@ -135,7 +135,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Production Site',
+                'header' => 'production_site',
                 'accessor' => 'production_site',
                 'visibility' => false,
                 'type' => 'string',
@@ -143,7 +143,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Production Date',
+                'header' => 'production_date',
                 'accessor' => 'production_date',
                 'visibility' => false,
                 'type' => 'date',
@@ -151,7 +151,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Related Level',
+                'header' => 'related_level',
                 'accessor' => 'related_level',
                 'visibility' => false,
                 'type' => 'select',
@@ -160,7 +160,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Photo',
+                'header' => 'photo',
                 'accessor' => 'asset_photo',
                 'visibility' => false,
                 'type' => 'file',
@@ -169,7 +169,7 @@ class FixtureFurnishingController extends Controller
                 'width' => 2,
             ],
             [
-                'header' => 'Lifespan (Years)',
+                'header' => 'lifespan',
                 'accessor' => 'lifespan',
                 'visibility' => false,
                 'type' => 'number',
@@ -177,7 +177,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Start Date',
+                'header' => 'start_date',
                 'accessor' => 'start_date',
                 'visibility' => false,
                 'type' => 'date',
@@ -185,7 +185,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Warranty Start',
+                'header' => 'warranty_start',
                 'accessor' => 'warranty_start',
                 'visibility' => false,
                 'type' => 'date',
@@ -193,7 +193,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Warranty End',
+                'header' => 'warranty_end',
                 'accessor' => 'warranty_end',
                 'visibility' => false,
                 'type' => 'date',
@@ -201,7 +201,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Warranty Certificate',
+                'header' => 'warranty_cert',
                 'accessor' => 'warranty_cert',
                 'visibility' => false,
                 'type' => 'file',
@@ -210,7 +210,7 @@ class FixtureFurnishingController extends Controller
                 'width' => 2,
             ],
             [
-                'header' => 'Brand',
+                'header' => 'brand',
                 'accessor' => 'brand',
                 'visibility' => false,
                 'type' => 'string',
@@ -218,7 +218,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Model',
+                'header' => 'model',
                 'accessor' => 'model',
                 'visibility' => false,
                 'type' => 'string',
@@ -226,7 +226,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Maintenance Notes',
+                'header' => 'maintenance_notes',
                 'accessor' => 'maintenance_notes',
                 'visibility' => false,
                 'type' => 'text',
@@ -235,7 +235,7 @@ class FixtureFurnishingController extends Controller
                 'width' => 2
             ],
             [
-                'header' => 'Service Info',
+                'header' => 'service_info',
                 'accessor' => 'service_info',
                 'visibility' => false,
                 'type' => 'string',
@@ -243,7 +243,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Calibration Required',
+                'header' => 'calibration_required',
                 'accessor' => 'calibration_required',
                 'visibility' => false,
                 'type' => 'boolean',
@@ -251,7 +251,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Calibration History',
+                'header' => 'calibration_history',
                 'accessor' => 'calibration_history',
                 'visibility' => false,
                 'type' => 'text',
@@ -261,7 +261,7 @@ class FixtureFurnishingController extends Controller
                 'width' => 2
             ],
             [
-                'header' => 'Location Type',
+                'header' => 'location_type',
                 'accessor' => 'location_type',
                 'visibility' => false,
                 'type' => 'select',
@@ -270,7 +270,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['edit', 'create'],
             ],
             [
-                'header' => 'Location',
+                'header' => 'location',
                 'accessor' => 'location_id',
                 'visibility' => false,
                 'type' => 'link',
@@ -280,7 +280,7 @@ class FixtureFurnishingController extends Controller
                 'depends_on' => 'location_type',
             ],
             [
-                'header' => 'Location Type',
+                'header' => 'location_type',
                 'accessor' => 'location_type',
                 'visibility' => true,
                 'type' => 'string',
@@ -288,7 +288,7 @@ class FixtureFurnishingController extends Controller
                 'context' => ['show'],
             ],
             [
-                'header' => 'Technical Specifications',
+                'header' => 'technical_specifications',
                 'accessor' => 'technical_specifications',
                 'visibility' => false,
                 'type' => 'json_counter_list',

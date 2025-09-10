@@ -43,7 +43,7 @@ class TransferController extends Controller
     {
         return [
             [
-                'header' => 'Transfer ID',
+                'header' => 'id',
                 'accessor' => 'transfer_transaction_id',
                 'visibility' => true,
                 'type' => 'number',
@@ -51,7 +51,7 @@ class TransferController extends Controller
                 'context' => ['show'],
             ],
             [
-                'header' => 'Transfer Date',
+                'header' => 'transfer_date',
                 'accessor' => 'transfer_date',
                 'visibility' => true,
                 'type' => 'date',
@@ -59,7 +59,7 @@ class TransferController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'From User',
+                'header' => 'from_user',
                 'accessor' => 'from_user_id',
                 'visibility' => true,
                 'type' => 'link',
@@ -68,7 +68,7 @@ class TransferController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'To User',
+                'header' => 'to_user',
                 'accessor' => 'to_user_id',
                 'visibility' => true,
                 'type' => 'link',
@@ -78,7 +78,7 @@ class TransferController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Asset Type',
+                'header' => 'asset_type',
                 'accessor' => 'asset_or_material_type',
                 'visibility' => true,
                 'type' => 'select',
@@ -90,7 +90,7 @@ class TransferController extends Controller
                 'context' => ['show', 'edit', 'create'],
             ],
             [
-                'header' => 'Asset Code',
+                'header' => 'asset_code',
                 'accessor' => 'asset_or_material_id',
                 'visibility' => true,
                 'type' => 'link',
@@ -100,7 +100,7 @@ class TransferController extends Controller
                 'depends_on' => 'asset_or_material_type',
             ],
             [
-                'header' => 'Return Status',
+                'header' => 'return_status',
                 'accessor' => 'return_status',
                 'visibility' => true,
                 'type' => 'select',
@@ -109,7 +109,7 @@ class TransferController extends Controller
                 'context' => ['show', 'edit'],
             ],
             [
-                'header' => 'Notes',
+                'header' => 'notes',
                 'accessor' => 'notes',
                 'visibility' => true,
                 'type' => 'text',
@@ -118,7 +118,7 @@ class TransferController extends Controller
                 'width' => 2,
             ],
             [
-                'header' => 'Created At',
+                'header' => 'created_at',
                 'accessor' => 'created_at',
                 'visibility' => true,
                 'type' => 'date',
@@ -319,17 +319,17 @@ class TransferController extends Controller
                     ->whereColumn('id', 'transfer_transactions.to_user_id')
                     ->limit(1),
                 'asset_type' => DB::raw("
-                    CASE 
+                    CASE
                         WHEN asset_or_material_type = 'App\\\\Models\\\\FixtureFurnishing' THEN 'Fixture/Furnishing'
                         WHEN asset_or_material_type = 'App\\\\Models\\\\EducationalMaterial' THEN 'Educational Material'
                         ELSE 'Unknown'
                     END
                 "),
                 'asset_code' => DB::raw("
-                    CASE 
-                        WHEN asset_or_material_type = 'App\\\\Models\\\\FixtureFurnishing' THEN 
+                    CASE
+                        WHEN asset_or_material_type = 'App\\\\Models\\\\FixtureFurnishing' THEN
                             (SELECT asset_code FROM fixtures_furnishings WHERE fixture_furnishing_id = asset_or_material_id)
-                        WHEN asset_or_material_type = 'App\\\\Models\\\\EducationalMaterial' THEN 
+                        WHEN asset_or_material_type = 'App\\\\Models\\\\EducationalMaterial' THEN
                             (SELECT asset_code FROM educational_materials WHERE educational_material_id = asset_or_material_id)
                         ELSE 'Unknown'
                     END

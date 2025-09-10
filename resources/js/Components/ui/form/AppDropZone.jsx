@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { useTranslation } from 'react-i18next';
 import { FaTimes } from 'react-icons/fa';
 
 /**
@@ -72,6 +73,7 @@ const AppDropZone = ({
 }) => {
     // Internal state to manage files, can be File objects or { name, url, type } objects
     const [files, setFiles] = useState([]);
+    const { t } = useTranslation();
 
     // This state stores the original initial file paths for consistent output
     const [originalInitialPaths, setOriginalInitialPaths] = useState([]);
@@ -210,8 +212,8 @@ const AppDropZone = ({
                 <input {...getInputProps()} />
                 <p className="text-gray-600">
                     {isDragActive
-                        ? 'Drop the files here...'
-                        : 'Drag & drop files here, or click to select'}
+                        ? t('drop_file')
+                        : t('drop_or_click')}
                 </p>
             </div>
 

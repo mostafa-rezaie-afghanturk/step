@@ -85,7 +85,7 @@ const SingleShow = ({ open, setOpen, selectedId }) => {
                                         itemText={singleData?.event}
                                         itemName2={t('Description')}
                                         itemText2={singleData?.description}
-                                        
+
                                     />
                                     <SingleRow
                                         itemName={t('causer_type')}
@@ -95,9 +95,9 @@ const SingleShow = ({ open, setOpen, selectedId }) => {
                                         bgColor
                                     />
                                     <SingleRow
-                                        itemName={t('causer')}
+                                        itemName={t('Causer Name')}
                                         itemText={singleData?.causer?.name}
-                                        
+
                                     />
                                     <SingleRow
                                         itemName={t('subject_type')}

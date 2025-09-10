@@ -62,7 +62,7 @@ class CountryController extends Controller
                 'context' => ['show', 'edit', 'create'], // Only visible in the "show" view
             ],
             [
-                'header' => 'Name',
+                'header' => 'name',
                 'accessor' => 'name',
                 'visibility' => true,
                 'type' => 'string',
@@ -70,7 +70,7 @@ class CountryController extends Controller
                 'context' => ['show', 'edit', 'create'], // Visible in all views
             ],
             [
-                'header' => 'Turkish Name',
+                'header' => 'name_tr',
                 'accessor' => 'name_tr',
                 'visibility' => true,
                 'type' => 'string',
@@ -78,7 +78,7 @@ class CountryController extends Controller
                 'context' => ['show', 'edit', 'create'], // Visible in all views
             ],
             [
-                'header' => 'Primary Name',
+                'header' => 'name_primary',
                 'accessor' => 'name_primary',
                 'visibility' => true,
                 'type' => 'string',
@@ -93,7 +93,7 @@ class CountryController extends Controller
     {
         return [
             [
-                'label' => 'Name',
+                'label' => 'name',
                 'name' => 'name',
                 'type' => 'string',
                 'required' => true,
@@ -107,14 +107,14 @@ class CountryController extends Controller
                 'default' => $country?->country_code,
             ],
             [
-                'label' => 'Turkey Name',
+                'label' => 'name_tr',
                 'name' => 'name_tr',
                 'type' => 'string',
                 'required' => true,
                 'default' => $country?->name_tr,
             ],
             [
-                'label' => 'Primary Name',
+                'label' => 'name_primary',
                 'name' => 'name_primary',
                 'type' => 'string',
                 'required' => true,
