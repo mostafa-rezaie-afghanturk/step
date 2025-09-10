@@ -78,7 +78,7 @@ const Index = ({ columns }) => {
           {hasPermission('asset-transfer edit') && row.original.return_status === 'Transferred' && (
             <RoundedButton
               icon={<IoArrowUndo />}
-              popoverText={t('mark_returned')}
+              popoverText={t('Return')}
               buttonType={BUTTON_TYPES.SUCCESS}
               onClick={() => markAsReturned(row.original.transfer_transaction_id)}
               outline

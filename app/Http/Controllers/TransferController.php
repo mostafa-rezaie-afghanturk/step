@@ -120,6 +120,34 @@ class TransferController extends Controller
         ];
     }
 
+    /**
+     * Map UI label to FQN class for morph type
+     */
+    private function mapTypeLabelToClass(?string $label): ?string
+    {
+        if ($label === 'Fixture/Furnishing') {
+            return \App\Models\FixtureFurnishing::class;
+        }
+        if ($label === 'Educational Material') {
+            return \App\Models\EducationalMaterial::class;
+        }
+        return $label; // Assume it's already FQN
+    }
+
+    /**
+     * Map stored FQN class to UI label
+     */
+    private function mapTypeClassToLabel(?string $class): ?string
+    {
+        if ($class === \App\Models\FixtureFurnishing::class) {
+            return 'Fixture/Furnishing';
+        }
+        if ($class === \App\Models\EducationalMaterial::class) {
+            return 'Educational Material';
+        }
+        return $class; // Unknown/unchanged
+    }
+
     public function index()
     {
         return Inertia::render('Transfers/Index', [
@@ -179,6 +207,11 @@ class TransferController extends Controller
                 'required' => str_contains($column['validation'], 'required'),
             ];
 
+            // Normalize asset type default to UI label
+            if ($column['accessor'] === 'asset_or_material_type' && $field['default']) {
+                $field['default'] = $this->mapTypeClassToLabel($field['default']);
+            }
+
             return $field; // Return the constructed field/ Return the constructed field
         }, $editableColumns);
         $fields = array_values($fields);
@@ -201,8 +234,11 @@ class TransferController extends Controller
 
         $data = $request->validate($rules);
 
+        // Normalize type to FQN for morph
+        $typeClass = $this->mapTypeLabelToClass($data['asset_or_material_type'] ?? null);
+
         // Check if asset/material is already transferred
-        $existingTransfer = TransferTransaction::where('asset_or_material_type', $data['asset_or_material_type'])
+        $existingTransfer = TransferTransaction::where('asset_or_material_type', $typeClass)
             ->where('asset_or_material_id', $data['asset_or_material_id'])
             ->where('return_status', 'Transferred')
             ->exists();
@@ -214,7 +250,7 @@ class TransferController extends Controller
         $transfer = TransferTransaction::create([
             'from_user_id' => $data['from_user_id'],
             'to_user_id' => $data['to_user_id'],
-            'asset_or_material_type' => $data['asset_or_material_type'],
+            'asset_or_material_type' => $typeClass,
             'asset_or_material_id' => $data['asset_or_material_id'],
             'transfer_date' => $data['transfer_date'],
             'notes' => $data['notes'],
@@ -227,6 +263,25 @@ class TransferController extends Controller
     public function show($id)
     {
         $transfer = TransferTransaction::with(['fromUser', 'toUser'])->findOrFail($id);
+
+        // Safely load morph relation even if old records stored label instead of FQN
+        $currentType = $transfer->asset_or_material_type;
+        $mappedType = $this->mapTypeLabelToClass($currentType);
+
+        if ($mappedType !== $currentType) {
+            $temp = clone $transfer;
+            $temp->setAttribute('asset_or_material_type', $mappedType);
+            try {
+                $temp->load('assetOrMaterial');
+                $transfer->setRelation('assetOrMaterial', $temp->getRelation('assetOrMaterial'));
+                // Normalize the type in the response payload for consistency
+                $transfer->asset_or_material_type = $mappedType;
+            } catch (\Throwable $e) {
+                // ignore; relation will be absent if loading fails
+            }
+        } else {
+            $transfer->load('assetOrMaterial');
+        }
 
         return response()->json(['record' => $transfer]);
     }
@@ -241,6 +296,11 @@ class TransferController extends Controller
 
         $fields = array_map(function ($column) use ($transfer) {
             $default = $transfer ? ($transfer[$column['accessor']] ?? null) : null;
+
+            // Normalize asset type default to UI label
+            if ($column['accessor'] === 'asset_or_material_type' && $default) {
+                $default = $this->mapTypeClassToLabel($default);
+            }
 
             $field = [
                 'label' => $column['header'],
@@ -278,10 +338,13 @@ class TransferController extends Controller
 
         $data = $request->validate($rules);
 
+        // Normalize type to FQN for morph
+        $typeClass = $this->mapTypeLabelToClass($data['asset_or_material_type'] ?? null);
+
         $transfer->update([
             'from_user_id' => $data['from_user_id'],
             'to_user_id' => $data['to_user_id'],
-            'asset_or_material_type' => $data['asset_or_material_type'],
+            'asset_or_material_type' => $typeClass,
             'asset_or_material_id' => $data['asset_or_material_id'],
             'transfer_date' => $data['transfer_date'],
             'return_status' => $data['return_status'],

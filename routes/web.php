@@ -318,6 +318,7 @@ Route::middleware(['auth', 'force_password_change'])->group(function () {
         // API endpoints for dynamic data
         Route::get('/available-assets', [TransferController::class, 'getAvailableAssets'])->name('asset-transfer.available-assets');
         Route::get('/asset-history', [TransferController::class, 'getAssetHistory'])->name('asset-transfer.asset-history');
+        Route::get('/activity_log/{id}', [TransferController::class, 'logActivity'])->name('asset-transfer.logActivity');
     });
 
     Route::group(['prefix' => 'assets'], function () {

@@ -26,21 +26,21 @@ const SingleShow = ({ open, setOpen, selectedId }) => {
 
     useEffect(() => {
         setSingleData([]);
+        if (!open || !selectedId) return;
         setIsLoading(true);
-        if (open) {
-            if (!hasPermission('asset-transfer read')) {
-                setOpen(false);
-            }
-            fetch(route('asset-transfer.show', selectedId))
-                .then(response => response.json())
-                .then(data => {
-                    setSingleData(data?.records[0]);
-                })
-                .catch(error => console.error(error))
-                .finally(() => setIsLoading(false));
+        if (!hasPermission('asset-transfer read')) {
+            setOpen(false);
+            setIsLoading(false);
+            return;
         }
-        setIsLoading(false);
-    }, [open]);
+        fetch(route('asset-transfer.show', { id: selectedId }))
+            .then(response => response.json())
+            .then(data => {
+                setSingleData(data?.record);
+            })
+            .catch(error => console.error(error))
+            .finally(() => setIsLoading(false));
+    }, [open, selectedId]);
 
     const getAssetDisplayName = () => {
         if (!singleData?.asset_or_material) return '-';
@@ -99,54 +99,39 @@ const SingleShow = ({ open, setOpen, selectedId }) => {
 
                         <div className="mt-2 min-h-14 !h-[50vh] overflow-auto">
                             {activeTab === 'all' && (
-                                <div className="space-y-4">
+                                <div className="space-y-2">
                                     <SingleRow
-                                        label={t('transfer_id')}
-                                        value={singleData?.transfer_transaction_id}
+                                        itemName={t('Transfer Date')}
+                                        itemText={singleData?.transfer_date ? new Date(singleData.transfer_date).toLocaleDateString() : '-'}
+                                        itemName2={t('Return Status')}
+                                        itemText2={singleData?.return_status}
                                     />
                                     <SingleRow
-                                        label={t('transfer_date')}
-                                        value={singleData?.transfer_date ? new Date(singleData.transfer_date).toLocaleDateString() : '-'}
+                                        itemName={t('From User')}
+                                        itemText={singleData?.from_user?.name ? `${singleData.from_user.name} (${singleData.from_user.email})` : '-'}
+                                        itemName2={t('To User')}
+                                        itemText2={singleData?.to_user?.name ? `${singleData.to_user.name} (${singleData.to_user.email})` : '-'}
+                                        bgColor
                                     />
                                     <SingleRow
-                                        label={t('from_user')}
-                                        value={singleData?.from_user?.name ? `${singleData.from_user.name} (${singleData.from_user.email})` : '-'}
+                                        itemName={t('Asset Type')}
+                                        itemText={getAssetTypeLabel()}
+                                        itemName2={t('Asset Details')}
+                                        itemText2={getAssetDisplayName()}
                                     />
                                     <SingleRow
-                                        label={t('to_user')}
-                                        value={singleData?.to_user?.name ? `${singleData.to_user.name} (${singleData.to_user.email})` : '-'}
-                                    />
-                                    <SingleRow
-                                        label={t('asset_type')}
-                                        value={getAssetTypeLabel()}
-                                    />
-                                    <SingleRow
-                                        label={t('asset_details')}
-                                        value={getAssetDisplayName()}
-                                    />
-                                    <SingleRow
-                                        label={t('return_status')}
-                                        value={singleData?.return_status}
-                                    />
-                                    <SingleRow
-                                        label={t('notes')}
-                                        value={singleData?.notes || '-'}
-                                    />
-                                    <SingleRow
-                                        label={t('created_at')}
-                                        value={singleData?.created_at ? new Date(singleData.created_at).toLocaleString() : '-'}
-                                    />
-                                    <SingleRow
-                                        label={t('updated_at')}
-                                        value={singleData?.updated_at ? new Date(singleData.updated_at).toLocaleString() : '-'}
+                                        singleRow
+                                        itemName={t('Notes')}
+                                        itemText={singleData?.notes || '-'}
+                                        bgColor
                                     />
                                 </div>
                             )}
 
                             {activeTab === 'logs' && (
                                 <LogActivity
-                                    modelType="TransferTransaction"
-                                    modelId={selectedId}
+                                    url={'asset-transfer.logActivity'}
+                                    id={selectedId}
                                 />
                             )}
                         </div>
