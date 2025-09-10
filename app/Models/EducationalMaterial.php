@@ -18,6 +18,12 @@ class EducationalMaterial extends Model
 
     protected $primaryKey = 'educational_material_id';
 
+    protected $casts = [
+        'technical_specifications' => 'array',
+        'calibration_history' => 'array',
+        'calibration_required' => 'boolean',
+    ];
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

@@ -639,5 +639,6 @@
     "Photo": "Photo",
     "Warranty Certificate": "Warranty Certificate",
     "educational_material": "Educational Material",
-    "asset-transfer": "Asset Transfer"
+    "asset-transfer": "Asset Transfer",
+    "create_transfer": "Create Transfer"
 }

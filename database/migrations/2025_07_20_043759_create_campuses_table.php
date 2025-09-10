@@ -22,9 +22,9 @@ return new class extends Migration
             $table->string('phone');
             $table->string('website');
 
-            $table->string('social_media_address_1');
-            $table->string('social_media_address_2');
-            $table->string('social_media_address_3');
+            $table->string('social_media_address_1')->nullable();
+            $table->string('social_media_address_2')->nullable();
+            $table->string('social_media_address_3')->nullable();
 
             $table->timestamps();
         });

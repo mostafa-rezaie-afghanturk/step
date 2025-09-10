@@ -315,7 +315,7 @@ class EducationalInstitutionController extends Controller
         $data = $request->validate($rules);
         EducationalInstitution::create($data);
 
-        return redirect()->route('educationalInstitution.index')->with('success', 'Educational Institution created.');
+        return redirect()->route('educational-institutions.index')->with('success', 'Educational Institution created.');
     }
 
     public function edit($id)
@@ -351,7 +351,7 @@ class EducationalInstitutionController extends Controller
     {
         EducationalInstitution::findOrFail($id)->delete();
 
-        return redirect()->route('educationalInstitution.index')->with('success', 'Deleted successfully.');
+        return redirect()->route('educational-institutions.index')->with('success', 'Deleted successfully.');
     }
 
     public function datatable(Request $request)

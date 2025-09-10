@@ -43,7 +43,7 @@ Route::middleware(['auth', 'force_password_change'])->group(function () {
         Route::get('/export', [UserController::class, 'export'])->name('users.export')->middleware('can:users export');
         Route::post('/import', [UserController::class, 'import'])->name('users.import')->middleware('can:users import');
         Route::get('/pdf', [UserController::class, 'pdf'])->name('users.pdf')->middleware('can:users export');
-
+        Route::get('/search/{search?}', [UserController::class, 'search'])->name('users.search');
         Route::get('/countries/{search?}', [UserController::class, 'country'])->name('users.country');
 
         Route::get('/datatable', [UserController::class, 'datatable'])->name('users.datatable')->middleware('can:users read');
@@ -318,6 +318,10 @@ Route::middleware(['auth', 'force_password_change'])->group(function () {
         // API endpoints for dynamic data
         Route::get('/available-assets', [TransferController::class, 'getAvailableAssets'])->name('asset-transfer.available-assets');
         Route::get('/asset-history', [TransferController::class, 'getAssetHistory'])->name('asset-transfer.asset-history');
+    });
+
+    Route::group(['prefix' => 'assets'], function () {
+        Route::get('/search/{search?}', [TransferController::class, 'assets'])->name('assets.search');
     });
 
     Route::group(['prefix' => 'activity-log'], function () {

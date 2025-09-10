@@ -117,6 +117,23 @@ class UserController extends Controller
         ]);
     }
 
+    public function search($search = null)
+    {
+        return $this->handleDependentSearch(
+            User::class,
+            $search,
+            null,
+            null,
+            null,
+            'name',
+            'id',
+            function ($user) {
+                return $user->user_code . ' ' . $user->name;
+            },
+            null
+        );
+    }
+
     public function show(string $id)
     {
         $data = User::with([
@@ -131,66 +148,12 @@ class UserController extends Controller
         ]);
     }
 
-    public function country($search = null)
-    {
-        return $this->handleDependentSearch(
-            Country::class,
-            $search,
-            null,
-            null,
-            null,
-            'name',
-            'country_id',
-            null,
-            function ($query) {
-                return $this->countryRepository->applyCountryFilters($query);
-            }
-        );
-    }
 
     public function roles($search = null)
     {
         return $this->handleDependentSearch(
             Role::class,
             $search
-        );
-    }
-
-    // return associated student or parent based on account type
-    public function associated($search = null)
-    {
-        $accountType = request()->get('account_type');
-        $userId = request()->get('user_id');
-
-        $modelClass = $accountType === 'student' ? Student::class : ParentModel::class;
-        $searchField = $accountType === 'student' ? 'student_id' : 'id';
-
-        return $this->handleDependentSearch(
-            $modelClass,
-            $search,
-            null,
-            null,
-            null,
-            'name',
-            $searchField,
-            function ($person) use ($accountType) {
-                if ($accountType === 'student') {
-                    return $person->name . ' ' . $person->last_name . ' - NID No: ' . $person->nid_number;
-                } elseif ($accountType === 'parent') {
-                    return $person->name . ' ' . $person->last_name . ' - ' . $person->phone_number;
-                } else {
-                    return $person->name . ' - ' . $person->email;
-                }
-            },
-            function ($query) use ($userId) {
-                // Allow the associated entity of the current user
-                return $this->studentRepository
-                    ->applyStudentFilters($query)
-                    ->whereDoesntHave('user', function ($q) use ($userId) {
-                        // Exclude others but include the current associated user
-                        $q->where('id', '<>', $userId);
-                    });
-            }
         );
     }
 

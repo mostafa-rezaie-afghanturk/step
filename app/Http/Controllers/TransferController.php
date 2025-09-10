@@ -11,13 +11,14 @@ use App\Repositories\ExportService;
 use App\Repositories\FilterRepository;
 use App\Traits\BulkDeleteTrait;
 use App\Traits\BulkEditTrait;
+use App\Traits\HasDependentDropdowns;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class TransferController extends Controller
 {
-    use BulkDeleteTrait, BulkEditTrait;
+    use BulkDeleteTrait, BulkEditTrait, HasDependentDropdowns;
 
     protected $columns;
     protected $fields;
@@ -61,8 +62,8 @@ class TransferController extends Controller
                 'header' => 'From User',
                 'accessor' => 'from_user_id',
                 'visibility' => true,
-                'type' => 'select',
-                'option' => [], // Will be populated dynamically
+                'type' => 'link',
+                'search_url' => route('users.search'),
                 'validation' => 'required|exists:users,id',
                 'context' => ['show', 'edit', 'create'],
             ],
@@ -70,9 +71,10 @@ class TransferController extends Controller
                 'header' => 'To User',
                 'accessor' => 'to_user_id',
                 'visibility' => true,
-                'type' => 'select',
-                'option' => [], // Will be populated dynamically
-                'validation' => 'required|exists:users,id|different:from_user_id',
+                'type' => 'link',
+                'search_url' => route('users.search'),
+                // 'validation' => 'required|exists:users,id|different:from_user_id',
+                'validation' => 'required|exists:users,id',
                 'context' => ['show', 'edit', 'create'],
             ],
             [
@@ -81,19 +83,19 @@ class TransferController extends Controller
                 'visibility' => true,
                 'type' => 'select',
                 'option' => [
-                    'App\Models\FixtureFurnishing' => 'Fixture/Furnishing',
-                    'App\Models\EducationalMaterial' => 'Educational Material'
+                    'Fixture/Furnishing',
+                    'Educational Material'
                 ],
-                'validation' => 'required|in:App\Models\FixtureFurnishing,App\Models\EducationalMaterial',
+                'validation' => 'required|in:Fixture/Furnishing,Educational Material',
                 'context' => ['show', 'edit', 'create'],
             ],
             [
                 'header' => 'Asset Code',
                 'accessor' => 'asset_or_material_id',
                 'visibility' => true,
-                'type' => 'select',
-                'option' => [], // Will be populated dynamically based on asset type
-                'validation' => 'required|string',
+                'type' => 'link',
+                'search_url' => route('assets.search'),
+                'validation' => 'required',
                 'context' => ['show', 'edit', 'create'],
                 'depends_on' => 'asset_or_material_type',
             ],
@@ -133,42 +135,65 @@ class TransferController extends Controller
         ]);
     }
 
+    public function assets($search = null)
+    {
+        $assetType = request()->get('asset_or_material_type');
+
+        $modelClass = $assetType === 'Fixture/Furnishing' ? FixtureFurnishing::class : EducationalMaterial::class;
+        $searchField = $assetType === 'Fixture/Furnishing' ? 'fixture_furnishing_id' : 'educational_material_id';
+
+        return $this->handleDependentSearch(
+            $modelClass,
+            $search,
+            null,
+            null,
+            null,
+            'asset_code',
+            $searchField,
+            function ($asset) {
+                $locationCode = $asset->location->room_code ?? $asset->location->floor_code ?? $asset->location->building_code ?? $asset->location->land_code ?? 'Unknown';
+                return $locationCode . ' - ' . $asset->asset_code;
+            },
+            function ($query) {
+                $query->with('location');
+            }
+        );
+    }
+
     public function create($id = null)
     {
-        $editableColumns = array_filter($this->getColumns(), fn($col) => in_array('create', $col['context']));
+        $transfer = $id ? TransferTransaction::findOrFail($id) : null;
 
-        $fields = array_map(function ($column) {
+        if ($id) {
+            $transfer = TransferTransaction::with('fromUser', 'toUser')->where('transfer_transaction_id', $id)->first();
+        }
+
+        $editableColumns = array_filter($this->getColumns(), function ($column) {
+            return in_array('create', $column['context']);
+        });
+
+        // Map the editable columns to the desired format for fields
+        $fields = array_map(function ($column) use ($transfer) {
+
             $field = [
                 'label' => $column['header'],
                 'name' => $column['accessor'],
                 'type' => $column['type'],
                 'width' => $column['width'] ?? null,
-                'default' => null,
+                'default' => $transfer ? ($transfer[$column['accessor']] ?? null) : null,
                 'option' => $column['option'] ?? null,
                 'search_url' => $column['search_url'] ?? null,
                 'depends_on' => $column['depends_on'] ?? null,
                 'required' => str_contains($column['validation'], 'required'),
-                'required_if' => $column['required_if'] ?? null,
             ];
 
-            return $field;
+            return $field; // Return the constructed field/ Return the constructed field
         }, $editableColumns);
-
         $fields = array_values($fields);
 
         return Inertia::render('Transfers/Create', [
             'fields' => $fields,
-            'users' => User::select('id', 'name', 'email')->get(),
-            'fixtures' => FixtureFurnishing::select('fixture_furnishing_id', 'asset_code', 'group', 'subgroup')
-                ->whereDoesntHave('transferTransactions', function ($query) {
-                    $query->where('return_status', 'Transferred');
-                })
-                ->get(),
-            'materials' => EducationalMaterial::select('educational_material_id', 'asset_code', 'group', 'subgroup')
-                ->whereDoesntHave('transferTransactions', function ($query) {
-                    $query->where('return_status', 'Transferred');
-                })
-                ->get(),
+            'transfer' => $transfer,
         ]);
     }
 

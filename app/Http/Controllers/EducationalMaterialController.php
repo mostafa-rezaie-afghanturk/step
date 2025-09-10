@@ -264,7 +264,7 @@ class EducationalMaterialController extends Controller
                 'accessor' => 'calibration_history',
                 'visibility' => false,
                 'type' => 'text',
-                'validation' => 'nullable|string',
+                'validation' => 'nullable|array',
                 'context' => ['show', 'edit', 'create'],
                 'required_if' => 'calibration_required,true',
                 'width' => 2
@@ -445,7 +445,7 @@ class EducationalMaterialController extends Controller
             'manufacturer' => $data['manufacturer'],
             'production_site' => $data['production_site'],
             'production_date' => $data['production_date'],
-            'technical_specifications' => json_encode($data['technical_specifications'] ?? []),
+            'technical_specifications' => $data['technical_specifications'] ?? [],
             'related_level' => $data['related_level'],
             'lifespan' => $data['lifespan'],
             'start_date' => $data['start_date'],
@@ -487,9 +487,6 @@ class EducationalMaterialController extends Controller
             // Handle JSON fields
             if ($educationalMaterial) {
                 switch ($column['accessor']) {
-                    case 'technical_specifications':
-                        $default = $educationalMaterial->technical_specifications ? json_decode($educationalMaterial->technical_specifications, true) : [];
-                        break;
                     case 'location_type':
                         $default = class_basename($educationalMaterial->location_type);
                         break;
@@ -581,7 +578,7 @@ class EducationalMaterialController extends Controller
             'manufacturer' => $data['manufacturer'],
             'production_site' => $data['production_site'],
             'production_date' => $data['production_date'],
-            'technical_specifications' => json_encode($data['technical_specifications'] ?? []),
+            'technical_specifications' => $data['technical_specifications'] ?? [],
             'related_level' => $data['related_level'],
             'lifespan' => $data['lifespan'],
             'start_date' => $data['start_date'],
@@ -592,7 +589,7 @@ class EducationalMaterialController extends Controller
             'maintenance_notes' => $data['maintenance_notes'],
             'service_info' => $data['service_info'],
             'calibration_required' => $data['calibration_required'] ?? false,
-            'calibration_history' => $data['calibration_history'],
+            'calibration_history' => $data['calibration_history'] ?? [],
             'location_type' => $locationType,
             'location_id' => $data['location_id'],
         ]);
