@@ -58,16 +58,17 @@ export default function Authenticated({ header, children }) {
     }, [i18n.language]);
 
     const items = [
-        {
-            id: 'dashboard',
-            label: 'dashboard',
-            icon: <MdDashboard className="  h-5 w-5 flex-shrink-0" />,
-        },
+
         {
             label: 'Spaces and Fixtures',
             id: 'spaces-and-fixtures',
             icon: <MdOutlineWorkspaces className="  h-5 w-5 flex-shrink-0" />,
             children: [
+                {
+                    id: 'dashboard',
+                    label: 'dashboard',
+                    icon: <MdDashboard className="  h-5 w-5 flex-shrink-0" />,
+                },
                 {
                     label: 'lands',
                     id: 'lands',
