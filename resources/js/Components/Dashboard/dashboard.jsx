@@ -161,8 +161,10 @@ export const SidebarLink = ({ link, className, ...props }) => {
     }
 
     if (link.children) {
+        const isChildActive = link.children.some(child => url.includes(child.href));
+
         return (
-            <Disclosure>
+            <Disclosure defaultOpen={isChildActive}>
                 <DisclosureButton
                     id={link.id}
                     className={cn(

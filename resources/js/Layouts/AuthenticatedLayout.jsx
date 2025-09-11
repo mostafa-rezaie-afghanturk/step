@@ -10,9 +10,10 @@ import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import Navbar from '@/Components/Dashboard/navbar';
 import { PiArmchairFill, PiNotebookBold } from 'react-icons/pi';
-import { MdDashboard, MdOutlineBedroomParent, MdOutlineEmojiTransportation, MdOutlineHouseSiding } from 'react-icons/md';
+import { MdDashboard, MdOutlineBedroomParent, MdOutlineEmojiTransportation, MdOutlineHouseSiding, MdOutlineWorkspaces } from 'react-icons/md';
 import { SiGoogleclassroom } from 'react-icons/si';
 import { FaRegFlag } from 'react-icons/fa';
+import { MdOutlineAnalytics, MdOutlineTask } from 'react-icons/md';
 import { LuLandPlot, LuPencilRuler, LuSchool, LuUsers } from 'react-icons/lu';
 import { RiShieldKeyholeLine } from 'react-icons/ri';
 import { HiOutlineUserGroup } from 'react-icons/hi';
@@ -63,6 +64,70 @@ export default function Authenticated({ header, children }) {
             icon: <MdDashboard className="  h-5 w-5 flex-shrink-0" />,
         },
         {
+            label: 'Spaces and Fixtures',
+            id: 'spaces-and-fixtures',
+            icon: <MdOutlineWorkspaces className="  h-5 w-5 flex-shrink-0" />,
+            children: [
+                {
+                    label: 'lands',
+                    id: 'lands',
+                    icon: <LuLandPlot className="  h-5 w-5 flex-shrink-0" />,
+                },
+                {
+                    label: 'buildings',
+                    id: 'buildings',
+                    icon: <BsFillBuildingsFill className="  h-5 w-5 flex-shrink-0" />,
+                },
+                {
+                    label: 'floors',
+                    id: 'floors',
+                    icon: <MdOutlineHouseSiding className=" h-5 w-5 flex-shrink-0" />,
+                },
+                {
+                    label: 'rooms',
+                    id: 'rooms',
+                    icon: <MdOutlineBedroomParent className="  h-5 w-5 flex-shrink-0" />,
+                },
+                {
+                    label: 'fixture-furnishings',
+                    id: 'fixture-furnishings',
+                    icon: <PiArmchairFill className="  h-5 w-5 flex-shrink-0" />,
+                },
+                {
+                    label: 'educational-materials',
+                    id: 'educational-materials',
+                    icon: <LuPencilRuler className="  h-5 w-5 flex-shrink-0" />,
+                },
+                {
+                    label: 'asset-transfer',
+                    id: 'asset-transfer',
+                    icon: <MdOutlineEmojiTransportation className="  h-5 w-5 flex-shrink-0" />,
+                },
+            ],
+        },
+        {
+            label: 'Status Analysis',
+            id: 'status-analysis',
+            icon: <MdOutlineAnalytics className="  h-5 w-5 flex-shrink-0" />,
+            children: [
+
+            ]
+        },
+        {
+            label: 'Task Management',
+            id: 'task-management',
+            icon: <MdOutlineTask className="  h-5 w-5 flex-shrink-0" />,
+            children: [
+
+            ]
+        },
+        {
+            label: 'reports',
+            id: 'reports',
+            icon: <TbReport className="  h-5 w-5 flex-shrink-0" />,
+            children: [],
+        },
+        {
             label: 'countries',
             id: 'countries',
             icon: <FaRegFlag className="  h-5 w-5 flex-shrink-0" />,
@@ -76,41 +141,6 @@ export default function Authenticated({ header, children }) {
             label: 'educational-institutions',
             id: 'educational-institutions',
             icon: <LuSchool className="  h-5 w-5 flex-shrink-0" />,
-        },
-        {
-            label: 'lands',
-            id: 'lands',
-            icon: <LuLandPlot className="  h-5 w-5 flex-shrink-0" />,
-        },
-        {
-            label: 'buildings',
-            id: 'buildings',
-            icon: <BsFillBuildingsFill className="  h-5 w-5 flex-shrink-0" />,
-        },
-        {
-            label: 'floors',
-            id: 'floors',
-            icon: <MdOutlineHouseSiding className=" h-5 w-5 flex-shrink-0" />,
-        },
-        {
-            label: 'rooms',
-            id: 'rooms',
-            icon: <MdOutlineBedroomParent className="  h-5 w-5 flex-shrink-0" />,
-        },
-        {
-            label: 'fixture-furnishings',
-            id: 'fixture-furnishings',
-            icon: <PiArmchairFill className="  h-5 w-5 flex-shrink-0" />,
-        },
-        {
-            label: 'educational-materials',
-            id: 'educational-materials',
-            icon: <LuPencilRuler className="  h-5 w-5 flex-shrink-0" />,
-        },
-        {
-            label: 'asset-transfer',
-            id: 'asset-transfer',
-            icon: <MdOutlineEmojiTransportation className="  h-5 w-5 flex-shrink-0" />,
         },
         {
             label: 'users',
@@ -128,12 +158,6 @@ export default function Authenticated({ header, children }) {
             icon: <RiShieldKeyholeLine className="  h-5 w-5 flex-shrink-0" />,
         },
         {
-            label: 'reports',
-            id: 'reports',
-            icon: <TbReport className="  h-5 w-5 flex-shrink-0" />,
-            children: [],
-        },
-        {
             label: 'activity-log',
             id: 'activity-log',
             icon: <FaBullhorn className="  h-5 w-5 flex-shrink-0" />,
@@ -142,7 +166,7 @@ export default function Authenticated({ header, children }) {
 
     const links = [
         ...items
-            .filter(item => hasPermission(`${item.id} read`))
+            // .filter(item => hasPermission(`${item.id} read`)) // temporarilly disabled
             .map(item => ({
                 id: item.id,
                 label: t(item.label),
@@ -151,7 +175,7 @@ export default function Authenticated({ header, children }) {
                 children: item?.children
                     ? item.children.map(child => ({
                         label: t(child.label),
-                        href: `/admin/${item.label}/${child.label}`,
+                        href: `/${child.label}`,
                         icon: child.icon,
                     }))
                     : null,
