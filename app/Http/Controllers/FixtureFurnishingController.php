@@ -15,10 +15,11 @@ use App\Traits\BulkEditTrait;
 use App\Traits\HasDependentDropdowns;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Traits\GeneratesBarcode;
 
 class FixtureFurnishingController extends Controller
 {
-    use BulkDeleteTrait, BulkEditTrait, HasDependentDropdowns;
+    use BulkDeleteTrait, BulkEditTrait, HasDependentDropdowns, GeneratesBarcode;
 
     protected $columns;
     protected $fields;
@@ -452,14 +453,24 @@ class FixtureFurnishingController extends Controller
 
         $fixtureFurnishing->handleFileUploads($request);
 
+        $this->createBarcodeForFixture($fixtureFurnishing);
+
         return redirect()->route('fixture-furnishings.index')->with('success', 'Fixture/Furnishing created successfully.');
     }
 
     public function show($id)
     {
-        $fixtureFurnishing = FixtureFurnishing::with(['location', 'warrantyCerts'])->where('fixture_furnishing_id', $id)->firstOrFail();
+        $fixtureFurnishing = FixtureFurnishing::with(['location', 'warrantyCerts', 'barcode'])->where('fixture_furnishing_id', $id)->firstOrFail();
 
-        return response()->json(['record' => $fixtureFurnishing]);
+        $barcodeUrl = $fixtureFurnishing->barcode && $fixtureFurnishing->barcode->barcode_image_path
+            ? url('storage/' . $fixtureFurnishing->barcode->barcode_image_path)
+            : null;
+
+        return response()->json([
+            'record' => array_merge($fixtureFurnishing->toArray(), [
+                'barcode_url' => $barcodeUrl,
+            ]),
+        ]);
     }
 
     public function edit($id)
@@ -587,6 +598,8 @@ class FixtureFurnishingController extends Controller
         ]);
 
         $fixtureFurnishing->handleFileUploads($request);
+
+        $this->refreshBarcodeForFixtureIfNeeded($fixtureFurnishing);
 
         return redirect()->route('fixture-furnishings.index')->with('success', 'Fixture/Furnishing updated successfully.');
     }

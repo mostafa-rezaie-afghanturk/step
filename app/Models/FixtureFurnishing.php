@@ -42,6 +42,11 @@ class FixtureFurnishing extends Model
         ];
     }
 
+    public function barcode()
+    {
+        return $this->hasOne(Barcode::class, 'fixture_furnishing_id', 'fixture_furnishing_id');
+    }
+
     /**
      * Get all transfer transactions for this fixture/furnishing
      */

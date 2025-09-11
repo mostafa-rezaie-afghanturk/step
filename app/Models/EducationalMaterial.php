@@ -47,6 +47,11 @@ class EducationalMaterial extends Model
         ];
     }
 
+    public function barcode()
+    {
+        return $this->hasOne(Barcode::class, 'educational_material_id', 'educational_material_id');
+    }
+
     /**
      * Get all transfer transactions for this educational material
      */

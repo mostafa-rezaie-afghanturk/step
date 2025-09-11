@@ -15,10 +15,11 @@ use App\Traits\BulkEditTrait;
 use App\Traits\HasDependentDropdowns;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Traits\GeneratesBarcode;
 
 class EducationalMaterialController extends Controller
 {
-    use BulkDeleteTrait, BulkEditTrait, HasDependentDropdowns;
+    use BulkDeleteTrait, BulkEditTrait, HasDependentDropdowns, GeneratesBarcode;
 
     protected $columns;
     protected $fields;
@@ -462,15 +463,24 @@ class EducationalMaterialController extends Controller
         ]);
 
         $educationalMaterial->handleFileUploads($request);
+        $this->createBarcodeForEducationalMaterial($educationalMaterial);
 
         return redirect()->route('educational-materials.index')->with('success', 'Educational Material created successfully.');
     }
 
     public function show($id)
     {
-        $educationalMaterial = EducationalMaterial::with(['location', 'warrantyCerts', 'assetPhotos'])->where('educational_material_id', $id)->firstOrFail();
+        $educationalMaterial = EducationalMaterial::with(['location', 'warrantyCerts', 'assetPhotos', 'barcode'])->where('educational_material_id', $id)->firstOrFail();
 
-        return response()->json(['record' => $educationalMaterial]);
+        $barcodeUrl = $educationalMaterial->barcode && $educationalMaterial->barcode->barcode_image_path
+            ? url('storage/' . $educationalMaterial->barcode->barcode_image_path)
+            : null;
+
+        return response()->json([
+            'record' => array_merge($educationalMaterial->toArray(), [
+                'barcode_url' => $barcodeUrl,
+            ]),
+        ]);
     }
 
     public function edit($id)
@@ -595,6 +605,7 @@ class EducationalMaterialController extends Controller
         ]);
 
         $educationalMaterial->handleFileUploads($request);
+        $this->refreshBarcodeForEducationalMaterialIfNeeded($educationalMaterial);
 
         return redirect()->route('educational-materials.index')->with('success', 'Educational Material updated successfully.');
     }

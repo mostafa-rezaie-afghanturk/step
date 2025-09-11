@@ -68,11 +68,10 @@ const SingleShow = ({ open, setOpen, selectedId }) => {
                                 {tabs.map(tab => (
                                     <div className="me-2" key={tab.id}>
                                         <div
-                                            className={`inline-flex items-center justify-center px-4 py-2 border-b-2 hover:cursor-pointer ${
-                                                activeTab === tab.id
+                                            className={`inline-flex items-center justify-center px-4 py-2 border-b-2 hover:cursor-pointer ${activeTab === tab.id
                                                     ? 'text-brand border-brand'
                                                     : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
-                                            } rounded-t-lg`}
+                                                } rounded-t-lg`}
                                             onClick={() => setActiveTab(tab.id)}
                                         >
                                             {tab.label}
@@ -117,6 +116,20 @@ const SingleShow = ({ open, setOpen, selectedId }) => {
                                         itemName2={t('Price')}
                                         itemText2={singleData?.price}
                                         bgColor
+                                    />
+                                    <SingleRow
+                                        itemName={t('Barcode')}
+                                        itemText={
+                                            singleData?.barcode_url ? (
+                                                <img
+                                                    src={singleData.barcode_url}
+                                                    alt={`Barcode ${singleData?.asset_code}`}
+                                                    className="h-18"
+                                                />
+                                            ) : (
+                                                '-'
+                                            )
+                                        }
                                     />
                                     <SingleRow
                                         itemName={t('Manufacturer')}
@@ -172,7 +185,7 @@ const SingleShow = ({ open, setOpen, selectedId }) => {
                                                         try {
                                                             return JSON.parse(
                                                                 singleData?.technical_specifications ||
-                                                                    '{}'
+                                                                '{}'
                                                             );
                                                         } catch {
                                                             return {};
@@ -196,7 +209,7 @@ const SingleShow = ({ open, setOpen, selectedId }) => {
                                                         try {
                                                             return JSON.parse(
                                                                 singleData?.calibration_history ||
-                                                                    '{}'
+                                                                '{}'
                                                             );
                                                         } catch {
                                                             return {};
