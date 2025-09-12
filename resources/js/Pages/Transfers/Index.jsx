@@ -57,15 +57,6 @@ const Index = ({ columns }) => {
       id: 'actions',
       Cell: ({ row }) => (
         <div className="flex gap-x-2">
-          {hasPermission('asset-transfer read') && (
-            <RoundedButtonLink
-              href={route('asset-transfer.show', row.original.transfer_transaction_id)}
-              icon={<FaEye />}
-              popoverText={t('view')}
-              buttonType={BUTTON_TYPES.INFO}
-              outline
-            />
-          )}
           {hasPermission('asset-transfer edit') && row.original.return_status === 'Transferred' && (
             <RoundedButtonLink
               href={route('asset-transfer.edit', row.original.transfer_transaction_id)}
@@ -75,7 +66,7 @@ const Index = ({ columns }) => {
               outline
             />
           )}
-          {hasPermission('asset-transfer edit') && row.original.return_status === 'Transferred' && (
+          {/* {hasPermission('asset-transfer edit') && row.original.return_status === 'Transferred' && (
             <RoundedButton
               icon={<IoArrowUndo />}
               popoverText={t('Return')}
@@ -83,7 +74,7 @@ const Index = ({ columns }) => {
               onClick={() => markAsReturned(row.original.transfer_transaction_id)}
               outline
             />
-          )}
+          )} */}
           {hasPermission('asset-transfer delete') && (
             <RoundedButton
               icon={<FaTrash />}
