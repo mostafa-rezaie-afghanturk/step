@@ -321,6 +321,29 @@ Route::middleware(['auth', 'force_password_change'])->group(function () {
         Route::get('/activity_log/{id}', [TransferController::class, 'logActivity'])->name('asset-transfer.logActivity');
     });
 
+    // Dedicated Asset Assignments section
+    Route::group(['prefix' => 'asset-assignments'], function () {
+        Route::get('/export', [\App\Http\Controllers\AssetAssignmentController::class, 'export'])->name('asset-assignments.export')->middleware('can:asset-assignments export');
+        Route::get('/pdf', [\App\Http\Controllers\AssetAssignmentController::class, 'pdf'])->name('asset-assignments.pdf')->middleware('can:asset-assignments export');
+
+        Route::get('/datatable', [\App\Http\Controllers\AssetAssignmentController::class, 'datatable'])->name('asset-assignments.datatable')->middleware('can:asset-assignments read');
+
+        Route::group(['prefix' => 'bulk'], function () {
+            Route::put('/edit', [\App\Http\Controllers\AssetAssignmentController::class, 'bulkEdit'])->name('asset-assignments.bulkEdit')->middleware('can:asset-assignments edit');
+            Route::delete('/delete', [\App\Http\Controllers\AssetAssignmentController::class, 'bulkDelete'])->name('asset-assignments.bulkDelete')->middleware('can:asset-assignments delete');
+        });
+
+        Route::get('/', [\App\Http\Controllers\AssetAssignmentController::class, 'index'])->name('asset-assignments.index')->middleware('can:asset-assignments read');
+        Route::get('/create', [\App\Http\Controllers\AssetAssignmentController::class, 'create'])->name('asset-assignments.create')->middleware('can:asset-assignments create');
+        Route::post('/', [\App\Http\Controllers\AssetAssignmentController::class, 'store'])->name('asset-assignments.store')->middleware('can:asset-assignments create');
+        Route::get('/{id}', [\App\Http\Controllers\AssetAssignmentController::class, 'show'])->name('asset-assignments.show')->middleware('can:asset-assignments read');
+        Route::get('/{id}/edit', [\App\Http\Controllers\AssetAssignmentController::class, 'edit'])->name('asset-assignments.edit')->middleware('can:asset-assignments edit');
+        Route::put('/{id}', [\App\Http\Controllers\AssetAssignmentController::class, 'update'])->name('asset-assignments.update')->middleware('can:asset-assignments edit');
+        Route::delete('/{id}', [\App\Http\Controllers\AssetAssignmentController::class, 'destroy'])->name('asset-assignments.delete')->middleware('can:asset-assignments delete');
+        Route::post('/{id}/unassign', [\App\Http\Controllers\AssetAssignmentController::class, 'unassign'])->name('asset-assignments.unassign')->middleware('can:asset-assignments edit');
+        Route::get('/activity_log/{id}', [\App\Http\Controllers\AssetAssignmentController::class, 'logActivity'])->name('asset-assignments.logActivity');
+    });
+
     Route::group(['prefix' => 'assets'], function () {
         Route::get('/search/{search?}', [TransferController::class, 'assets'])->name('assets.search');
     });

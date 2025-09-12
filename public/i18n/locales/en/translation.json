@@ -239,5 +239,7 @@
     "Warranty Certificate": "Warranty Certificate",
     "educational_material": "Educational Material",
     "asset-transfer": "Asset Transfer",
-    "create_transfer": "Create Transfer"
+    "asset-assignments": "Asset Assignments",
+    "create_transfer": "Create Transfer",
+    "create_assignment": "Create Assignment"
 }

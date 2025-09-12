@@ -104,6 +104,11 @@ export default function Authenticated({ header, children }) {
                     id: 'asset-transfer',
                     icon: <MdOutlineEmojiTransportation className="  h-5 w-5 flex-shrink-0" />,
                 },
+                {
+                    label: 'asset-assignments',
+                    id: 'asset-assignments',
+                    icon: <MdOutlineEmojiTransportation className="  h-5 w-5 flex-shrink-0" />,
+                },
             ],
         },
         {
